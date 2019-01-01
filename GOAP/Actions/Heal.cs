@@ -3,7 +3,7 @@ using Core.GameObject;
 using System;
 using System.Collections.Generic;
 
-namespace GOAP.Actions
+namespace Goap.Actions
 {
     public class Heal : IAction
     {

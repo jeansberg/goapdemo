@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
 
-namespace GOAP.Tests
+namespace Goap.Tests
 {
     [TestClass]
     public class AgentStateTests

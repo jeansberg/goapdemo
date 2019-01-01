@@ -3,7 +3,7 @@ using Core.GameObject;
 using System;
 using System.Collections.Generic;
 
-namespace GOAP.Actions
+namespace Goap.Actions
 {
     public class AttackTargetMelee : IAction
     {
@@ -43,7 +43,7 @@ namespace GOAP.Actions
 
         public bool IsDone()
         {
-            return !_target.IsAlive;
+            return !_target.IsAlive();
         }
 
         public bool IsInRange()
@@ -58,7 +58,7 @@ namespace GOAP.Actions
 
         public bool Perform()
         {
-            _target.IsAlive = false;
+            _target.Damage(1);
 
             return true;
         }

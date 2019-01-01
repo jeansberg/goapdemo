@@ -1,10 +1,9 @@
 ﻿using Core;
 using Core.GameObject;
-using Goap;
 using Goap.AgentState;
 using System.Collections.Generic;
 
-namespace GOAP.GoapAgent
+namespace Goap
 {
     public class GoapAgent : IGoapAgent
     {

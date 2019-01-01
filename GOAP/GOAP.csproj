@@ -40,20 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GoapAgent\GoapAgent.cs" />
-    <Compile Include="GoapAgent\IAgentStateMachine.cs" />
+    <Compile Include="Agent\GoapAgent.cs" />
+    <Compile Include="Agent\IAgentStateMachine.cs" />
     <Compile Include="GoapPlanner\ActionNode.cs" />
     <Compile Include="Actions\AttackTargetMelee.cs" />
     <Compile Include="Actions\AttackTargetRanged.cs" />
     <Compile Include="Actions\Heal.cs" />
     <Compile Include="Actions\LoadWeapon.cs" />
-    <Compile Include="GoapAgent\IGoapAgent.cs" />
-    <Compile Include="GoapAgent\AgentStateMachine.cs" />
+    <Compile Include="Agent\IGoapAgent.cs" />
+    <Compile Include="Agent\AgentStateMachine.cs" />
     <Compile Include="GoapPlanner\GoapPlanner.cs" />
-    <Compile Include="GoapAgent\ActState.cs" />
-    <Compile Include="GoapAgent\IdleState.cs" />
-    <Compile Include="GoapAgent\MoveToState.cs" />
-    <Compile Include="GoapAgent\IAgentState.cs" />
+    <Compile Include="Agent\ActState.cs" />
+    <Compile Include="Agent\IdleState.cs" />
+    <Compile Include="Agent\MoveToState.cs" />
+    <Compile Include="Agent\IAgentState.cs" />
     <Compile Include="GoapPlanner\IGoapPlanner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

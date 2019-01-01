@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core;
-using GOAP.Actions;
+using Goap.Actions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

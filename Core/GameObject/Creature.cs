@@ -5,16 +5,30 @@ namespace Core.GameObject
 {
     public class Creature : GameObject
     {
+        private int _health = 5;
+
+        public List<IAction> Actions { get; set; }
+        public List<WorldState> Goals { get; set; }
+
+        public Creature(MapLocation mapComponent) : base(mapComponent)
+        {
+            Actions = new List<IAction>();
+            Goals = new List<WorldState>();
+        }
+
         public Creature(List<IAction> actions, List<WorldState> goals, MapLocation mapComponent) : base(mapComponent)
         {
-            IsAlive = true;
             Actions = actions;
             Goals = goals;
         }
 
-        public bool IsAlive { get; set; }
-        public List<IAction> Actions { get; set; }
-        public List<WorldState> Goals { get; set; }
+        public bool IsAlive() { return _health > 0; }
+
+        public void Damage(int points)
+        {
+            _health -= points;
+            Console.WriteLine($"Health is now {_health}");
+        }
 
         public void MoveToward(MapLocation otherMapComponent)
         {
