@@ -16,7 +16,7 @@ namespace Goap.Tests
             {
                 Position = new Point(5, 5)
             };
-            var creature = new Creature(mapComponent);
+            var creature = new Creature(mapComponent, null);
 
             var action = new AttackTargetMelee(creature, target);
             var goal = new WorldState()
@@ -39,7 +39,7 @@ namespace Goap.Tests
             {
                 Position = new Point(5, 5)
             };
-            var creature = new Creature(mapComponent);
+            var creature = new Creature(mapComponent, null);
 
             var reload = new LoadWeapon();
             var rangedAttack = new AttackTargetRanged(creature, target);
@@ -65,7 +65,7 @@ namespace Goap.Tests
                 Position = new Point(0, 0)
             };
 
-            return new Creature(new List<IAction>(), new List<WorldState>(), mapComponent);
+            return new Creature(new List<IAction>(), new List<WorldState>(), mapComponent, null);
         }
 
         private IGoapAgent GetAgent()

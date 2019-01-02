@@ -87,13 +87,13 @@ namespace Demo
                 Position = new Core.GameObject.Point(5, 5)
             };
 
-            var target = new Creature(new List<IAction>(), new List<WorldState>(), mapComponent);
+            var target = new Creature(new List<IAction>(), new List<WorldState>(), mapComponent, map);
 
             var mapComponent2 = new MapLocation
             {
                 Position = new Core.GameObject.Point(10, 10)
             };
-            var creature = new Creature(mapComponent2);
+            var creature = new Creature(mapComponent2, map);
 
             var action = new AttackTargetMelee(creature, target);
             var goal = new WorldState()
