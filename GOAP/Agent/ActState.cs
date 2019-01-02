@@ -23,7 +23,9 @@
                     var success = action.Perform();
                     if (success)
                     {
-                        // Action was successful - go back to being idle
+                        // Action was successful - update goals in case a goal was reached
+                        _agent.CreateGoalStates();
+
                         _fsm.Transition(_agent.IdleState());
                     }
                 }

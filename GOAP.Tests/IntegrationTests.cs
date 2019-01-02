@@ -1,21 +1,16 @@
 ﻿using Core;
 using Core.GameObject;
-using Goap;
 using Goap.Actions;
 using Goap.AgentState;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Goap.Tests
 {
     [TestClass]
     public class IntegrationTests
     {
-        private Creature GetCreature(Creature target)
+        private Creature GetMeleeCreature(Creature target)
         {
             var mapComponent = new MapLocation
             {
@@ -33,6 +28,31 @@ namespace Goap.Tests
             };
 
             creature.Actions.Add(action);
+            creature.Goals.Add(goal);
+
+            return creature;
+        }
+
+        private Creature GetRangedCreature(Creature target)
+        {
+            var mapComponent = new MapLocation
+            {
+                Position = new Point(5, 5)
+            };
+            var creature = new Creature(mapComponent);
+
+            var reload = new LoadWeapon();
+            var rangedAttack = new AttackTargetRanged(creature, target);
+            var goal = new WorldState()
+            {
+                Conditions = new Dictionary<string, bool>
+                {
+                    { "targetDamaged", true }
+                }
+            };
+
+            creature.Actions.Add(rangedAttack);
+            creature.Actions.Add(reload);
             creature.Goals.Add(goal);
 
             return creature;
@@ -59,10 +79,28 @@ namespace Goap.Tests
         [TestMethod]
         public void Creature_KillsTarget_WithMeleeAttack()
         {
+            var state = new WorldState();
+
             var target = GetTarget();
-            var creature = GetCreature(target);
+            var creature = GetMeleeCreature(target);
             var agent = GetAgent();
-            agent.Start(creature);
+            agent.Start(creature, state);
+
+            while (target.IsAlive())
+            {
+                agent.Update();
+            }
+        }
+
+        [TestMethod]
+        public void Creature_KillsTarget_WithRangedAttack()
+        {
+            var state = new WorldState();
+
+            var target = GetTarget();
+            var creature = GetRangedCreature(target);
+            var agent = GetAgent();
+            agent.Start(creature, state);
 
             while (target.IsAlive())
             {

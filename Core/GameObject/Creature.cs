@@ -6,7 +6,6 @@ namespace Core.GameObject
     public class Creature : GameObject
     {
         private int _health = 5;
-
         public List<IAction> Actions { get; set; }
         public List<WorldState> Goals { get; set; }
 
@@ -34,7 +33,7 @@ namespace Core.GameObject
         {
             if (_mapLocation.Position.IsAdjacentTo(otherMapComponent.Position))
             {
-                // Already there
+                // Cannot get any closer
                 return;
             }
 
@@ -60,6 +59,8 @@ namespace Core.GameObject
                     _mapLocation.Position.yPos--;
                 }
             }
+
+            Console.WriteLine($"Creature moved to {_mapLocation.Position}");
         }
     }
 }

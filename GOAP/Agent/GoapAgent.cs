@@ -12,6 +12,7 @@ namespace Goap
         private IAgentState _idle;
         private IAgentState _moveTo;
         private IAgentState _act;
+        private WorldState _worldState;
         private List<IAction> _availableActions;
         private List<WorldState> _goals;
         private List<IAction> _currentActions;
@@ -22,10 +23,11 @@ namespace Goap
             _planner = planner;
         }
 
-        public void Start(Creature owner)
+        public void Start(Creature owner, WorldState worldState)
         {
             _availableActions = owner.Actions;
             _goals = owner.Goals;
+            _worldState = worldState;
 
             _idle = new IdleState(_fsm, this, _planner);
             _moveTo = new MoveToState(_fsm, this);
@@ -66,7 +68,12 @@ namespace Goap
 
         public WorldState GetWorldState()
         {
-            return new WorldState();
+            return _worldState;
+        }
+
+        public void UpdateWorldState(WorldState changed)
+        {
+            _worldState = _worldState.GetUpdatedState(changed);
         }
 
         public bool HasActionPlan()

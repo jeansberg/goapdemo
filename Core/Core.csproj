@@ -45,6 +45,8 @@
     <Compile Include="GameObject\MapComponent.cs" />
     <Compile Include="GameObject\Point.cs" />
     <Compile Include="IAction.cs" />
+    <Compile Include="Map\Map.cs" />
+    <Compile Include="Map\Tile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorldState.cs" />
   </ItemGroup>

@@ -49,7 +49,9 @@ namespace Goap.Actions
 
         public bool Perform()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Performed load weapon");
+
+            return true;
         }
 
         public void Reset()

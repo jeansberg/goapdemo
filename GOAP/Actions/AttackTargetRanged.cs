@@ -7,9 +7,18 @@ namespace Goap.Actions
 {
     public class AttackTargetRanged : IAction
     {
+        private Creature _actor;
+        private Creature _target;
+
+        public AttackTargetRanged(Creature actor, Creature target)
+        {
+            _actor = actor;
+            _target = target;
+        }
+
         public Creature GetActor()
         {
-            throw new NotImplementedException();
+            return _actor;
         }
 
         public int GetCost()
@@ -29,27 +38,30 @@ namespace Goap.Actions
 
         public Creature GetTarget()
         {
-            throw new NotImplementedException();
+            return _target;
         }
 
         public bool IsDone()
         {
-            throw new NotImplementedException();
+            return !_target.IsAlive();
         }
 
         public bool IsInRange()
         {
-            throw new NotImplementedException();
+            return _actor.MapComponent.Position.IsWithin(5, _target.MapComponent.Position);
         }
 
         public bool NeedsInRange()
         {
-            return false;
+            return true;
         }
 
         public bool Perform()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Performed ranged attack");
+            _target.Damage(1);
+
+            return true;
         }
 
         public void Reset()

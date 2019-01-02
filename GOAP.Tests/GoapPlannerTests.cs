@@ -17,7 +17,7 @@ namespace Goap.Tests
             // Create an empty world state and get some actions
             var emptyState = new WorldState();
             var readyWeapon = new LoadWeapon();
-            var attackTarget = new AttackTargetRanged();
+            var attackTarget = new AttackTargetRanged(null, null);
 
             mockAgent.Setup(x => x.GetWorldState()).Returns(emptyState);
             mockAgent.Setup(x => x.CreateGoalStates()).Returns(new List<WorldState> { new WorldState(new Dictionary<string, bool> { { "targetDamaged", true } }) });
@@ -36,7 +36,7 @@ namespace Goap.Tests
 
             // Create an empty world state and get some actions
             var emptyState = new WorldState();
-            var attackTarget = new AttackTargetRanged();
+            var attackTarget = new AttackTargetRanged(null, null);
 
             mockAgent.Setup(x => x.GetWorldState()).Returns(emptyState);
             mockAgent.Setup(x => x.CreateGoalStates()).Returns(new List<WorldState> { new WorldState(new Dictionary<string, bool> { { "targetDamaged", true } }) });
@@ -56,7 +56,7 @@ namespace Goap.Tests
             // Create an empty world state and get some actions
             var emptyState = new WorldState();
             var readyWeapon = new LoadWeapon();
-            var attackTargetRanged = new AttackTargetRanged();
+            var attackTargetRanged = new AttackTargetRanged(null, null);
             var attackTargetMelee = new AttackTargetMelee(null, null);
 
             mockAgent.Setup(x => x.GetWorldState()).Returns(emptyState);
@@ -77,7 +77,7 @@ namespace Goap.Tests
             // Create an empty world state and get some actions
             var emptyState = new WorldState();
             var readyWeapon = new LoadWeapon();
-            var attackTargetRanged = new AttackTargetRanged();
+            var attackTargetRanged = new AttackTargetRanged(null, null);
             var attackTargetMelee = new AttackTargetMelee(null, null);
             var heal = new Heal();
 
@@ -99,7 +99,7 @@ namespace Goap.Tests
             // Create an empty world state and get some actions
             var emptyState = new WorldState();
             var readyWeapon = new LoadWeapon();
-            var attackTargetRanged = new AttackTargetRanged();
+            var attackTargetRanged = new AttackTargetRanged(null, null);
             var attackTargetMelee = new AttackTargetMelee(null, null);
             var heal = new Heal();
 

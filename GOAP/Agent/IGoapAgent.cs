@@ -10,12 +10,13 @@ namespace Goap
     public interface IGoapAgent
     {
 
-        void Start(Creature owner);
+        void Start(Creature owner, WorldState worldState);
         void Update();
         bool HasActionPlan();
         IAction NextAction();
         void SetActionPlan(List<IAction> actions);
         WorldState GetWorldState();
+        void UpdateWorldState(WorldState changes);
         List<WorldState> CreateGoalStates();
         List<IAction> AvailableActions();
         IAgentState MoveToState();
