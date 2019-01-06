@@ -17,8 +17,10 @@ namespace Demo
         const int Height = 25;
         Console startingConsole;
         List<Creature> creatures;
+        Creature player;
         Dictionary<Creature, IGoapAgent> agentMaps;
-        Map map;        
+        Map map;
+        Controller controller;
 
         public Game()
         {
@@ -40,23 +42,50 @@ namespace Demo
             map = new Map(Width, Height);
 
             creatures = GetCreatures();
+            player = GetPlayer();
+            AddAgents(creatures, player);
 
             startingConsole = new Console(Width, Height);
             SadConsole.Global.CurrentScreen = startingConsole;
+            controller = new Controller();
+        }
+
+        private void AddAgents(List<Creature> creatures, Creature player)
+        {
+            foreach(var creature in creatures)
+            {
+                var action = new AttackTargetMelee(creature, player);
+                var goal = new WorldState()
+                {
+                    Conditions = new Dictionary<string, bool>
+                {
+                    { "targetDamaged", true }
+                }
+                };
+
+                creature.Actions.Add(action);
+                creature.Goals.Add(goal);
+
+                var agent = GetAgent();
+                agent.Start(creature, new WorldState());
+                agentMaps = new Dictionary<Creature, IGoapAgent>();
+                agentMaps.Add(creature, agent);
+            }
         }
 
         private void Update(GameTime time)
         {
-            if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.Space))
-            {
-                UpdateCreatures(creatures);
+            DrawMap(startingConsole, map);
+            DrawCreatures(startingConsole, creatures, player);
 
-                DrawMap(startingConsole, map);
-                DrawCreatures(startingConsole, creatures);
+            if (SadConsole.Global.KeyboardState.KeysReleased.Count > 0)
+            {
+                controller.HandleInput(SadConsole.Global.KeyboardState.KeysReleased, player);
+                UpdateAI(creatures);
             }
         }
 
-        private void UpdateCreatures(List<Creature> creatures)
+        private void UpdateAI(List<Creature> creatures)
         {
             foreach(var agent in agentMaps.Values)
             {
@@ -64,12 +93,14 @@ namespace Demo
             }
         }
 
-        private static void DrawCreatures(Console startingConsole, List<Creature> creatures)
+        private static void DrawCreatures(Console startingConsole, List<Creature> creatures, Creature player)
         {
             foreach (var creature in creatures)
             {
                 startingConsole.SetGlyph(creature.MapComponent.Position.xPos, creature.MapComponent.Position.yPos, 'C');
             }
+            startingConsole.SetGlyph(player.MapComponent.Position.xPos, player.MapComponent.Position.yPos, 'C');
+
         }
 
         private IGoapAgent GetAgent()
@@ -80,39 +111,26 @@ namespace Demo
             return new GoapAgent(fsm, planner);
         }
 
-        private List<Creature> GetCreatures()
+        private Creature GetPlayer()
         {
             var mapComponent = new MapLocation
             {
-                Position = new Core.GameObject.Point(5, 5)
+                Position = new Core.GameObject.Point(10, 5)
             };
 
-            var target = new Creature(new List<IAction>(), new List<WorldState>(), mapComponent, map);
+            var player = new Creature(new List<IAction>(), new List<WorldState>(), mapComponent, map);
+            return player;
+        }
 
+        private List<Creature> GetCreatures()
+        {
             var mapComponent2 = new MapLocation
             {
                 Position = new Core.GameObject.Point(10, 10)
             };
-            var creature = new Creature(mapComponent2, map);
+            var creature = new Creature(mapComponent2, map, Pathfinder.GetInstance());
 
-            var action = new AttackTargetMelee(creature, target);
-            var goal = new WorldState()
-            {
-                Conditions = new Dictionary<string, bool>
-                {
-                    { "targetDamaged", true }
-                }
-            };
-
-            creature.Actions.Add(action);
-            creature.Goals.Add(goal);
-
-            var agent = GetAgent();
-            agent.Start(creature, new WorldState());
-            agentMaps = new Dictionary<Creature, IGoapAgent>();
-            agentMaps.Add(creature, agent);
-
-            return new List<Creature> { target, creature };
+            return new List<Creature> { creature };
         }
 
         private void DrawMap(Console startingConsole, Map map)
@@ -123,11 +141,15 @@ namespace Demo
                 {
                     if (map.Tiles[x][y].Type == TileType.Floor)
                     {
-                        startingConsole.SetGlyph(x, y, '.');
+                        startingConsole.SetGlyph(x, y, '.', Color.White);
                     }
                     else if (map.Tiles[x][y].Type == TileType.Wall)
                     {
-                        startingConsole.SetGlyph(x, y, 'x');
+                        startingConsole.SetGlyph(x, y, 'x', Color.White);
+                    }
+                    else if (map.Tiles[x][y].Type == TileType.Debug)
+                    {
+                        startingConsole.SetGlyph(x, y, 'o', Color.Red);
                     }
                 }
             }

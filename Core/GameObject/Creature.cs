@@ -1,7 +1,6 @@
-﻿using FloodSpill;
-using FloodSpill.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.GameObject
 {
@@ -11,12 +10,14 @@ namespace Core.GameObject
         public List<IAction> Actions { get; set; }
         public List<WorldState> Goals { get; set; }
         private Map.Map mapRef;
+        private readonly Pathfinder _pathfinder;
 
-        public Creature(MapLocation mapComponent, Map.Map map) : base(mapComponent)
+        public Creature(MapLocation mapComponent, Map.Map map, Pathfinder pathfinder) : base(mapComponent)
         {
             Actions = new List<IAction>();
             Goals = new List<WorldState>();
             mapRef = map;
+            _pathfinder = pathfinder;
         }
 
         public Creature(List<IAction> actions, List<WorldState> goals, MapLocation mapComponent, Map.Map map) : base(mapComponent)
@@ -24,6 +25,41 @@ namespace Core.GameObject
             Actions = actions;
             Goals = goals;
             mapRef = map;
+        }
+
+        public void Move(Direction direction)
+        {
+            Point destination;
+            switch (direction)
+            {
+                case Direction.Left:
+                    {
+                        destination = new Point(_mapLocation.Position.xPos - 1, _mapLocation.Position.yPos);
+                        break;
+                    }
+                case Direction.Right:
+                    {
+                        destination = new Point(_mapLocation.Position.xPos + 1, _mapLocation.Position.yPos);
+                        break;
+                    }
+                case Direction.Up:
+                    {
+                        destination = new Point(_mapLocation.Position.xPos, _mapLocation.Position.yPos - 1);
+                        break;
+                    }
+                case Direction.Down:
+                    {
+                        destination = new Point(_mapLocation.Position.xPos, _mapLocation.Position.yPos + 1);
+                        break;
+                    }
+                default:
+                    return;
+            }
+
+            if (mapRef.Tiles[destination.xPos][destination.yPos].Walkable())
+            {
+                _mapLocation.Position = destination;
+            }
         }
 
         public bool IsAlive() { return _health > 0; }
@@ -42,61 +78,23 @@ namespace Core.GameObject
                 return;
             }
 
-            PathFind(otherMapComponent.Position);
+            foreach (var point in mapRef.Tiles.SelectMany(x => x))
+            {
+                if(point.Type == Map.TileType.Debug)
+                {
+                    point.Type = Map.TileType.Floor;
+                }
+            }
 
-            if(Math.Abs(_mapLocation.Position.xPos - otherMapComponent.Position.xPos) > 1)
+            var path = _pathfinder.PathFind(_mapLocation.Position, otherMapComponent.Position, mapRef);
+            foreach(var point in path)
             {
-                if(otherMapComponent.Position.xPos > _mapLocation.Position.xPos)
-                {
-                    _mapLocation.Position.xPos++;
-                }
-                else
-                {
-                    _mapLocation.Position.xPos--;
-                }
+                mapRef.Tiles[point.xPos][point.yPos].Type = Map.TileType.Debug;
             }
-            else
-            {
-                if (otherMapComponent.Position.yPos > _mapLocation.Position.yPos)
-                {
-                    _mapLocation.Position.yPos++;
-                }
-                else
-                {
-                    _mapLocation.Position.yPos--;
-                }
-            }
+
+            _mapLocation.Position = path[0];
 
             Console.WriteLine($"Creature moved to {_mapLocation.Position}");
-        }
-
-        private void PathFind(Point point)
-        {
-            var markMatrix = new int[mapRef.Tiles.Count, mapRef.Tiles[0].Count];
-            var floodParameters = new FloodParameters(startX: _mapLocation.Position.xPos, startY: _mapLocation.Position.yPos);
-
-            new FloodSpiller().SpillFlood(floodParameters, markMatrix);
-
-            // Find the first step counting FROM the target
-            Point step = null;
-            var minVal = int.MaxValue;
-            //List<Point> path = GetPath()
-            for (int x = 0; x < mapRef.Tiles.Count; x++)
-            {
-                for (int y = 0; y < mapRef.Tiles[0].Count; y++)
-                {
-                    if (point.IsAdjacentTo(new Point(x, y)))
-                    {
-                        if(markMatrix[x, y] < minVal)
-                        {
-                            minVal = markMatrix[x, y];
-                            step = new Point(x, y);
-                        }
-                    }
-
-                }
-            }
-
         }
     }
 }

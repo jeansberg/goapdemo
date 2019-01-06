@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Core.GameObject
 {
@@ -16,6 +17,18 @@ namespace Core.GameObject
         public bool IsAdjacentTo(Point otherPoint)
         {
             return IsWithin(1, otherPoint);
+        }
+
+        public List<Point> GetAdjacent()
+        {
+            return new List<Point>
+            {
+                new Point(xPos+1, yPos),
+                new Point(xPos-1, yPos),
+                new Point(xPos, yPos+1),
+                new Point(xPos, yPos-1),
+
+            };
         }
 
         public bool IsWithin(int distance, Point otherPoint)

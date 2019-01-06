@@ -14,10 +14,41 @@ namespace Core.Map
             _tiles = new List<List<Tile>>();
 
             CreateFloor(width, height);
-            CreateWalls(width, height);
+            CreateBounds(width, height);
+            CreateObstacles();
         }
 
-        private void CreateWalls(int width, int height)
+        private void CreateObstacles()
+        {
+            _tiles[8][5] = new Tile { Type = TileType.Wall };
+            _tiles[9][5] = new Tile { Type = TileType.Wall };
+            _tiles[9][6] = new Tile { Type = TileType.Wall };
+            _tiles[10][6] = new Tile { Type = TileType.Wall };
+            _tiles[11][6] = new Tile { Type = TileType.Wall };
+            _tiles[12][6] = new Tile { Type = TileType.Wall };
+
+            _tiles[11][8] = new Tile { Type = TileType.Wall };
+            _tiles[12][8] = new Tile { Type = TileType.Wall };
+            _tiles[13][8] = new Tile { Type = TileType.Wall };
+            _tiles[14][8] = new Tile { Type = TileType.Wall };
+
+            _tiles[9][6] = new Tile { Type = TileType.Wall };
+            _tiles[10][6] = new Tile { Type = TileType.Wall };
+            _tiles[11][6] = new Tile { Type = TileType.Wall };
+            _tiles[12][6] = new Tile { Type = TileType.Wall };
+        }
+
+        public int GetWidth()
+        {
+            return _tiles.Count;
+        }
+
+        public int GetHeight()
+        {
+            return _tiles[0].Count;
+        }
+
+        private void CreateBounds(int width, int height)
         {
             for (var x = 0; x < width; x++)
             {
