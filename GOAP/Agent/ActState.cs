@@ -24,6 +24,7 @@
                     if (success)
                     {
                         // Action was successful - update goals in case a goal was reached
+                        _agent.UpdateWorldState(action.GetEffects());
                         _agent.CreateGoalStates();
 
                         _fsm.Transition(_agent.IdleState());

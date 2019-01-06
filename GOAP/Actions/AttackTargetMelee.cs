@@ -28,7 +28,11 @@ namespace Goap.Actions
 
         public WorldState GetEffects()
         {
-            return new WorldState(new Dictionary<string, bool> { { "targetDamaged", true } });
+            if(_target.GetType() == typeof(Player))
+            {
+                return new WorldState(new Dictionary<string, bool> { { "playerDamaged", true } });
+            }
+            return new WorldState(new Dictionary<string, bool> { { "npcDamaged", true } });
         }
 
         public WorldState GetPreconditions()
@@ -61,7 +65,7 @@ namespace Goap.Actions
             Console.WriteLine("Performed melee attack");
             _actor.Attack(_target);
 
-            return true;
+            return IsDone();
         }
 
         public void Reset()

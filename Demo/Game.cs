@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Goap.AgentState;
 using Core;
 using Goap.Actions;
+using System.Linq;
 
 namespace Demo
 {
@@ -17,7 +18,8 @@ namespace Demo
         const int Height = 25;
         Console startingConsole;
         List<Creature> creatures;
-        Creature player;
+        Player player;
+        Creature npc;
         Dictionary<Creature, IGoapAgent> agentMaps;
         Map map;
         Controller controller;
@@ -40,11 +42,15 @@ namespace Demo
         {
             // Any custom loading and prep. We will use a sample console for now
             map = new Map(Width, Height);
-            creatures = GetCreatures();
-            map.AddCreatures(creatures);
             player = GetPlayer();
-
+            creatures = GetCreatures(new Core.GameObject.Point(10, 10));
+            npc = GetCreatures(new Core.GameObject.Point(20, 20))[0];
             AddAgents(creatures, player);
+
+            creatures.Add(npc);
+
+            map.AddCreatures(creatures);
+
 
             startingConsole = new Console(Width, Height);
             SadConsole.Global.CurrentScreen = startingConsole;
@@ -56,16 +62,28 @@ namespace Demo
             foreach(var creature in creatures)
             {
                 var action = new AttackTargetMelee(creature, player);
-                var goal = new WorldState()
+                var action2 = new AttackTargetMelee(creature, npc);
+
+                var goal1 = new WorldState()
                 {
                     Conditions = new Dictionary<string, bool>
                 {
-                    { "targetDamaged", true }
+                    { "npcDamaged", true }
+                }
+                };
+
+                var goal2 = new WorldState()
+                {
+                    Conditions = new Dictionary<string, bool>
+                {
+                    { "playerDamaged", true }
                 }
                 };
 
                 creature.Actions.Add(action);
-                creature.Goals.Add(goal);
+                creature.Actions.Add(action2);
+                creature.Goals.Add(goal1);
+                creature.Goals.Add(goal2);
 
                 var agent = GetAgent();
                 agent.Start(creature, new WorldState());
@@ -82,6 +100,9 @@ namespace Demo
             if (SadConsole.Global.KeyboardState.KeysReleased.Count > 0)
             {
                 controller.HandleInput(SadConsole.Global.KeyboardState.KeysReleased, player);
+
+                creatures.RemoveAll(x => !x.IsAlive());
+
                 UpdateAI(creatures);
             }
 
@@ -93,24 +114,9 @@ namespace Demo
 
         private void UpdateAI(List<Creature> creatures)
         {
-            List<Creature> inactiveCreatures = new List<Creature>();
             foreach(var agent in agentMaps.Values)
             {
-                var creature = agent.GetOwner();
-                if (creature.IsAlive())
-                {
-                    agent.Update();
-                }
-                else
-                {
-                    inactiveCreatures.Add(creature);
-                }
-            }
-
-            foreach(var creature in inactiveCreatures)
-            {
-                agentMaps.Remove(creature);
-                creatures.Remove(creature);
+                agent.Update();
             }
         }
 
@@ -132,22 +138,22 @@ namespace Demo
             return new GoapAgent(fsm, planner);
         }
 
-        private Creature GetPlayer()
+        private Player GetPlayer()
         {
             var mapComponent = new MapLocation
             {
                 Position = new Core.GameObject.Point(10, 5)
             };
 
-            var player = new Creature(new List<IAction>(), new List<WorldState>(), mapComponent, map, 15);
+            var player = new Player(new List<IAction>(), new List<WorldState>(), mapComponent, map, 15);
             return player;
         }
 
-        private List<Creature> GetCreatures()
+        private List<Creature> GetCreatures(Core.GameObject.Point location)
         {
             var mapComponent2 = new MapLocation
             {
-                Position = new Core.GameObject.Point(10, 10)
+                Position = location
             };
             var creature = new Creature(mapComponent2, map, Pathfinder.GetInstance());
 

@@ -28,7 +28,7 @@ namespace Goap.Actions
 
         public WorldState GetEffects()
         {
-            return new WorldState(new Dictionary<string, bool> { { "targetDamaged", true } });
+            return new WorldState(new Dictionary<string, bool> { { "playerDamaged", true } });
         }
 
         public WorldState GetPreconditions()

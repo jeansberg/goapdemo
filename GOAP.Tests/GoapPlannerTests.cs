@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core;
+using Core.GameObject;
 using Goap.Actions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -20,7 +21,7 @@ namespace Goap.Tests
             var attackTarget = new AttackTargetRanged(null, null);
 
             mockAgent.Setup(x => x.GetWorldState()).Returns(emptyState);
-            mockAgent.Setup(x => x.CreateGoalStates()).Returns(new List<WorldState> { new WorldState(new Dictionary<string, bool> { { "targetDamaged", true } }) });
+            mockAgent.Setup(x => x.CreateGoalStates()).Returns(new List<WorldState> { new WorldState(new Dictionary<string, bool> { { "playerDamaged", true } }) });
             mockAgent.Setup(x => x.AvailableActions()).Returns(new List<IAction>() {readyWeapon, attackTarget});
 
             var sut = new GoapPlanner();
@@ -39,7 +40,7 @@ namespace Goap.Tests
             var attackTarget = new AttackTargetRanged(null, null);
 
             mockAgent.Setup(x => x.GetWorldState()).Returns(emptyState);
-            mockAgent.Setup(x => x.CreateGoalStates()).Returns(new List<WorldState> { new WorldState(new Dictionary<string, bool> { { "targetDamaged", true } }) });
+            mockAgent.Setup(x => x.CreateGoalStates()).Returns(new List<WorldState> { new WorldState(new Dictionary<string, bool> { { "playerDamaged", true } }) });
             mockAgent.Setup(x => x.AvailableActions()).Returns(new List<IAction>() { attackTarget });
 
             var sut = new GoapPlanner();
@@ -60,7 +61,7 @@ namespace Goap.Tests
             var attackTargetMelee = new AttackTargetMelee(null, null);
 
             mockAgent.Setup(x => x.GetWorldState()).Returns(emptyState);
-            mockAgent.Setup(x => x.CreateGoalStates()).Returns(new List<WorldState> { new WorldState(new Dictionary<string, bool> { { "targetDamaged", true } }) });
+            mockAgent.Setup(x => x.CreateGoalStates()).Returns(new List<WorldState> { new WorldState(new Dictionary<string, bool> { { "playerDamaged", true } }) });
             mockAgent.Setup(x => x.AvailableActions()).Returns(new List<IAction>() { attackTargetRanged, attackTargetMelee, readyWeapon });
 
             var sut = new GoapPlanner();
@@ -82,7 +83,7 @@ namespace Goap.Tests
             var heal = new Heal();
 
             mockAgent.Setup(x => x.GetWorldState()).Returns(emptyState);
-            mockAgent.Setup(x => x.CreateGoalStates()).Returns(new List<WorldState> { new WorldState(new Dictionary<string, bool> { { "healthy", true } }), new WorldState(new Dictionary<string, bool> { { "targetDamaged", true } }) });
+            mockAgent.Setup(x => x.CreateGoalStates()).Returns(new List<WorldState> { new WorldState(new Dictionary<string, bool> { { "healthy", true } }), new WorldState(new Dictionary<string, bool> { { "playerDamaged", true } }) });
             mockAgent.Setup(x => x.AvailableActions()).Returns(new List<IAction>() { attackTargetRanged, attackTargetMelee, readyWeapon, heal });
 
             var sut = new GoapPlanner();

@@ -23,7 +23,7 @@ namespace Goap.Tests
             {
                 Conditions = new Dictionary<string, bool>
                 {
-                    { "targetDamaged", true }
+                    { "playerDamaged", true }
                 }
             };
 
@@ -47,7 +47,7 @@ namespace Goap.Tests
             {
                 Conditions = new Dictionary<string, bool>
                 {
-                    { "targetDamaged", true }
+                    { "playerDamaged", true }
                 }
             };
 
