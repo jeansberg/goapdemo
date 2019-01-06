@@ -15,7 +15,7 @@ namespace Core.Map
 
         internal bool Walkable()
         {
-            return Type == TileType.Floor;
+            return Type != TileType.Wall;
         }
     }
 }

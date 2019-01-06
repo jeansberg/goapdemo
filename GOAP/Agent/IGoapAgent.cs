@@ -16,6 +16,7 @@ namespace Goap
         IAction NextAction();
         void SetActionPlan(List<IAction> actions);
         WorldState GetWorldState();
+        Creature GetOwner();
         void UpdateWorldState(WorldState changes);
         List<WorldState> CreateGoalStates();
         List<IAction> AvailableActions();

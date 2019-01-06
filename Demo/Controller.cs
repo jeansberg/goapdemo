@@ -20,19 +20,19 @@ namespace Demo
         {
             if (keysReleased.Contains(left))
             {
-                player.Move(Direction.Left);
+                player.MoveAttack(Direction.Left);
             }
             else if (keysReleased.Contains(right))
             {
-                player.Move(Direction.Right);
+                player.MoveAttack(Direction.Right);
             }
             else if (keysReleased.Contains(up))
             {
-                player.Move(Direction.Up);
+                player.MoveAttack(Direction.Up);
             }
             else if (keysReleased.Contains(down))
             {
-                player.Move(Direction.Down);
+                player.MoveAttack(Direction.Down);
             }
         }
     }

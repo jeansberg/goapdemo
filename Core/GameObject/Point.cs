@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Core.GameObject
 {
-    public class Point
+    public struct Point
     {
         public Point(int xPos, int yPos)
         {

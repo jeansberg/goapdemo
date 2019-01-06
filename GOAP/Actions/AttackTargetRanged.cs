@@ -59,7 +59,7 @@ namespace Goap.Actions
         public bool Perform()
         {
             Console.WriteLine("Performed ranged attack");
-            _target.Damage(1);
+            _actor.Attack(_target);
 
             return true;
         }

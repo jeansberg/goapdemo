@@ -6,28 +6,30 @@ namespace Core.GameObject
 {
     public class Creature : GameObject
     {
-        private int _health = 5;
+        private int _health;
         public List<IAction> Actions { get; set; }
         public List<WorldState> Goals { get; set; }
         private Map.Map mapRef;
         private readonly Pathfinder _pathfinder;
 
-        public Creature(MapLocation mapComponent, Map.Map map, Pathfinder pathfinder) : base(mapComponent)
+        public Creature(MapLocation mapComponent, Map.Map map, Pathfinder pathfinder, int health = 5) : base(mapComponent)
         {
             Actions = new List<IAction>();
             Goals = new List<WorldState>();
             mapRef = map;
             _pathfinder = pathfinder;
+            _health = health;
         }
 
-        public Creature(List<IAction> actions, List<WorldState> goals, MapLocation mapComponent, Map.Map map) : base(mapComponent)
+        public Creature(List<IAction> actions, List<WorldState> goals, MapLocation mapComponent, Map.Map map, int health = 5) : base(mapComponent)
         {
             Actions = actions;
             Goals = goals;
             mapRef = map;
+            _health = health;
         }
 
-        public void Move(Direction direction)
+        public void MoveAttack(Direction direction)
         {
             Point destination;
             switch (direction)
@@ -58,8 +60,20 @@ namespace Core.GameObject
 
             if (mapRef.Tiles[destination.xPos][destination.yPos].Walkable())
             {
-                _mapLocation.Position = destination;
+                var creature = mapRef.GetCreature(destination);
+                if (creature == null)
+                {
+                    _mapLocation.Position = destination;
+                    return;
+                }
+
+                Attack(creature);
             }
+        }
+
+        public void Attack(Creature target)
+        {
+            target.Damage(1);
         }
 
         public bool IsAlive() { return _health > 0; }

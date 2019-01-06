@@ -40,9 +40,10 @@ namespace Demo
         {
             // Any custom loading and prep. We will use a sample console for now
             map = new Map(Width, Height);
-
             creatures = GetCreatures();
+            map.AddCreatures(creatures);
             player = GetPlayer();
+
             AddAgents(creatures, player);
 
             startingConsole = new Console(Width, Height);
@@ -83,13 +84,33 @@ namespace Demo
                 controller.HandleInput(SadConsole.Global.KeyboardState.KeysReleased, player);
                 UpdateAI(creatures);
             }
+
+            if (!player.IsAlive())
+            {
+                SadConsole.Game.Instance.Exit();
+            }
         }
 
         private void UpdateAI(List<Creature> creatures)
         {
+            List<Creature> inactiveCreatures = new List<Creature>();
             foreach(var agent in agentMaps.Values)
             {
-                agent.Update();
+                var creature = agent.GetOwner();
+                if (creature.IsAlive())
+                {
+                    agent.Update();
+                }
+                else
+                {
+                    inactiveCreatures.Add(creature);
+                }
+            }
+
+            foreach(var creature in inactiveCreatures)
+            {
+                agentMaps.Remove(creature);
+                creatures.Remove(creature);
             }
         }
 
@@ -118,7 +139,7 @@ namespace Demo
                 Position = new Core.GameObject.Point(10, 5)
             };
 
-            var player = new Creature(new List<IAction>(), new List<WorldState>(), mapComponent, map);
+            var player = new Creature(new List<IAction>(), new List<WorldState>(), mapComponent, map, 15);
             return player;
         }
 

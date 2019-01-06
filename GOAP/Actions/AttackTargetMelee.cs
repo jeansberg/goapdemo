@@ -59,7 +59,7 @@ namespace Goap.Actions
         public bool Perform()
         {
             Console.WriteLine("Performed melee attack");
-            _target.Damage(1);
+            _actor.Attack(_target);
 
             return true;
         }

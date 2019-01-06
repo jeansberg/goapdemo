@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Core.GameObject;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.Map
 {
     public class Map
     {
         private List<List<Tile>> _tiles;
+        private List<Creature> _creatures;
 
         public List<List<Tile>> Tiles { get => _tiles; set => _tiles = value; }
 
@@ -16,6 +19,11 @@ namespace Core.Map
             CreateFloor(width, height);
             CreateBounds(width, height);
             CreateObstacles();
+        }
+
+        public Creature GetCreature(Point location)
+        {
+            return _creatures.FirstOrDefault(x => x.MapComponent.Position.Equals(location));
         }
 
         private void CreateObstacles()
@@ -36,6 +44,11 @@ namespace Core.Map
             _tiles[10][6] = new Tile { Type = TileType.Wall };
             _tiles[11][6] = new Tile { Type = TileType.Wall };
             _tiles[12][6] = new Tile { Type = TileType.Wall };
+        }
+
+        public void AddCreatures(List<Creature> creatures)
+        {
+            _creatures = creatures;
         }
 
         public int GetWidth()
