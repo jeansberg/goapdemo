@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.AI.Goals;
 using Core.GameObject;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,13 @@ namespace Goap.Actions
 {
     public class Heal : IAction
     {
+        private readonly Creature _target;
+
+        public Heal(Creature target)
+        {
+            _target = target;
+        }
+
         public Creature GetActor()
         {
             throw new NotImplementedException();
@@ -19,7 +27,7 @@ namespace Goap.Actions
 
         public WorldState GetEffects()
         {
-            return new WorldState(new Dictionary<string, bool> { { "healthy", true } });
+            return new WorldState(new Dictionary<ICondition, bool> { { new HealthyCondition(_target), true } });
         }
 
         public WorldState GetPreconditions()

@@ -2,35 +2,38 @@
 using Core.GameObject;
 using Core.Map;
 using Goap;
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Goap.AgentState;
 using Core;
-using Goap.Actions;
 using System.Linq;
+using Core.AI;
 
 namespace Demo
 {
     public class Game
     {
-        const int Width = 80;
-        const int Height = 25;
-        Console startingConsole;
-        List<Creature> creatures;
-        Player player;
-        Creature npc;
-        Dictionary<Creature, IGoapAgent> agentMaps;
-        Map map;
-        Controller controller;
+        private readonly int _width;
+        private readonly int _height;
+        private Console startingConsole;
+        private List<Creature> creatures;
+        private Player player;
+        private Dictionary<Creature, IAgent> agentMaps;
+        private Map map;
+        private Controller controller;
+        private CreatureFactory _creatureFactory;
+        private Renderer _renderer;
 
-        public Game()
+        public Game(int width, int height, CreatureFactory creatureFactory)
         {
+            _width = 80;
+            _height = 25;
+            _creatureFactory = creatureFactory;
         }
 
         public void Start()
         {
-            SadConsole.Game.Create("IBM.font", Width, Height);
+            SadConsole.Game.Create("IBM.font", _width, _height);
             SadConsole.Game.OnInitialize = Init;
             SadConsole.Game.OnUpdate = Update;
             SadConsole.Game.Instance.Run();
@@ -40,62 +43,30 @@ namespace Demo
 
         private void Init()
         {
-            // Any custom loading and prep. We will use a sample console for now
-            map = new Map(Width, Height);
-            player = GetPlayer();
-            creatures = GetCreatures(new Core.GameObject.Point(10, 10));
-            npc = GetCreatures(new Core.GameObject.Point(20, 20))[0];
-            AddAgents(creatures, player);
+            map = new Map(_width, _height);
+            player = _creatureFactory.CreatePlayer(map, new Core.GameObject.Point(5, 5));
 
-            creatures.Add(npc);
+            var worldState = new WorldState();
+
+            agentMaps = new Dictionary<Creature, IAgent>();
+            creatures = new List<Creature>
+            {
+                _creatureFactory.CreateMonster(map, new Core.GameObject.Point(10, 10), GetAgent(), new List<Creature>{player }, worldState, agentMaps),
+                _creatureFactory.CreateNpc(map, new Core.GameObject.Point(15, 10))
+            };
 
             map.AddCreatures(creatures);
 
-
-            startingConsole = new Console(Width, Height);
+            startingConsole = new Console(_width, _height);
             SadConsole.Global.CurrentScreen = startingConsole;
+            _renderer = new Renderer(startingConsole);
             controller = new Controller();
-        }
-
-        private void AddAgents(List<Creature> creatures, Creature player)
-        {
-            foreach(var creature in creatures)
-            {
-                var action = new AttackTargetMelee(creature, player);
-                var action2 = new AttackTargetMelee(creature, npc);
-
-                var goal1 = new WorldState()
-                {
-                    Conditions = new Dictionary<string, bool>
-                {
-                    { "npcDamaged", true }
-                }
-                };
-
-                var goal2 = new WorldState()
-                {
-                    Conditions = new Dictionary<string, bool>
-                {
-                    { "playerDamaged", true }
-                }
-                };
-
-                creature.Actions.Add(action);
-                creature.Actions.Add(action2);
-                creature.Goals.Add(goal1);
-                creature.Goals.Add(goal2);
-
-                var agent = GetAgent();
-                agent.Start(creature, new WorldState());
-                agentMaps = new Dictionary<Creature, IGoapAgent>();
-                agentMaps.Add(creature, agent);
-            }
         }
 
         private void Update(GameTime time)
         {
             DrawMap(startingConsole, map);
-            DrawCreatures(startingConsole, creatures, player);
+            DrawCreatures(startingConsole, creatures.Select(c => c.MapComponent).ToList(), player);
 
             if (SadConsole.Global.KeyboardState.KeysReleased.Count > 0)
             {
@@ -103,7 +74,7 @@ namespace Demo
 
                 creatures.RemoveAll(x => !x.IsAlive());
 
-                UpdateAI(creatures);
+                UpdateAI();
             }
 
             if (!player.IsAlive())
@@ -112,25 +83,27 @@ namespace Demo
             }
         }
 
-        private void UpdateAI(List<Creature> creatures)
+        private void UpdateAI()
         {
+            agentMaps = agentMaps.Where(x => creatures.Contains(x.Key)).ToDictionary(x => x.Key, x => x.Value);
+
             foreach(var agent in agentMaps.Values)
             {
                 agent.Update();
             }
         }
 
-        private static void DrawCreatures(Console startingConsole, List<Creature> creatures, Creature player)
+        private void DrawCreatures(Console startingConsole, List<MapComponent> creatures, Creature player)
         {
-            foreach (var creature in creatures)
+            var allCreatures = creatures;
+            allCreatures.Add(player.MapComponent);
+            foreach (var creature in allCreatures)
             {
-                startingConsole.SetGlyph(creature.MapComponent.Position.xPos, creature.MapComponent.Position.yPos, 'C');
+                _renderer.Draw(creature);
             }
-            startingConsole.SetGlyph(player.MapComponent.Position.xPos, player.MapComponent.Position.yPos, 'C');
-
         }
 
-        private IGoapAgent GetAgent()
+        private IAgent GetAgent()
         {
             var fsm = new AgentStateMachine();
             var planner = new GoapPlanner();
@@ -138,46 +111,14 @@ namespace Demo
             return new GoapAgent(fsm, planner);
         }
 
-        private Player GetPlayer()
-        {
-            var mapComponent = new MapLocation
-            {
-                Position = new Core.GameObject.Point(10, 5)
-            };
-
-            var player = new Player(new List<IAction>(), new List<WorldState>(), mapComponent, map, 15);
-            return player;
-        }
-
-        private List<Creature> GetCreatures(Core.GameObject.Point location)
-        {
-            var mapComponent2 = new MapLocation
-            {
-                Position = location
-            };
-            var creature = new Creature(mapComponent2, map, Pathfinder.GetInstance());
-
-            return new List<Creature> { creature };
-        }
-
         private void DrawMap(Console startingConsole, Map map)
         {
-            for (var x = 0; x < Width; x++)
+            for (var x = 0; x < _width; x++)
             {
-                for (var y = 0; y < Height; y++)
+                for (var y = 0; y < _height; y++)
                 {
-                    if (map.Tiles[x][y].Type == TileType.Floor)
-                    {
-                        startingConsole.SetGlyph(x, y, '.', Color.White);
-                    }
-                    else if (map.Tiles[x][y].Type == TileType.Wall)
-                    {
-                        startingConsole.SetGlyph(x, y, 'x', Color.White);
-                    }
-                    else if (map.Tiles[x][y].Type == TileType.Debug)
-                    {
-                        startingConsole.SetGlyph(x, y, 'o', Color.Red);
-                    }
+                    var graphic = map.Tiles[x][y].Graphic;
+                    _renderer.Draw(graphic, new Core.GameObject.Point(x, y));
                 }
             }
         }

@@ -1,11 +1,11 @@
-﻿using System;
-using FloodSpill;
+﻿using FloodSpill;
 using FloodSpill.Utilities;
 using Core.Map;
 using System.Collections.Generic;
 using System.Linq;
+using Core.GameObject;
 
-namespace Core.GameObject
+namespace Core.AI
 {
     public class PathNode
     {
@@ -22,27 +22,22 @@ namespace Core.GameObject
         }
     }
 
-    public class Pathfinder
+    public class PathFinder : IPathFinder
     {
-        private static Pathfinder _instance;
+        private static PathFinder _instance;
         FloodSpiller _floodSpiller;
 
-        public static Pathfinder GetInstance()
-        {
-            if(_instance == null)
-            {
-                _instance = new Pathfinder(new FloodSpiller());
-            }
-
-            return _instance;
-        }
-
-        private Pathfinder(FloodSpiller floodSpiller)
+        protected PathFinder(FloodSpiller floodSpiller)
         {
             _floodSpiller = floodSpiller;
         }
 
-        public List<Point> PathFind(Point start, Point goal, Map.Map mapRef)
+        public virtual List<Point> PathFind(Point start, Point goal, Map.Map mapRef)
+        {
+            return PathFindInternal(start, goal, mapRef);
+        }
+
+        protected List<Point> PathFindInternal(Point start, Point goal, Map.Map mapRef)
         {
             var nodes = GetNodes(goal, mapRef);
 
@@ -70,10 +65,9 @@ namespace Core.GameObject
         private List<PathNode> GetNodes(Point goal, Map.Map mapRef)
         {
             var markMatrix = new int[mapRef.GetWidth(), mapRef.GetHeight()];
-            Predicate<int, int> positionQualifier = (x, y) => mapRef.Tiles[x][y].Type != TileType.Wall;
+            Predicate<int, int> positionQualifier = (x, y) => !mapRef.Blocked(new Point(x,y)); 
             var floodParameters = new FloodParameters(startX: goal.xPos, startY: goal.yPos)
             {
-                //BoundsRestriction = new FloodBounds(minX: 1, minY: 1, sizeX: mapRef.GetWidth(), sizeY: mapRef.GetHeight()),
                 NeighbourhoodType = NeighbourhoodType.Four,
                 Qualifier = positionQualifier
             };

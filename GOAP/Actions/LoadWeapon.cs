@@ -1,12 +1,19 @@
 ﻿using Core;
+using Core.AI.Goals;
 using Core.GameObject;
 using System;
 using System.Collections.Generic;
 
 namespace Goap.Actions
 {
-    public class LoadWeapon : IAction
+    public class ReadyWeapon : IAction
     {
+        private Creature _actor;
+
+        public ReadyWeapon(Creature actor)
+        {
+            _actor = actor;
+        }
         public Creature GetActor()
         {
             throw new NotImplementedException();
@@ -19,7 +26,7 @@ namespace Goap.Actions
 
         public WorldState GetEffects()
         {
-            return new WorldState(new Dictionary<string, bool> { { "weaponLoaded", true } });
+            return new WorldState(new Dictionary<ICondition, bool> { { new WeaponReadyCondition(_actor), true } });
         }
 
         public WorldState GetPreconditions()

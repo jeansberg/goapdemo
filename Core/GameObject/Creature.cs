@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.AI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,9 +11,9 @@ namespace Core.GameObject
         public List<IAction> Actions { get; set; }
         public List<WorldState> Goals { get; set; }
         private Map.Map mapRef;
-        private readonly Pathfinder _pathfinder;
+        private readonly IPathFinder _pathfinder;
 
-        public Creature(MapLocation mapComponent, Map.Map map, Pathfinder pathfinder, int health = 5) : base(mapComponent)
+        public Creature(MapComponent mapComponent, Map.Map map, IPathFinder pathfinder, int health = 5) : base(mapComponent)
         {
             Actions = new List<IAction>();
             Goals = new List<WorldState>();
@@ -21,7 +22,7 @@ namespace Core.GameObject
             _health = health;
         }
 
-        public Creature(List<IAction> actions, List<WorldState> goals, MapLocation mapComponent, Map.Map map, int health = 5) : base(mapComponent)
+        public Creature(List<IAction> actions, List<WorldState> goals, MapComponent mapComponent, Map.Map map, int health = 5) : base(mapComponent)
         {
             Actions = actions;
             Goals = goals;
@@ -84,7 +85,7 @@ namespace Core.GameObject
             Console.WriteLine($"Health is now {_health}");
         }
 
-        public void MoveToward(MapLocation otherMapComponent)
+        public void MoveToward(MapComponent otherMapComponent)
         {
             if (_mapLocation.Position.IsAdjacentTo(otherMapComponent.Position))
             {
@@ -92,19 +93,7 @@ namespace Core.GameObject
                 return;
             }
 
-            foreach (var point in mapRef.Tiles.SelectMany(x => x))
-            {
-                if(point.Type == Map.TileType.Debug)
-                {
-                    point.Type = Map.TileType.Floor;
-                }
-            }
-
             var path = _pathfinder.PathFind(_mapLocation.Position, otherMapComponent.Position, mapRef);
-            foreach(var point in path)
-            {
-                mapRef.Tiles[point.xPos][point.yPos].Type = Map.TileType.Debug;
-            }
 
             _mapLocation.Position = path[0];
 

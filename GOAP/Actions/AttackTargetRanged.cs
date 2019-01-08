@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.AI.Goals;
 using Core.GameObject;
 using System;
 using System.Collections.Generic;
@@ -28,12 +29,12 @@ namespace Goap.Actions
 
         public WorldState GetEffects()
         {
-            return new WorldState(new Dictionary<string, bool> { { "playerDamaged", true } });
+            return new WorldState(new Dictionary<ICondition, bool> { { new TargetEliminatedCondition(_target), true } });
         }
 
         public WorldState GetPreconditions()
         {
-            return new WorldState(new Dictionary<string, bool> { { "weaponLoaded", true } });
+            return new WorldState(new Dictionary<ICondition, bool> { { new WeaponReadyCondition(_actor), true } });
         }
 
         public Creature GetTarget()

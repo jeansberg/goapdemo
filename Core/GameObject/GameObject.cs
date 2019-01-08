@@ -1,14 +1,14 @@
 ﻿namespace Core.GameObject
 {
-    public class GameObject
+    public abstract class GameObject
     {
-        protected MapLocation _mapLocation;
+        protected MapComponent _mapLocation;
 
-        public GameObject(MapLocation mapComponent)
+        protected GameObject(MapComponent mapComponent)
         {
             MapComponent = mapComponent;
         }
 
-        public MapLocation MapComponent { get => _mapLocation; set => _mapLocation = value; }
+        public MapComponent MapComponent { get => _mapLocation; set => _mapLocation = value; }
     }
 }

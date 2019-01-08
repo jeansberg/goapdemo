@@ -2,10 +2,10 @@
 {
     public class MoveToState : IAgentState
     {
-        private IGoapAgent _agent;
+        private IAgent _agent;
         private readonly IAgentStateMachine _fsm;
 
-        public MoveToState(IAgentStateMachine fsm, IGoapAgent agent)
+        public MoveToState(IAgentStateMachine fsm, IAgent agent)
         {
             _agent = agent;
             _fsm = fsm;

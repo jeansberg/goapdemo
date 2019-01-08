@@ -47,13 +47,11 @@
     <Compile Include="Actions\AttackTargetRanged.cs" />
     <Compile Include="Actions\Heal.cs" />
     <Compile Include="Actions\LoadWeapon.cs" />
-    <Compile Include="Agent\IGoapAgent.cs" />
     <Compile Include="Agent\AgentStateMachine.cs" />
     <Compile Include="GoapPlanner\GoapPlanner.cs" />
     <Compile Include="Agent\ActState.cs" />
     <Compile Include="Agent\IdleState.cs" />
     <Compile Include="Agent\MoveToState.cs" />
-    <Compile Include="Agent\IAgentState.cs" />
     <Compile Include="GoapPlanner\IGoapPlanner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

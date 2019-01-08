@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.AI.Goals;
 using Core.GameObject;
 using System;
 using System.Collections.Generic;
@@ -28,11 +29,7 @@ namespace Goap.Actions
 
         public WorldState GetEffects()
         {
-            if(_target.GetType() == typeof(Player))
-            {
-                return new WorldState(new Dictionary<string, bool> { { "playerDamaged", true } });
-            }
-            return new WorldState(new Dictionary<string, bool> { { "npcDamaged", true } });
+            return new WorldState(new Dictionary<ICondition, bool> { { new TargetEliminatedCondition(_target), true } });
         }
 
         public WorldState GetPreconditions()

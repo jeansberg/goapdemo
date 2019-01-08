@@ -37,6 +37,7 @@
     <StartupObject>Demo.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FloodSpill, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="MonoGame.Framework, Version=3.7.1.189, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Framework.DesktopGL.3.7.1.189\lib\net45\MonoGame.Framework.dll</HintPath>
     </Reference>
@@ -57,9 +58,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller.cs" />
+    <Compile Include="CreatureFactory.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

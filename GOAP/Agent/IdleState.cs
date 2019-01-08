@@ -5,11 +5,11 @@
     /// </summary>
     public class IdleState : IAgentState
     {
-        private IGoapAgent _agent;
+        private IAgent _agent;
         private readonly IAgentStateMachine _fsm;
         private readonly IGoapPlanner _planner;
 
-        public IdleState(IAgentStateMachine fsm, IGoapAgent agent, IGoapPlanner planner)
+        public IdleState(IAgentStateMachine fsm, IAgent agent, IGoapPlanner planner)
         {
             _agent = agent;
             _fsm = fsm;

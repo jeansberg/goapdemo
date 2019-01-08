@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Core.AI.Goals;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Core
 {
@@ -7,14 +9,14 @@ namespace Core
     /// </summary>
     public class WorldState
     {
-        public Dictionary<string, bool> Conditions { get; set; }
+        public Dictionary<ICondition, bool> Conditions { get; set; }
 
         public WorldState()
         {
-            Conditions = new Dictionary<string, bool>();
+            Conditions = new Dictionary<ICondition, bool>();
         }
 
-        public WorldState(Dictionary<string,bool> initialConditions)
+        public WorldState(Dictionary<ICondition, bool> initialConditions)
         {
             Conditions = initialConditions;
         }
@@ -27,7 +29,7 @@ namespace Core
         /// </summary>
         public static WorldState GetUpdatedState(this WorldState currentState, WorldState stateChange)
         {
-            var newState = new Dictionary<string, bool>();
+            var newState = new Dictionary<ICondition, bool>();
 
             foreach (var currentCondition in currentState.Conditions)
             {
@@ -47,10 +49,15 @@ namespace Core
         public static bool Fulfills(this WorldState current, WorldState target)
         {
             bool allMatch = true;
+
+            var relevantConditions = current.Conditions
+                .Where(x => target.Conditions.Keys.Count(y => y.Equals(x.Key)) > 0)
+                .ToDictionary(x => x.Key, x => x.Value);
+
             foreach (var targetCondition in target.Conditions)
             {
                 bool match = false;
-                foreach (var currentCondition in current.Conditions)
+                foreach (var currentCondition in relevantConditions)
                 {
                     if (currentCondition.Equals(targetCondition))
                     {

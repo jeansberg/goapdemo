@@ -13,6 +13,6 @@ namespace Goap
         /// </summary>
         /// <param name="agent">The agent to plan for</param>
         /// <returns>A list of actions to execute in order</returns>
-        List<IAction> Plan(IGoapAgent agent);
+        List<IAction> Plan(IAgent agent);
     }
 }

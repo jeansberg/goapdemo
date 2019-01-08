@@ -6,7 +6,7 @@ namespace Goap
 {
     public class GoapPlanner : IGoapPlanner
     {
-        public List<IAction> Plan(IGoapAgent agent)
+        public List<IAction> Plan(IAgent agent)
         {
             var usableActions = agent.AvailableActions();
             usableActions.ForEach(a => a.Reset());

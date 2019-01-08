@@ -14,7 +14,7 @@ namespace Goap.Tests
         public void IdleState_Update_TransitionsToActState()
         {
             var mockStateMachine = new Mock<IAgentStateMachine>();
-            var mockAgent = new Mock<IGoapAgent>();
+            var mockAgent = new Mock<IAgent>();
             var mockActState = new Mock<IAgentState>();
             var mockPlanner = new Mock<IGoapPlanner>();
             var plan = new List<IAction>();
@@ -34,7 +34,7 @@ namespace Goap.Tests
         public void ActState_Update_TransitionsToIdleState_IfNoPlan()
         {
             var mockStateMachine = new Mock<IAgentStateMachine>();
-            var mockAgent = new Mock<IGoapAgent>();
+            var mockAgent = new Mock<IAgent>();
             var mockIdleState = new Mock<IAgentState>();
 
             mockAgent.Setup(x => x.HasActionPlan()).Returns(false);
@@ -51,7 +51,7 @@ namespace Goap.Tests
         public void ActState_Update_TransitionsToIdleState_IfActionSuccesful()
         {
             var mockStateMachine = new Mock<IAgentStateMachine>();
-            var mockAgent = new Mock<IGoapAgent>();
+            var mockAgent = new Mock<IAgent>();
             var mockIdleState = new Mock<IAgentState>();
             var mockAction = new Mock<IAction>();
 
@@ -71,7 +71,7 @@ namespace Goap.Tests
         public void ActState_Update_TransitionsToMoveToState_IfNotInRange()
         {
             var mockStateMachine = new Mock<IAgentStateMachine>();
-            var mockAgent = new Mock<IGoapAgent>();
+            var mockAgent = new Mock<IAgent>();
             var mockMoveToState = new Mock<IAgentState>();
             var mockAction = new Mock<IAction>();
 
@@ -92,7 +92,7 @@ namespace Goap.Tests
         public void MoveToState_Update_UpdatesLastState_IfInRange()
         {
             var mockStateMachine = new Mock<IAgentStateMachine>();
-            var mockAgent = new Mock<IGoapAgent>();
+            var mockAgent = new Mock<IAgent>();
             var mockAction = new Mock<IAction>();
 
             mockAgent.Setup(x => x.NextAction()).Returns(mockAction.Object);
@@ -109,7 +109,7 @@ namespace Goap.Tests
         public void MoveToState_Update_MovesAgent_IfNotInRange()
         {
             var mockStateMachine = new Mock<IAgentStateMachine>();
-            var mockAgent = new Mock<IGoapAgent>();
+            var mockAgent = new Mock<IAgent>();
             var mockAction = new Mock<IAction>();
 
             mockAgent.Setup(x => x.NextAction()).Returns(mockAction.Object);

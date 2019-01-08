@@ -7,7 +7,7 @@ namespace Goap
     /// <summary>
     /// Represents the interface between the action planning system and the NPC / Monster
     /// </summary>
-    public interface IGoapAgent
+    public interface IAgent
     {
 
         void Start(Creature owner, WorldState worldState);

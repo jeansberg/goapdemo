@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Goap
 {
-    public class GoapAgent : IGoapAgent
+    public class GoapAgent : IAgent
     {
         private readonly IAgentStateMachine _fsm;
         private readonly IGoapPlanner _planner;

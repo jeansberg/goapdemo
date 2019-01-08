@@ -2,10 +2,10 @@
 {
     public class ActState : IAgentState
     {
-        private IGoapAgent _agent;
+        private IAgent _agent;
         private readonly IAgentStateMachine _fsm;
 
-        public ActState(IAgentStateMachine fsm, IGoapAgent agent)
+        public ActState(IAgentStateMachine fsm, IAgent agent)
         {
             _agent = agent;
             _fsm = fsm;

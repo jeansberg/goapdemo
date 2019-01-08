@@ -1,14 +1,6 @@
-using System;
-using SadConsole;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Core.Map;
-using System.Collections.Generic;
+using Core.AI;
 using Core.GameObject;
-using Goap.Actions;
-using Core;
-using Goap;
-using Goap.AgentState;
+using FloodSpill;
 
 namespace Demo
 {
@@ -16,9 +8,8 @@ namespace Demo
     {
         static void Main(string[] args)
         {
-            var game = new Game();
+            var game = new Game(80, 25, new CreatureFactory(new DebugPathFinder(new FloodSpiller())));
             game.Start();
         }
-        
     }
 }

@@ -28,22 +28,29 @@ namespace Core.Map
 
         private void CreateObstacles()
         {
-            _tiles[8][5] = new Tile { Type = TileType.Wall };
-            _tiles[9][5] = new Tile { Type = TileType.Wall };
-            _tiles[9][6] = new Tile { Type = TileType.Wall };
-            _tiles[10][6] = new Tile { Type = TileType.Wall };
-            _tiles[11][6] = new Tile { Type = TileType.Wall };
-            _tiles[12][6] = new Tile { Type = TileType.Wall };
+            _tiles[8][5] = new Tile { Type = TileType.Wall , Graphic = new Graphic {Character = 'X', ForeColor = new RgbColor(200,200,200) } };
+            _tiles[9][5] = new Tile { Type = TileType.Wall, Graphic = new Graphic { Character = 'X', ForeColor = new RgbColor(200, 200, 200) } };
+            _tiles[9][6] = new Tile { Type = TileType.Wall, Graphic = new Graphic { Character = 'X', ForeColor = new RgbColor(200, 200, 200) } };
+            _tiles[10][6] = new Tile { Type = TileType.Wall, Graphic = new Graphic { Character = 'X', ForeColor = new RgbColor(200, 200, 200) } };
+            _tiles[11][6] = new Tile { Type = TileType.Wall, Graphic = new Graphic { Character = 'X', ForeColor = new RgbColor(200, 200, 200) } };
+            _tiles[12][6] = new Tile { Type = TileType.Wall, Graphic = new Graphic { Character = 'X', ForeColor = new RgbColor(200, 200, 200) } };
 
-            _tiles[11][8] = new Tile { Type = TileType.Wall };
-            _tiles[12][8] = new Tile { Type = TileType.Wall };
-            _tiles[13][8] = new Tile { Type = TileType.Wall };
-            _tiles[14][8] = new Tile { Type = TileType.Wall };
+            _tiles[11][8] = new Tile { Type = TileType.Wall, Graphic = new Graphic { Character = 'X', ForeColor = new RgbColor(200, 200, 200) } };
+            _tiles[12][8] = new Tile { Type = TileType.Wall, Graphic = new Graphic { Character = 'X', ForeColor = new RgbColor(200, 200, 200) } };
+            _tiles[13][8] = new Tile { Type = TileType.Wall, Graphic = new Graphic { Character = 'X', ForeColor = new RgbColor(200, 200, 200) } };
+            _tiles[14][8] = new Tile { Type = TileType.Wall, Graphic = new Graphic { Character = 'X', ForeColor = new RgbColor(200, 200, 200) } };
 
-            _tiles[9][6] = new Tile { Type = TileType.Wall };
-            _tiles[10][6] = new Tile { Type = TileType.Wall };
-            _tiles[11][6] = new Tile { Type = TileType.Wall };
-            _tiles[12][6] = new Tile { Type = TileType.Wall };
+            _tiles[9][6] = new Tile { Type = TileType.Wall, Graphic = new Graphic { Character = 'X', ForeColor = new RgbColor(200, 200, 200) } };
+            _tiles[10][6] = new Tile { Type = TileType.Wall, Graphic = new Graphic { Character = 'X', ForeColor = new RgbColor(200, 200, 200) } };
+            _tiles[11][6] = new Tile { Type = TileType.Wall, Graphic = new Graphic { Character = 'X', ForeColor = new RgbColor(200, 200, 200) } };
+            _tiles[12][6] = new Tile { Type = TileType.Wall, Graphic = new Graphic { Character = 'X', ForeColor = new RgbColor(200, 200, 200) } };
+        }
+
+        internal bool Blocked(Point position)
+        {
+            var blockedTile = !_tiles[position.xPos][position.yPos].Walkable();
+            var hasCreature =_creatures.Exists(x => x.MapComponent.Position.Equals(position));
+            return blockedTile || hasCreature;
         }
 
         public void AddCreatures(List<Creature> creatures)
@@ -69,11 +76,11 @@ namespace Core.Map
                 {
                     if(x == 0 || x == width - 1)
                     {
-                        _tiles[x][y] = new Tile { Type = TileType.Wall };
+                        _tiles[x][y] = new Tile { Type = TileType.Wall, Graphic = new Graphic { Character = 'X', ForeColor = new RgbColor(200, 200, 200) } };
                     }
                     if (y == 0 || y == height - 1)
                     {
-                        _tiles[x][y] = new Tile { Type = TileType.Wall };
+                        _tiles[x][y] = new Tile { Type = TileType.Wall, Graphic = new Graphic { Character = 'X', ForeColor = new RgbColor(200, 200, 200) } };
                     }
                 }
             }
@@ -86,7 +93,7 @@ namespace Core.Map
                 _tiles.Add(new List<Tile>());
                 for(var y = 0; y < height; y++)
                 {
-                    _tiles[x].Add(new Tile { Type = TileType.Floor });
+                    _tiles[x].Add(new Tile { Type = TileType.Floor, Graphic = new Graphic { Character = '.', ForeColor = new RgbColor(100, 100, 100) } });
                 }
             }
         }
