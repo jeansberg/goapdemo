@@ -10,6 +10,8 @@ namespace Core.GameObject
         private int _health;
         public List<IAction> Actions { get; set; }
         public List<WorldState> Goals { get; set; }
+        public List<Point> Fov { get; set; }
+
         private Map.Map mapRef;
         private readonly IPathFinder _pathfinder;
 
@@ -70,6 +72,11 @@ namespace Core.GameObject
 
                 Attack(creature);
             }
+        }
+
+        public bool CanSee(Creature target)
+        {
+            return Fov.Contains(target.MapComponent.Position);
         }
 
         public void Attack(Creature target)

@@ -29,12 +29,16 @@ namespace Goap.Actions
 
         public WorldState GetEffects()
         {
-            return new WorldState(new Dictionary<ICondition, bool> { { new TargetEliminatedCondition(_target), true } });
+            return new WorldState(new Dictionary<ICondition, bool> {
+                { new TargetEliminatedCondition(_target), true },
+                { new WeaponReadyCondition(_actor), false} });
         }
 
         public WorldState GetPreconditions()
         {
-            return new WorldState(new Dictionary<ICondition, bool> { { new WeaponReadyCondition(_actor), true } });
+            return new WorldState(new Dictionary<ICondition, bool> {
+                { new WeaponReadyCondition(_actor), true },
+                { new TargetVisibleCondition(_target), true }});
         }
 
         public Creature GetTarget()
@@ -62,7 +66,7 @@ namespace Goap.Actions
             Console.WriteLine("Performed ranged attack");
             _actor.Attack(_target);
 
-            return true;
+            return IsDone();
         }
 
         public void Reset()

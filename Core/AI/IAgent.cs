@@ -23,6 +23,6 @@ namespace Goap
         IAgentState MoveToState();
         IAgentState ActState();
         IAgentState IdleState();
-        void MoveToward(IAction action);
+        bool MoveToward(IAction action);
     }
 }

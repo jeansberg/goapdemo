@@ -51,6 +51,7 @@
     <Compile Include="AI\Goals\HealthyCondition.cs" />
     <Compile Include="AI\Goals\ICondition.cs" />
     <Compile Include="AI\Goals\TargetEliminatedCondition.cs" />
+    <Compile Include="AI\Goals\TargetVisibleCondition.cs" />
     <Compile Include="AI\Goals\WeaponReadyCondition.cs" />
     <Compile Include="AI\IAgent.cs" />
     <Compile Include="AI\IAgentState.cs" />

@@ -17,7 +17,7 @@ namespace Goap.Tests
             var mockAgent = new Mock<IAgent>();
             var mockActState = new Mock<IAgentState>();
             var mockPlanner = new Mock<IGoapPlanner>();
-            var plan = new List<IAction>();
+            var plan = new List<IAction> { new Mock<IAction>().Object };
 
             mockPlanner.Setup(x => x.Plan(mockAgent.Object)).Returns(plan);
             mockAgent.Setup(x => x.ActState()).Returns(mockActState.Object);

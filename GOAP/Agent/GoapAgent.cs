@@ -84,11 +84,17 @@ namespace Goap
             return _currentActions.Count > 0;
         }
 
-        public void MoveToward(IAction action)
+        public bool MoveToward(IAction action)
         {
             var actor = action.GetActor();
+            var target = action.GetTarget();
 
-            actor.MoveToward(action.GetTarget().MapComponent);
+            if (actor.CanSee(target)){
+                actor.MoveToward(action.GetTarget().MapComponent);
+                return true;
+            }
+
+            return false;
         }
 
         public IAction NextAction()

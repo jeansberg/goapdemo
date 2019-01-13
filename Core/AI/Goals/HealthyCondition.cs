@@ -20,5 +20,10 @@ namespace Core.AI.Goals
             var condition = obj as HealthyCondition;
             return condition != null && _target == condition._target;
         }
+
+        public override int GetHashCode()
+        {
+            return -769192233 + EqualityComparer<Creature>.Default.GetHashCode(_target);
+        }
     }
 }

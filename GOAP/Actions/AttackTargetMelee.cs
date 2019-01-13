@@ -24,7 +24,7 @@ namespace Goap.Actions
 
         public int GetCost()
         {
-            return 1;
+            return 6;
         }
 
         public WorldState GetEffects()
@@ -34,7 +34,7 @@ namespace Goap.Actions
 
         public WorldState GetPreconditions()
         {
-            return new WorldState();
+            return new WorldState(new Dictionary<ICondition, bool> { { new TargetVisibleCondition(_target), true } });
         }
 
         public Creature GetTarget()

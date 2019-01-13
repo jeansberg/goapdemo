@@ -1,19 +1,21 @@
-﻿using Core.GameObject;
+﻿using Core.AI.Goals;
+using Core.GameObject;
 using System.Collections.Generic;
 
-namespace Core.AI.Goals
+namespace Goap.Actions
 {
-    public class TargetEliminatedCondition : ICondition
+    public class TargetVisibleCondition : ICondition
     {
         private Creature _target;
-        public TargetEliminatedCondition(Creature target)
+
+        public TargetVisibleCondition(Creature target)
         {
             _target = target;
         }
 
         public override bool Equals(object obj)
         {
-            var condition = obj as TargetEliminatedCondition;
+            var condition = obj as TargetVisibleCondition;
             return condition != null && _target == condition._target;
         }
 

@@ -46,7 +46,7 @@
     <Compile Include="Actions\AttackTargetMelee.cs" />
     <Compile Include="Actions\AttackTargetRanged.cs" />
     <Compile Include="Actions\Heal.cs" />
-    <Compile Include="Actions\LoadWeapon.cs" />
+    <Compile Include="Actions\ReadyWeapon.cs" />
     <Compile Include="Agent\AgentStateMachine.cs" />
     <Compile Include="GoapPlanner\GoapPlanner.cs" />
     <Compile Include="Agent\ActState.cs" />

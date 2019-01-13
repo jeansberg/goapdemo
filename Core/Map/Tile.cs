@@ -15,7 +15,12 @@ namespace Core.Map
         public TileType Type;
         public Graphic Graphic;
 
-        internal bool Walkable()
+        public bool Walkable()
+        {
+            return Type != TileType.Wall;
+        }
+
+        public bool Transparent()
         {
             return Type != TileType.Wall;
         }

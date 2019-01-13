@@ -20,6 +20,11 @@
         {
             var actionPlan = _planner.Plan(_agent);
 
+            if(actionPlan.Count == 0)
+            {
+                return;
+            }
+
             _agent.SetActionPlan(actionPlan);
             _fsm.Transition(_agent.ActState());
             _agent.Update();

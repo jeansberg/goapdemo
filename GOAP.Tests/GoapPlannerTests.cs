@@ -65,13 +65,14 @@ namespace Goap.Tests
             var dummyTarget = new Creature(new MapComponent(), null, null);
             var mockAgent = new Mock<IAgent>();
 
-            // Create an empty world state and get some actions
-            var emptyState = new WorldState();
+            // Create a world state and get some actions
+            var targetInFovState = new WorldState();
+            targetInFovState.Conditions.Add(new TargetVisibleCondition(dummyTarget), true);
             var readyWeapon = new ReadyWeapon(dummyCreature);
             var attackTargetRanged = new AttackTargetRanged(dummyCreature, dummyTarget);
             var attackTargetMelee = new AttackTargetMelee(dummyCreature, dummyTarget);
 
-            mockAgent.Setup(x => x.GetWorldState()).Returns(emptyState);
+            mockAgent.Setup(x => x.GetWorldState()).Returns(targetInFovState);
             mockAgent.Setup(x => x.CreateGoalStates()).Returns(new List<WorldState> { new WorldState(new Dictionary<ICondition, bool> { { GetPlayerDeadCondition(dummyTarget), true } }) });
             mockAgent.Setup(x => x.AvailableActions()).Returns(new List<IAction>() { attackTargetRanged, attackTargetMelee, readyWeapon });
 

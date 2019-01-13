@@ -36,7 +36,7 @@ namespace Core.GameObject
             var xDistance = Math.Abs(xPos - otherPoint.xPos);
             var yDistance = Math.Abs(yPos - otherPoint.yPos);
 
-            return xDistance + yDistance == distance;
+            return xDistance + yDistance <= distance;
         }
 
         public override string ToString()

@@ -17,5 +17,10 @@ namespace Core.AI.Goals
             var condition = obj as WeaponReadyCondition;
             return condition != null && _creature == condition._creature;
         }
+
+        public override int GetHashCode()
+        {
+            return 507986143 + EqualityComparer<Creature>.Default.GetHashCode(_creature);
+        }
     }
 }
