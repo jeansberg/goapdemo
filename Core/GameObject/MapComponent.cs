@@ -2,10 +2,9 @@
 
 namespace Core.GameObject
 {
-    public struct MapComponent
+    public class MapComponent
     {
         public Point Position { get; set; }
         public bool Blocking { get; set; }
-        public Graphic Graphic { get; set; }
     }
 }

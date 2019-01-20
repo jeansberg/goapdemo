@@ -22,10 +22,7 @@ namespace Goap.Actions
             return _actor;
         }
 
-        public int GetCost()
-        {
-            return 2;
-        }
+        public int Cost => 2;
 
         public WorldState GetEffects()
         {

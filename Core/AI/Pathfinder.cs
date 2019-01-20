@@ -27,7 +27,7 @@ namespace Core.AI
         private static PathFinder _instance;
         FloodSpiller _floodSpiller;
 
-        protected PathFinder(FloodSpiller floodSpiller)
+        public PathFinder(FloodSpiller floodSpiller)
         {
             _floodSpiller = floodSpiller;
         }

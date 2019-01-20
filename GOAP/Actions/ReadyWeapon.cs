@@ -19,10 +19,7 @@ namespace Goap.Actions
             throw new NotImplementedException();
         }
 
-        public int GetCost()
-        {
-            return 1;
-        }
+        public int Cost => 1;
 
         public WorldState GetEffects()
         {

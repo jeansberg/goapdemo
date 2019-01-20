@@ -16,20 +16,19 @@ namespace Core.GameObject
             _pathFinder = pathFinder;
         }
 
-        public Player CreatePlayer(Map.Map mapRef, Point position)
+        public Creature CreatePlayer(Map.Map mapRef, Point position)
         {
             var mapComponent = new MapComponent
             {
                 Position = position,
-                Graphic = new Graphic
-                {
-                    Character = 'P',
-                    ForeColor = new RgbColor(100, 255, 100)
-                }
             };
 
+            var graphicsComponent = new GraphicsComponent('P', new RgbColor(100, 255, 100));
+
+            var combatComponent = new CombatComponent(10);
+
             // The player does not need actions or goals, should be moved somewhere...
-            var player = new Player(new List<IAction>(), new List<WorldState>(), mapComponent, mapRef, 15);
+            var player = new Creature(new List<IAction>(), new List<WorldState>(), mapComponent, combatComponent, graphicsComponent, mapRef, 15);
             return player;
         }
 
@@ -38,13 +37,13 @@ namespace Core.GameObject
             var mapComponent = new MapComponent
             {
                 Position = position,
-                Graphic = new Graphic
-                {
-                    Character = 'M',
-                    ForeColor = new RgbColor(255, 100, 100)
-                }
             };
-            var monster = new Creature(mapComponent, mapRef, _pathFinder);
+
+            var graphicsComponent = new GraphicsComponent('M', new RgbColor(255, 100, 100));
+            
+            var combatCompnent = new CombatComponent(5);
+
+            var monster = new Creature(mapComponent, combatCompnent, graphicsComponent, mapRef, _pathFinder);
 
             monster.Actions = new List<IAction>();
             monster.Actions.AddRange(enemies.Select(e => new AttackTargetMelee(monster, e)));
@@ -65,13 +64,13 @@ namespace Core.GameObject
             var mapComponent = new MapComponent
             {
                 Position = position,
-                Graphic = new Graphic
-                {
-                    Character = 'N',
-                    ForeColor = new RgbColor(100, 100, 255)
-                }
             };
-            var npc = new Creature(mapComponent, mapRef, _pathFinder);
+
+            var graphicsComponent = new GraphicsComponent('N', new RgbColor(100, 100, 255));
+
+            var combatCompnent = new CombatComponent(5);
+
+            var npc = new Creature(mapComponent, combatCompnent, graphicsComponent, mapRef, _pathFinder);
 
             return npc;
         }

@@ -1,10 +1,12 @@
-﻿using Core.GameObject;
+﻿using Core.AI.Goals;
+using Core.GameObject;
 
 namespace Core
 {
     public interface IAction
     {
-        int GetCost();
+        int Cost { get; }
+
         void Reset();
         bool IsDone();
         WorldState GetPreconditions();

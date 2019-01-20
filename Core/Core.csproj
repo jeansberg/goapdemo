@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AI\DebugPathFinder.cs" />
     <Compile Include="AI\Goals\GoalFactory.cs" />
     <Compile Include="AI\Goals\HealthyCondition.cs" />
     <Compile Include="AI\Goals\ICondition.cs" />
@@ -56,16 +55,17 @@
     <Compile Include="AI\IAgent.cs" />
     <Compile Include="AI\IAgentState.cs" />
     <Compile Include="Direction.cs" />
+    <Compile Include="GameObject\CombatComponent.cs" />
     <Compile Include="GameObject\Creature.cs" />
     <Compile Include="GameObject\GameObject.cs" />
     <Compile Include="GameObject\Graphic.cs" />
     <Compile Include="AI\IPathFinder.cs" />
     <Compile Include="GameObject\MapComponent.cs" />
     <Compile Include="AI\PathFinder.cs" />
-    <Compile Include="GameObject\Player.cs" />
     <Compile Include="GameObject\Point.cs" />
     <Compile Include="GameObject\RgbColor.cs" />
-    <Compile Include="IAction.cs" />
+    <Compile Include="AI\IAction.cs" />
+    <Compile Include="IRenderer.cs" />
     <Compile Include="Map\Map.cs" />
     <Compile Include="Map\Tile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

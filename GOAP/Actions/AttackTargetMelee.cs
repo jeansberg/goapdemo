@@ -10,11 +10,13 @@ namespace Goap.Actions
     {
         private Creature _actor;
         private Creature _target;
+        private int _cost;
 
-        public AttackTargetMelee(Creature actor, Creature target)
+        public AttackTargetMelee(Creature actor, Creature target, int cost = 1)
         {
             _actor = actor;
             _target = target;
+            _cost = cost;
         }
 
         public Creature GetActor()
@@ -22,10 +24,7 @@ namespace Goap.Actions
             return _actor;
         }
 
-        public int GetCost()
-        {
-            return 6;
-        }
+        public int Cost => _cost;
 
         public WorldState GetEffects()
         {

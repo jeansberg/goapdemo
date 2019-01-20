@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.AI.Goals;
 using Core.GameObject;
 using Goap.AgentState;
 using System.Collections.Generic;

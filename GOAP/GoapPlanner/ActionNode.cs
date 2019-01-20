@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.AI.Goals;
 
 namespace Goap
 {

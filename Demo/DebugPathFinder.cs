@@ -7,8 +7,11 @@ namespace Core.AI
 {
     public class DebugPathFinder : PathFinder
     {
-        public DebugPathFinder(FloodSpiller floodSpiller) : base(floodSpiller)
+        private IRenderer _renderer;
+
+        public DebugPathFinder(FloodSpiller floodSpiller, IRenderer renderer) : base(floodSpiller)
         {
+            _renderer = renderer;
         }
 
         public override List<Point> PathFind(Point start, Point goal, Map.Map mapRef)
@@ -26,9 +29,9 @@ namespace Core.AI
         {
             foreach (var point in mapRef.Tiles.SelectMany(x => x))
             {
-                if (point.Graphic.BackColor.Equals(new RgbColor { Red = 100, Green = 0, Blue = 0 }))
+                if (point.Type == Map.TileType.Debug)
                 {
-                    point.Graphic.BackColor = new RgbColor { Red = 0, Green = 0, Blue = 0 };
+                    point.Type = Map.TileType.Floor;
                 }
             }
         }
@@ -37,7 +40,7 @@ namespace Core.AI
         {
             foreach (var point in path)
             {
-                mapRef.Tiles[point.xPos][point.yPos].Graphic.BackColor = new RgbColor { Red = 100, Green = 0, Blue = 0 };
+                mapRef.Tiles[point.xPos][point.yPos].Type = Map.TileType.Debug;
             }
         }
     }

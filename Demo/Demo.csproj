@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Controller.cs" />
     <Compile Include="CreatureFactory.cs" />
+    <Compile Include="DebugPathFinder.cs" />
     <Compile Include="Fov\FovCalculator.cs" />
     <Compile Include="Fov\Implementation2.cs" />
     <Compile Include="Fov\Octant.cs" />

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Core
+namespace Core.AI.Goals
 {
     /// <summary>
     /// Encapsulates a set of conditions representing the (known) state of the game world

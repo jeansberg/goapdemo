@@ -1,7 +1,4 @@
-﻿using Core.GameObject;
-using System;
-
-namespace Core.Map
+﻿namespace Core.Map
 {
     public enum TileType
     {
@@ -13,7 +10,6 @@ namespace Core.Map
     public class Tile
     {
         public TileType Type;
-        public Graphic Graphic;
 
         public bool Walkable()
         {

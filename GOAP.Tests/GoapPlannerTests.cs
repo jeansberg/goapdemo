@@ -19,12 +19,13 @@ namespace Goap.Tests
         [TestMethod]
         public void Plan_ReturnsPlan_ForValidGoalAndActions()
         {
-            var dummyCreature = new Creature(new MapComponent(), null, null);
-            var dummyTarget = new Creature(new MapComponent(), null, null);
+            var dummyCreature = new Creature(new MapComponent(), new CombatComponent(), null, null, null);
+            var dummyTarget = new Creature(new MapComponent(), new CombatComponent(), null, null, null);
             var mockAgent = new Mock<IAgent>();
 
             // Create an empty world state and get some actions
             var emptyState = new WorldState();
+            emptyState.Conditions.Add(new TargetVisibleCondition(dummyTarget), true);
             var readyWeapon = new ReadyWeapon(dummyCreature);
             var attackTarget = new AttackTargetRanged(dummyCreature, dummyTarget);
 
@@ -41,7 +42,7 @@ namespace Goap.Tests
         [TestMethod]
         public void Plan_ReturnsEmpty_WhenActionMissing()
         {
-            var dummyTarget = new Creature(new MapComponent(), null, null);
+            var dummyTarget = new Creature(new MapComponent(), new CombatComponent(), null, null, null);
             var mockAgent = new Mock<IAgent>();
 
             // Create an empty world state and get some actions
@@ -61,8 +62,8 @@ namespace Goap.Tests
         [TestMethod]
         public void Plan_ReturnsCheaperPlan_WhenMultiplePossibilities()
         {
-            var dummyCreature = new Creature(new MapComponent(), null, null);
-            var dummyTarget = new Creature(new MapComponent(), null, null);
+            var dummyCreature = new Creature(new MapComponent(), new CombatComponent(),null, null, null);
+            var dummyTarget = new Creature(new MapComponent(), new CombatComponent(),null, null, null);
             var mockAgent = new Mock<IAgent>();
 
             // Create a world state and get some actions
@@ -85,7 +86,7 @@ namespace Goap.Tests
         [TestMethod]
         public void Plan_ReturnsPlanForHighestPriorityGoal_WhenMultipleGoals()
         {
-            var dummyCreature = new Creature(new MapComponent(), null, null);
+            var dummyCreature = new Creature(new MapComponent(), new CombatComponent(),null, null, null);
             var mockAgent = new Mock<IAgent>();
 
             // Create an empty world state and get some actions

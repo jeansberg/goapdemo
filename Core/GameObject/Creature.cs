@@ -1,4 +1,5 @@
 ﻿using Core.AI;
+using Core.AI.Goals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,6 @@ namespace Core.GameObject
 {
     public class Creature : GameObject
     {
-        private int _health;
         public List<IAction> Actions { get; set; }
         public List<WorldState> Goals { get; set; }
         public List<Point> Fov { get; set; }
@@ -15,21 +15,19 @@ namespace Core.GameObject
         private Map.Map mapRef;
         private readonly IPathFinder _pathfinder;
 
-        public Creature(MapComponent mapComponent, Map.Map map, IPathFinder pathfinder, int health = 5) : base(mapComponent)
+        public Creature(MapComponent mapComponent, CombatComponent combatComponent, GraphicsComponent graphicsComponent, Map.Map map, IPathFinder pathfinder) : base(mapComponent, combatComponent, graphicsComponent)
         {
             Actions = new List<IAction>();
             Goals = new List<WorldState>();
             mapRef = map;
             _pathfinder = pathfinder;
-            _health = health;
         }
 
-        public Creature(List<IAction> actions, List<WorldState> goals, MapComponent mapComponent, Map.Map map, int health = 5) : base(mapComponent)
+        public Creature(List<IAction> actions, List<WorldState> goals, MapComponent mapComponent, CombatComponent combatComponent, GraphicsComponent graphicsComponent, Map.Map map, int health = 5) : base(mapComponent, combatComponent, graphicsComponent)
         {
             Actions = actions;
             Goals = goals;
             mapRef = map;
-            _health = health;
         }
 
         public void MoveAttack(Direction direction)
@@ -39,22 +37,22 @@ namespace Core.GameObject
             {
                 case Direction.Left:
                     {
-                        destination = new Point(_mapLocation.Position.xPos - 1, _mapLocation.Position.yPos);
+                        destination = new Point(_mapComponent.Position.xPos - 1, _mapComponent.Position.yPos);
                         break;
                     }
                 case Direction.Right:
                     {
-                        destination = new Point(_mapLocation.Position.xPos + 1, _mapLocation.Position.yPos);
+                        destination = new Point(_mapComponent.Position.xPos + 1, _mapComponent.Position.yPos);
                         break;
                     }
                 case Direction.Up:
                     {
-                        destination = new Point(_mapLocation.Position.xPos, _mapLocation.Position.yPos - 1);
+                        destination = new Point(_mapComponent.Position.xPos, _mapComponent.Position.yPos - 1);
                         break;
                     }
                 case Direction.Down:
                     {
-                        destination = new Point(_mapLocation.Position.xPos, _mapLocation.Position.yPos + 1);
+                        destination = new Point(_mapComponent.Position.xPos, _mapComponent.Position.yPos + 1);
                         break;
                     }
                 default:
@@ -66,7 +64,7 @@ namespace Core.GameObject
                 var creature = mapRef.GetCreature(destination);
                 if (creature == null)
                 {
-                    _mapLocation.Position = destination;
+                    _mapComponent.Position = destination;
                     return;
                 }
 
@@ -81,30 +79,34 @@ namespace Core.GameObject
 
         public void Attack(Creature target)
         {
-            target.Damage(1);
+            target.TakeDamage(1);
         }
 
-        public bool IsAlive() { return _health > 0; }
+        public bool IsAlive() { return _combatComponent.Health > 0; }
 
-        public void Damage(int points)
+        public void TakeDamage(int points)
         {
-            _health -= points;
-            Console.WriteLine($"Health is now {_health}");
+            _combatComponent.TakeDamage(points);
         }
 
         public void MoveToward(MapComponent otherMapComponent)
         {
-            if (_mapLocation.Position.IsAdjacentTo(otherMapComponent.Position))
+            if (_mapComponent.Position.IsAdjacentTo(otherMapComponent.Position))
             {
                 // Cannot get any closer
                 return;
             }
 
-            var path = _pathfinder.PathFind(_mapLocation.Position, otherMapComponent.Position, mapRef);
+            var path = _pathfinder.PathFind(_mapComponent.Position, otherMapComponent.Position, mapRef);
 
-            _mapLocation.Position = path[0];
+            _mapComponent.Position = path[0];
 
-            Console.WriteLine($"Creature moved to {_mapLocation.Position}");
+            Console.WriteLine($"Creature moved to {_mapComponent.Position}");
+        }
+
+        public void Draw(IRenderer renderer)
+        {
+            renderer.Draw(_graphicsComponent, _mapComponent.Position);
         }
     }
 }

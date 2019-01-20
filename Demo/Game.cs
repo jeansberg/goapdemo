@@ -12,6 +12,7 @@ using Core.AI;
 using Demo.Fov;
 using System;
 using Goap.Actions;
+using Core.AI.Goals;
 
 namespace Demo
 {
@@ -21,7 +22,7 @@ namespace Demo
         private readonly int _height;
         private Console startingConsole;
         private List<Creature> creatures;
-        private Player player;
+        private Creature player;
         private Dictionary<Creature, IAgent> agentMaps;
         private Map _map;
         private Controller controller;
@@ -29,12 +30,13 @@ namespace Demo
         private Renderer _renderer;
         FovCalculator _fov;
 
-        public Game(int width, int height, CreatureFactory creatureFactory, FovCalculator fov)
+        public Game(int width, int height, CreatureFactory creatureFactory, FovCalculator fov, Renderer renderer)
         {
             _width = 80;
             _height = 25;
             _creatureFactory = creatureFactory;
             _fov = fov;
+            _renderer = renderer;
         }
 
         public void Start()
@@ -65,16 +67,16 @@ namespace Demo
 
             startingConsole = new Console(_width, _height);
             SadConsole.Global.CurrentScreen = startingConsole;
-            _renderer = new Renderer(startingConsole);
+            _renderer.Init(startingConsole);
             controller = new Controller();
         }
 
         private void Update(GameTime time)
         {
             player.Fov = _fov.GetVisibleCells(player.MapComponent.Position, _map, _renderer);
-            DrawMap(startingConsole, _map);
+            _map.Draw(_renderer);
             DrawFov(player.Fov);
-            DrawCreatures(startingConsole, creatures.Select(c => c.MapComponent).ToList(), player);
+            DrawCreatures(startingConsole, creatures, player);
 
             if (SadConsole.Global.KeyboardState.KeysReleased.Count > 0)
             {
@@ -139,15 +141,15 @@ namespace Demo
             }
         }
 
-        private void DrawCreatures(Console startingConsole, List<MapComponent> creatures, Creature player)
+        private void DrawCreatures(Console startingConsole, List<Creature> creatures, Creature player)
         {
-            var allCreatures = creatures;
-            allCreatures.Add(player.MapComponent);
+            var allCreatures = new List<Creature>(creatures);
+            allCreatures.Add(player);
             foreach (var creature in allCreatures)
             {
-                if (player.Fov.Contains(creature.Position))
+                if (player.Fov.Contains(creature.MapComponent.Position))
                 {
-                    _renderer.Draw(creature);
+                    creature.Draw(_renderer);
                 }
             }
         }
@@ -158,18 +160,6 @@ namespace Demo
             var planner = new GoapPlanner();
 
             return new GoapAgent(fsm, planner);
-        }
-
-        private void DrawMap(Console startingConsole, Map map)
-        {
-            for (var x = 0; x < _width; x++)
-            {
-                for (var y = 0; y < _height; y++)
-                {
-                    var graphic = map.Tiles[x][y].Graphic;
-                    _renderer.Draw(graphic, new Point(x, y));
-                }
-            }
         }
 
         private List<Creature> GetAllCreatures()

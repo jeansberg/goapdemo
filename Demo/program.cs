@@ -1,3 +1,4 @@
+using Core;
 using Core.AI;
 using Core.GameObject;
 using Demo.Fov;
@@ -9,7 +10,9 @@ namespace Demo
     {
         static void Main(string[] args)
         {
-            var game = new Game(80, 25, new CreatureFactory(new DebugPathFinder(new FloodSpiller())), new FovCalculator(10));
+            var renderer = new Renderer();
+
+            var game = new Game(80, 25, new CreatureFactory(new DebugPathFinder(new FloodSpiller(), renderer)), new FovCalculator(10), renderer);
             game.Start();
         }
     }

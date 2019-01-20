@@ -36,7 +36,7 @@ namespace Demo
 
         public Dictionary<int, Creature> Targets { get; private set; }
 
-        internal void HandleInput(List<AsciiKey> keysReleased, Player player, Map map, Renderer renderer, Action endTurn)
+        internal void HandleInput(List<AsciiKey> keysReleased, Creature player, Map map, Renderer renderer, Action endTurn)
         {
             switch (_state)
             {
@@ -89,7 +89,7 @@ namespace Demo
             _state = ControllerState.Movement;
         }
 
-        private void SetTargetingState(Map map, Player player)
+        private void SetTargetingState(Map map, Creature player)
         {
             _state = ControllerState.Targeting;
 

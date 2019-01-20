@@ -1,16 +1,28 @@
-﻿namespace Core.GameObject
+﻿using System;
+
+namespace Core.GameObject
 {
     public struct RgbColor
     {
-        public int Red;
-        public int Green;
-        public int Blue;
+        public int R;
+        public int G;
+        public int B;
 
         public RgbColor(int red, int green, int blue)
         {
-            Red = red;
-            Green = green;
-            Blue = blue;
+            R = red;
+            G = green;
+            B = blue;
+        }
+
+        public static RgbColor DarkGrey()
+        {
+            return new RgbColor(100, 100, 100);
+        }
+
+        internal static RgbColor Red()
+        {
+            return new RgbColor(255, 100, 100);
         }
     }
 }

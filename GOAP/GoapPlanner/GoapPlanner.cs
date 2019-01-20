@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.AI.Goals;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -75,7 +76,7 @@ namespace Goap
                 {
                     var newState = state.GetUpdatedState(action.GetEffects());
 
-                    var node = new ActionNode(parent, parent.RunningCost + action.GetCost(), newState, action);
+                    var node = new ActionNode(parent, parent.RunningCost + action.Cost, newState, action);
 
                     if (newState.Fulfills(goal))
                     {
