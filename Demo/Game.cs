@@ -13,6 +13,7 @@ using Demo.Fov;
 using System;
 using Goap.Actions;
 using Core.AI.Goals;
+using Demo.Consoles;
 
 namespace Demo
 {
@@ -20,7 +21,7 @@ namespace Demo
     {
         private readonly int _width;
         private readonly int _height;
-        private Console startingConsole;
+        private Console mapConsole;
         private List<Creature> creatures;
         private Creature player;
         private Dictionary<Creature, IAgent> agentMaps;
@@ -41,7 +42,7 @@ namespace Demo
 
         public void Start()
         {
-            SadConsole.Game.Create("Cheepicus12.font", _width, _height);
+            SadConsole.Game.Create("Cheepicus12.font", _width + 2, _height + 15);
             SadConsole.Game.OnInitialize = Init;
             SadConsole.Game.OnUpdate = Update;
             SadConsole.Game.Instance.Run();
@@ -52,7 +53,7 @@ namespace Demo
         private void Init()
         {
             _map = new Map(_width, _height);
-            player = _creatureFactory.CreatePlayer(_map, new Point(25, 15));
+            player = _creatureFactory.CreatePlayer(_map, new Point(25, 16));
 
             var worldState = new WorldState();
 
@@ -60,14 +61,17 @@ namespace Demo
             creatures = new List<Creature>
             {
                 _creatureFactory.CreateMonster(_map, new Point(10, 10), GetAgent(), new List<Creature>{player }, worldState, agentMaps),
-                _creatureFactory.CreateNpc(_map, new Core.GameObject.Point(15, 10))
+                _creatureFactory.CreateNpc(_map, new Point(15, 10))
             };
 
             _map.AddCreatures(creatures);
 
-            startingConsole = new Console(_width, _height);
-            SadConsole.Global.CurrentScreen = startingConsole;
-            _renderer.Init(startingConsole);
+            mapConsole = new WorldConsole();
+            mapConsole.Position = new Microsoft.Xna.Framework.Point(1, 1);
+
+            SadConsole.Global.CurrentScreen.Children.Add(mapConsole);
+            SadConsole.Global.CurrentScreen.Children.Add(new LogConsole() { Position = new Microsoft.Xna.Framework.Point(1, 29) });
+            _renderer.Init(mapConsole);
             controller = new Controller();
         }
 
@@ -76,7 +80,7 @@ namespace Demo
             player.Fov = _fov.GetVisibleCells(player.MapComponent.Position, _map, _renderer);
             _map.Draw(_renderer);
             DrawFov(player.Fov);
-            DrawCreatures(startingConsole, creatures, player);
+            DrawCreatures(mapConsole, creatures, player);
 
             if (SadConsole.Global.KeyboardState.KeysReleased.Count > 0)
             {

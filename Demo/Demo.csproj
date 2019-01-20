@@ -57,6 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Consoles\TitleConsole.cs" />
+    <Compile Include="Consoles\LogConsole.cs" />
+    <Compile Include="Consoles\WorldConsole.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="CreatureFactory.cs" />
     <Compile Include="DebugPathFinder.cs" />

@@ -23,7 +23,7 @@ namespace Core
             var foreColor = graphic.ForeColor;
             var backColor = graphic.BackColor;
             var character = graphic.Character;
-            _console.SetGlyph(point.xPos, point.yPos, character, 
+            _console.SetGlyph(point.xPos, point.yPos + 1, character, 
                 new Color(foreColor.R, foreColor.G, foreColor.B), 
                 new Color(backColor.R, backColor.G, backColor.B));
         }
