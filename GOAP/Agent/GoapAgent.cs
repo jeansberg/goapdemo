@@ -16,11 +16,13 @@ namespace Goap
         private WorldState _worldState;
         private Creature _owner;
         private List<IAction> _currentActions;
+        private ILogger _logger;
 
-        public GoapAgent(IAgentStateMachine fsm, IGoapPlanner planner)
+        public GoapAgent(IAgentStateMachine fsm, IGoapPlanner planner, ILogger logger)
         {
             _fsm = fsm;
             _planner = planner;
+            _logger = logger;
         }
 
         public void Start(Creature owner, WorldState worldState)
@@ -28,9 +30,9 @@ namespace Goap
             _owner = owner;
             _worldState = worldState;
 
-            _idle = new IdleState(_fsm, this, _planner);
-            _moveTo = new MoveToState(_fsm, this);
-            _act = new ActState(_fsm, this);
+            _idle = new IdleState(_fsm, this, _planner, _logger);
+            _moveTo = new MoveToState(_fsm, this, _logger);
+            _act = new ActState(_fsm, this, _logger);
 
             _fsm.PushState(_idle);
         }

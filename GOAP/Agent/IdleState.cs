@@ -1,4 +1,6 @@
-﻿namespace Goap.AgentState
+﻿using Core;
+
+namespace Goap.AgentState
 {
     /// <summary>
     /// Represents a state in which the agent does not have an action plan
@@ -8,12 +10,14 @@
         private IAgent _agent;
         private readonly IAgentStateMachine _fsm;
         private readonly IGoapPlanner _planner;
+        private readonly ILogger _logger;
 
-        public IdleState(IAgentStateMachine fsm, IAgent agent, IGoapPlanner planner)
+        public IdleState(IAgentStateMachine fsm, IAgent agent, IGoapPlanner planner, ILogger logger)
         {
             _agent = agent;
             _fsm = fsm;
             _planner = planner;
+            _logger = logger;
         }
 
         public void Update()
@@ -22,8 +26,11 @@
 
             if(actionPlan.Count == 0)
             {
+                _logger.Log("No plan...");
                 return;
             }
+
+            _logger.Log("New plan!");
 
             _agent.SetActionPlan(actionPlan);
             _fsm.Transition(_agent.ActState());

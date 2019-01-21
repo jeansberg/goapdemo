@@ -21,7 +21,8 @@ namespace Demo
     {
         private readonly int _width;
         private readonly int _height;
-        private Console mapConsole;
+        private Console _mapConsole;
+        private Console _logConsole;
         private List<Creature> creatures;
         private Creature player;
         private Dictionary<Creature, IAgent> agentMaps;
@@ -52,6 +53,10 @@ namespace Demo
 
         private void Init()
         {
+            _mapConsole = new WorldConsole { Position = new Microsoft.Xna.Framework.Point(1, 1) };
+            _logConsole = new LogConsole() { Position = new Microsoft.Xna.Framework.Point(1, 29) };
+            var consoleLogger = new SadConsoleLogger(_logConsole);
+
             _map = new Map(_width, _height);
             player = _creatureFactory.CreatePlayer(_map, new Point(25, 16));
 
@@ -60,18 +65,15 @@ namespace Demo
             agentMaps = new Dictionary<Creature, IAgent>();
             creatures = new List<Creature>
             {
-                _creatureFactory.CreateMonster(_map, new Point(10, 10), GetAgent(), new List<Creature>{player }, worldState, agentMaps),
+                _creatureFactory.CreateMonster(_map, new Point(10, 10), GetAgent(consoleLogger), new List<Creature>{player }, worldState, agentMaps),
                 _creatureFactory.CreateNpc(_map, new Point(15, 10))
             };
 
             _map.AddCreatures(creatures);
 
-            mapConsole = new WorldConsole();
-            mapConsole.Position = new Microsoft.Xna.Framework.Point(1, 1);
-
-            SadConsole.Global.CurrentScreen.Children.Add(mapConsole);
-            SadConsole.Global.CurrentScreen.Children.Add(new LogConsole() { Position = new Microsoft.Xna.Framework.Point(1, 29) });
-            _renderer.Init(mapConsole);
+            SadConsole.Global.CurrentScreen.Children.Add(_mapConsole);
+            SadConsole.Global.CurrentScreen.Children.Add(_logConsole);
+            _renderer.Init(_mapConsole);
             controller = new Controller();
         }
 
@@ -80,7 +82,7 @@ namespace Demo
             player.Fov = _fov.GetVisibleCells(player.MapComponent.Position, _map, _renderer);
             _map.Draw(_renderer);
             DrawFov(player.Fov);
-            DrawCreatures(mapConsole, creatures, player);
+            DrawCreatures(_mapConsole, creatures, player);
 
             if (SadConsole.Global.KeyboardState.KeysReleased.Count > 0)
             {
@@ -158,12 +160,12 @@ namespace Demo
             }
         }
 
-        private IAgent GetAgent()
+        private IAgent GetAgent(ILogger logger)
         {
             var fsm = new AgentStateMachine();
             var planner = new GoapPlanner();
 
-            return new GoapAgent(fsm, planner);
+            return new GoapAgent(fsm, planner, logger);
         }
 
         private List<Creature> GetAllCreatures()

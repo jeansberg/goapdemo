@@ -1,14 +1,18 @@
-﻿namespace Goap.AgentState
+﻿using Core;
+
+namespace Goap.AgentState
 {
     public class ActState : IAgentState
     {
         private IAgent _agent;
         private readonly IAgentStateMachine _fsm;
+        private readonly ILogger _logger;
 
-        public ActState(IAgentStateMachine fsm, IAgent agent)
+        public ActState(IAgentStateMachine fsm, IAgent agent, ILogger logger)
         {
             _agent = agent;
             _fsm = fsm;
+            _logger = logger;
         }
 
         public void Update()
@@ -20,6 +24,7 @@
 
                 if (inRange)
                 {
+                    _logger.Log($"Performing {action}");
                     var success = action.Perform();
                     if (success)
                     {

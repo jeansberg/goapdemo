@@ -65,6 +65,7 @@
     <Compile Include="GameObject\Point.cs" />
     <Compile Include="GameObject\RgbColor.cs" />
     <Compile Include="AI\IAction.cs" />
+    <Compile Include="ILogger.cs" />
     <Compile Include="IRenderer.cs" />
     <Compile Include="Map\Map.cs" />
     <Compile Include="Map\Tile.cs" />
