@@ -8,30 +8,33 @@ namespace Demo
     public class SadConsoleLogger : ILogger
     {
         private Console _console;
-        private List<string> _messageQueue;
+        private List<string> _messages;
 
         public SadConsoleLogger(Console console)
         {
             _console = console;
-            _messageQueue = new List<string>();
+            _messages = new List<string>();
             _console.Cursor.Down(1);
         }
 
         public void Log(string message)
         {
-            _messageQueue.Add(message);
+            _messages.Add(message);
 
             _console.Clear(new Rectangle(0, 1, _console.Width, _console.Height-1));
-
-            var q = new Queue<string>(_messageQueue);
  
-            while(q.Count > 0)
+            for(var i = _messages.Count - 1; i >= 0; i--)
             {
-                _console.Cursor.Print(q.Dequeue());
+                _console.Cursor.Print(_messages[i]);
                 _console.Cursor.NewLine();
             }
 
             _console.Cursor.Row = 1;
+
+            if(_messages.Count == 8)
+            {
+                _messages.RemoveAt(0);
+            }
         }
     }
 }

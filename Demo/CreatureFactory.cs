@@ -28,7 +28,7 @@ namespace Core.GameObject
             var combatComponent = new CombatComponent(10);
 
             // The player does not need actions or goals, should be moved somewhere...
-            var player = new Creature(new List<IAction>(), new List<WorldState>(), mapComponent, combatComponent, graphicsComponent, mapRef, 15);
+            var player = new Creature(mapComponent, combatComponent, graphicsComponent, mapRef, null, "Player");
             return player;
         }
 
@@ -43,7 +43,7 @@ namespace Core.GameObject
             
             var combatCompnent = new CombatComponent(5);
 
-            var monster = new Creature(mapComponent, combatCompnent, graphicsComponent, mapRef, _pathFinder);
+            var monster = new Creature(mapComponent, combatCompnent, graphicsComponent, mapRef, _pathFinder, "Monster");
 
             monster.Actions = new List<IAction>();
             monster.Actions.AddRange(enemies.Select(e => new AttackTargetMelee(monster, e)));

@@ -2,7 +2,6 @@
 using Core.AI.Goals;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Core.GameObject
 {
@@ -14,20 +13,15 @@ namespace Core.GameObject
 
         private Map.Map mapRef;
         private readonly IPathFinder _pathfinder;
+        private readonly string _name;
 
-        public Creature(MapComponent mapComponent, CombatComponent combatComponent, GraphicsComponent graphicsComponent, Map.Map map, IPathFinder pathfinder) : base(mapComponent, combatComponent, graphicsComponent)
+        public Creature(MapComponent mapComponent, CombatComponent combatComponent, GraphicsComponent graphicsComponent, Map.Map map, IPathFinder pathfinder, string name = "creature") : base(mapComponent, combatComponent, graphicsComponent)
         {
             Actions = new List<IAction>();
             Goals = new List<WorldState>();
             mapRef = map;
             _pathfinder = pathfinder;
-        }
-
-        public Creature(List<IAction> actions, List<WorldState> goals, MapComponent mapComponent, CombatComponent combatComponent, GraphicsComponent graphicsComponent, Map.Map map, int health = 5) : base(mapComponent, combatComponent, graphicsComponent)
-        {
-            Actions = actions;
-            Goals = goals;
-            mapRef = map;
+            _name = name;
         }
 
         public void MoveAttack(Direction direction)
@@ -107,6 +101,11 @@ namespace Core.GameObject
         public void Draw(IRenderer renderer)
         {
             renderer.Draw(_graphicsComponent, _mapComponent.Position);
+        }
+
+        public override string ToString()
+        {
+            return _name;
         }
     }
 }
