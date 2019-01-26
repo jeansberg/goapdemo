@@ -14,6 +14,7 @@ using System;
 using Goap.Actions;
 using Core.AI.Goals;
 using Demo.Consoles;
+using SadConsole;
 
 namespace Demo
 {
@@ -29,14 +30,16 @@ namespace Demo
         private Map _map;
         private Controller controller;
         private CreatureFactory _creatureFactory;
+        private ItemFactory _itemFactory;
         private Renderer _renderer;
         FovCalculator _fov;
 
-        public Game(int width, int height, CreatureFactory creatureFactory, FovCalculator fov, Renderer renderer)
+        public Game(int width, int height, CreatureFactory creatureFactory, ItemFactory itemFactory, FovCalculator fov, Renderer renderer)
         {
             _width = 80;
             _height = 25;
             _creatureFactory = creatureFactory;
+            _itemFactory = itemFactory;
             _fov = fov;
             _renderer = renderer;
         }
@@ -69,7 +72,8 @@ namespace Demo
                 _creatureFactory.CreateNpc(_map, new Point(15, 10))
             };
 
-            _map.AddCreatures(creatures);
+            _map.Creatures = creatures;
+            _map.Items = new List<Item> { _itemFactory.CreateMeleeWeapon(new Point(12, 12)) };
 
             SadConsole.Global.CurrentScreen.Children.Add(_mapConsole);
             SadConsole.Global.CurrentScreen.Children.Add(_logConsole);
@@ -79,9 +83,10 @@ namespace Demo
 
         private void Update(GameTime time)
         {
-            player.Fov = _fov.GetVisibleCells(player.MapComponent.Position, _map, _renderer);
+            player.Fov = _fov.GetVisibleCells(player.MapComponent.GetPosition(), _map, _renderer);
             _map.Draw(_renderer);
             DrawFov(player.Fov);
+            DrawItems(_mapConsole, _map.Items, player);
             DrawCreatures(_mapConsole, creatures, player);
 
             if (SadConsole.Global.KeyboardState.KeysReleased.Count > 0)
@@ -98,12 +103,24 @@ namespace Demo
             }
         }
 
+        private void DrawItems(Console mapConsole, List<Item> items, Creature player)
+        {
+            foreach (var item in items)
+            {
+                if (player.Fov.Contains(item.MapComponent.GetPosition()))
+                {
+                    var position = item.MapComponent.GetPosition();
+                    _renderer.Draw(item.GraphicsComponent, position);
+                }
+            }
+        }
+
         private void DrawTargets()
         {
             foreach(var target in controller.Targets)
             {
-                var position = target.Value.MapComponent.Position;
-                _renderer.ShowTarget(position.xPos, position.yPos, target.Key);
+                var position = target.Value.MapComponent.GetPosition();
+                _renderer.ShowTarget(position.XPos, position.YPos, target.Key);
             }
         }
 
@@ -111,7 +128,7 @@ namespace Demo
         {
             foreach(var point in fov)
             {
-                _renderer.LightUp(point.xPos, point.yPos);
+                _renderer.LightUp(point.XPos, point.YPos);
             }
         }
 
@@ -125,9 +142,9 @@ namespace Demo
                 var agent = mapping.Value;
                 var creature = mapping.Key;
 
-                var fov = _fov.GetVisibleCells(creature.MapComponent.Position, _map, _renderer);
+                var fov = _fov.GetVisibleCells(creature.MapComponent.GetPosition(), _map, _renderer);
                 creature.Fov = fov;
-                var creaturesInFov = GetAllCreatures().Where(x => fov.Contains(x.MapComponent.Position) && x != creature).ToList();
+                var creaturesInFov = GetAllCreatures().Where(x => fov.Contains(x.MapComponent.GetPosition()) && x != creature).ToList();
 
                 if(creaturesInFov.Count > 0)
                 {
@@ -153,7 +170,7 @@ namespace Demo
             allCreatures.Add(player);
             foreach (var creature in allCreatures)
             {
-                if (player.Fov.Contains(creature.MapComponent.Position))
+                if (player.Fov.Contains(creature.MapComponent.GetPosition()))
                 {
                     creature.Draw(_renderer);
                 }

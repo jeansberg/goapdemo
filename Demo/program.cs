@@ -12,7 +12,7 @@ namespace Demo
         {
             var renderer = new Renderer();
 
-            var game = new Game(80, 25, new CreatureFactory(new DebugPathFinder(new FloodSpiller(), renderer)), new FovCalculator(10), renderer);
+            var game = new Game(80, 25, new CreatureFactory(new DebugPathFinder(new FloodSpiller(), renderer)), new ItemFactory(), new FovCalculator(10), renderer);
             game.Start();
         }
     }

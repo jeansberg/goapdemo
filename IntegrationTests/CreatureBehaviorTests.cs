@@ -22,13 +22,13 @@ namespace Goap.Tests
         {
             var mapComponent = new MapComponent
             {
-                Position = new Point(5, 5)
-            };
+                SetPosition(new Point(5, 5)
+)             };
             var creature = new Creature(mapComponent, GetCombatComponent(), null, null, new PathFinder(new FloodSpiller()))
             {
                 Fov = new List<Point>
             {
-                target.MapComponent.Position
+                target.MapComponent.GetPosition()
             }
             };
 
@@ -48,8 +48,8 @@ namespace Goap.Tests
         {
             var mapComponent = new MapComponent
             {
-                Position = new Point(5, 5)
-            };
+                SetPosition(new Point(5, 5)
+)             };
             var creature = new Creature(mapComponent, GetCombatComponent(), null, null, null);
 
             var reload = new ReadyWeapon(creature);
@@ -73,8 +73,8 @@ namespace Goap.Tests
         {
             var mapComponent = new MapComponent
             {
-                Position = new Point(0, 0)
-            };
+                SetPosition(new Point(0, 0)
+)             };
 
             return new Creature(new List<IAction>(), new List<WorldState>(), mapComponent, GetCombatComponent(), null, null);
         }

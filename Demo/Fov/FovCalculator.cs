@@ -75,28 +75,28 @@ namespace Demo.Fov
             {
 
                 case 1: //nnw
-                    y = source.yPos - pDepth;
+                    y = source.YPos - pDepth;
                     if (y < 0)
                     {
                         return;
                     }
 
-                    x = source.xPos - Convert.ToInt32((pStartSlope * Convert.ToDouble(pDepth)));
+                    x = source.XPos - Convert.ToInt32((pStartSlope * Convert.ToDouble(pDepth)));
                     if (x < 0)
                     {
                         x = 0;
                     }
 
-                    while (GetSlope(x, y, source.xPos, source.yPos, false) >= pEndSlope)
+                    while (GetSlope(x, y, source.XPos, source.YPos, false) >= pEndSlope)
                     {
-                        if (GetVisDistance(x, y, source.xPos, source.yPos) <= rangeSquared)
+                        if (GetVisDistance(x, y, source.XPos, source.YPos) <= rangeSquared)
                         {
                             if (!map.Tiles[x][y].Transparent()) //current cell blocked
                             {
                                 if (x - 1 >= 0 && map.Tiles[x - 1][y].Transparent()) //prior cell within range AND open...
                                 {
                                     //...incremenet the depth, adjust the endslope and recurse
-                                    ScanOctant(pDepth + 1, pOctant, pStartSlope, GetSlope(x - 0.5, y + 0.5, source.xPos, source.yPos, false), source, map, visiblePoints);
+                                    ScanOctant(pDepth + 1, pOctant, pStartSlope, GetSlope(x - 0.5, y + 0.5, source.XPos, source.YPos, false), source, map, visiblePoints);
                                 }
                             }
                             else
@@ -104,7 +104,7 @@ namespace Demo.Fov
                                 if (x - 1 >= 0 && map.Tiles[x - 1][y].Transparent()) //prior cell within range AND open...
                                 {
                                     //..adjust the startslope
-                                    pStartSlope = GetSlope(x - 0.5, y - 0.5, source.xPos, source.yPos, false);
+                                    pStartSlope = GetSlope(x - 0.5, y - 0.5, source.XPos, source.YPos, false);
                                 }
 
                                 visiblePoints.Add(new Point(x, y));
@@ -117,25 +117,25 @@ namespace Demo.Fov
 
                 case 2: //nne
 
-                    y = source.yPos - pDepth;
+                    y = source.YPos - pDepth;
                     if (y < 0) return;
 
-                    x = source.xPos + Convert.ToInt32((pStartSlope * Convert.ToDouble(pDepth)));
+                    x = source.XPos + Convert.ToInt32((pStartSlope * Convert.ToDouble(pDepth)));
                     if (x >= map.GetWidth()) x = map.GetWidth() - 1;
 
-                    while (GetSlope(x, y, source.xPos, source.yPos, false) <= pEndSlope)
+                    while (GetSlope(x, y, source.XPos, source.YPos, false) <= pEndSlope)
                     {
-                        if (GetVisDistance(x, y, source.xPos, source.yPos) <= rangeSquared)
+                        if (GetVisDistance(x, y, source.XPos, source.YPos) <= rangeSquared)
                         {
                             if (!map.Tiles[x][y].Transparent())
                             {
                                 if (x + 1 < map.GetWidth() && map.Tiles[x + 1][y].Transparent())
-                                    ScanOctant(pDepth + 1, pOctant, pStartSlope, GetSlope(x + 0.5, y + 0.5, source.xPos, source.yPos, false), source, map, visiblePoints);
+                                    ScanOctant(pDepth + 1, pOctant, pStartSlope, GetSlope(x + 0.5, y + 0.5, source.XPos, source.YPos, false), source, map, visiblePoints);
                             }
                             else
                             {
                                 if (x + 1 < map.GetWidth() && map.Tiles[x + 1][y].Transparent())
-                                    pStartSlope = -GetSlope(x + 0.5, y - 0.5, source.xPos, source.yPos, false);
+                                    pStartSlope = -GetSlope(x + 0.5, y - 0.5, source.XPos, source.YPos, false);
 
                                 visiblePoints.Add(new Point(x, y));
                             }
@@ -147,27 +147,27 @@ namespace Demo.Fov
 
                 case 3:
 
-                    x = source.xPos + pDepth;
+                    x = source.XPos + pDepth;
                     if (x >= map.GetWidth()) return;
 
-                    y = source.yPos - Convert.ToInt32((pStartSlope * Convert.ToDouble(pDepth)));
+                    y = source.YPos - Convert.ToInt32((pStartSlope * Convert.ToDouble(pDepth)));
                     if (y < 0) y = 0;
 
-                    while (GetSlope(x, y, source.xPos, source.yPos, true) <= pEndSlope)
+                    while (GetSlope(x, y, source.XPos, source.YPos, true) <= pEndSlope)
                     {
 
-                        if (GetVisDistance(x, y, source.xPos, source.yPos) <= rangeSquared)
+                        if (GetVisDistance(x, y, source.XPos, source.YPos) <= rangeSquared)
                         {
 
                             if (!map.Tiles[x][y].Transparent())
                             {
                                 if (y - 1 >= 0 && map.Tiles[x][y - 1].Transparent())
-                                    ScanOctant(pDepth + 1, pOctant, pStartSlope, GetSlope(x - 0.5, y - 0.5, source.xPos, source.yPos, true), source, map, visiblePoints);
+                                    ScanOctant(pDepth + 1, pOctant, pStartSlope, GetSlope(x - 0.5, y - 0.5, source.XPos, source.YPos, true), source, map, visiblePoints);
                             }
                             else
                             {
                                 if (y - 1 >= 0 && map.Tiles[x][y - 1].Transparent())
-                                    pStartSlope = -GetSlope(x + 0.5, y - 0.5, source.xPos, source.yPos, true);
+                                    pStartSlope = -GetSlope(x + 0.5, y - 0.5, source.XPos, source.YPos, true);
 
                                 visiblePoints.Add(new Point(x, y));
                             }
@@ -179,27 +179,27 @@ namespace Demo.Fov
 
                 case 4:
 
-                    x = source.xPos + pDepth;
+                    x = source.XPos + pDepth;
                     if (x >= map.GetWidth()) return;
 
-                    y = source.yPos + Convert.ToInt32((pStartSlope * Convert.ToDouble(pDepth)));
+                    y = source.YPos + Convert.ToInt32((pStartSlope * Convert.ToDouble(pDepth)));
                     if (y >= map.GetHeight()) y = map.GetHeight();
 
-                    while (GetSlope(x, y, source.xPos, source.yPos, false) >= pEndSlope)
+                    while (GetSlope(x, y, source.XPos, source.YPos, false) >= pEndSlope)
                     {
 
-                        if (GetVisDistance(x, y, source.xPos, source.yPos) <= rangeSquared)
+                        if (GetVisDistance(x, y, source.XPos, source.YPos) <= rangeSquared)
                         {
 
                             if (!map.Tiles[x][y].Transparent())
                             {
                                 if (y + 1 < map.GetHeight() && map.Tiles[x][y + 1].Transparent())
-                                    ScanOctant(pDepth + 1, pOctant, pStartSlope, GetSlope(x - 0.5, y + 0.5, source.xPos, source.yPos, true), source, map, visiblePoints);
+                                    ScanOctant(pDepth + 1, pOctant, pStartSlope, GetSlope(x - 0.5, y + 0.5, source.XPos, source.YPos, true), source, map, visiblePoints);
                             }
                             else
                             {
                                 if (y + 1 < map.GetHeight() && map.Tiles[x][y + 1].Transparent())
-                                    pStartSlope = GetSlope(x + 0.5, y + 0.5, source.xPos, source.yPos, true);
+                                    pStartSlope = GetSlope(x + 0.5, y + 0.5, source.XPos, source.YPos, true);
 
                                 visiblePoints.Add(new Point(x, y));
                             }
@@ -211,27 +211,27 @@ namespace Demo.Fov
 
                 case 5:
 
-                    y = source.yPos + pDepth;
+                    y = source.YPos + pDepth;
                     if (y >= map.GetHeight()) return;
 
-                    x = source.xPos + Convert.ToInt32((pStartSlope * Convert.ToDouble(pDepth)));
+                    x = source.XPos + Convert.ToInt32((pStartSlope * Convert.ToDouble(pDepth)));
                     if (x >= map.GetWidth()) x = map.GetWidth() - 1;
 
-                    while (GetSlope(x, y, source.xPos, source.yPos, false) >= pEndSlope)
+                    while (GetSlope(x, y, source.XPos, source.YPos, false) >= pEndSlope)
                     {
-                        if (GetVisDistance(x, y, source.xPos, source.yPos) <= rangeSquared)
+                        if (GetVisDistance(x, y, source.XPos, source.YPos) <= rangeSquared)
                         {
 
                             if (!map.Tiles[x][y].Transparent())
                             {
                                 if (x + 1 < map.GetHeight() && map.Tiles[x + 1][y].Transparent())
-                                    ScanOctant(pDepth + 1, pOctant, pStartSlope, GetSlope(x + 0.5, y - 0.5, source.xPos, source.yPos, false), source, map, visiblePoints);
+                                    ScanOctant(pDepth + 1, pOctant, pStartSlope, GetSlope(x + 0.5, y - 0.5, source.XPos, source.YPos, false), source, map, visiblePoints);
                             }
                             else
                             {
                                 if (x + 1 < map.GetHeight()
                                         && map.Tiles[x + 1][y].Transparent())
-                                    pStartSlope = GetSlope(x + 0.5, y + 0.5, source.xPos, source.yPos, false);
+                                    pStartSlope = GetSlope(x + 0.5, y + 0.5, source.XPos, source.YPos, false);
 
                                 visiblePoints.Add(new Point(x, y));
                             }
@@ -243,27 +243,27 @@ namespace Demo.Fov
 
                 case 6:
 
-                    y = source.yPos + pDepth;
+                    y = source.YPos + pDepth;
                     if (y >= map.GetHeight()) return;
 
-                    x = source.xPos - Convert.ToInt32((pStartSlope * Convert.ToDouble(pDepth)));
+                    x = source.XPos - Convert.ToInt32((pStartSlope * Convert.ToDouble(pDepth)));
                     if (x < 0) x = 0;
 
-                    while (GetSlope(x, y, source.xPos, source.yPos, false) <= pEndSlope)
+                    while (GetSlope(x, y, source.XPos, source.YPos, false) <= pEndSlope)
                     {
-                        if (GetVisDistance(x, y, source.xPos, source.yPos) <= rangeSquared)
+                        if (GetVisDistance(x, y, source.XPos, source.YPos) <= rangeSquared)
                         {
 
                             if (!map.Tiles[x][y].Transparent())
                             {
                                 if (x - 1 >= 0 && map.Tiles[x - 1][y].Transparent())
-                                    ScanOctant(pDepth + 1, pOctant, pStartSlope, GetSlope(x - 0.5, y - 0.5, source.xPos, source.yPos, false), source, map, visiblePoints);
+                                    ScanOctant(pDepth + 1, pOctant, pStartSlope, GetSlope(x - 0.5, y - 0.5, source.XPos, source.YPos, false), source, map, visiblePoints);
                             }
                             else
                             {
                                 if (x - 1 >= 0
                                         && map.Tiles[x - 1][y].Transparent())
-                                    pStartSlope = -GetSlope(x - 0.5, y + 0.5, source.xPos, source.yPos, false);
+                                    pStartSlope = -GetSlope(x - 0.5, y + 0.5, source.XPos, source.YPos, false);
 
                                 visiblePoints.Add(new Point(x, y));
                             }
@@ -275,27 +275,27 @@ namespace Demo.Fov
 
                 case 7:
 
-                    x = source.xPos - pDepth;
+                    x = source.XPos - pDepth;
                     if (x < 0) return;
 
-                    y = source.yPos + Convert.ToInt32((pStartSlope * Convert.ToDouble(pDepth)));
+                    y = source.YPos + Convert.ToInt32((pStartSlope * Convert.ToDouble(pDepth)));
                     if (y >= map.GetHeight()) y = map.GetHeight() - 1;
 
-                    while (GetSlope(x, y, source.xPos, source.yPos, true) <= pEndSlope)
+                    while (GetSlope(x, y, source.XPos, source.YPos, true) <= pEndSlope)
                     {
 
-                        if (GetVisDistance(x, y, source.xPos, source.yPos) <= rangeSquared)
+                        if (GetVisDistance(x, y, source.XPos, source.YPos) <= rangeSquared)
                         {
 
                             if (!map.Tiles[x][y].Transparent())
                             {
                                 if (y + 1 < map.GetHeight() && map.Tiles[x][y + 1].Transparent())
-                                    ScanOctant(pDepth + 1, pOctant, pStartSlope, GetSlope(x + 0.5, y + 0.5, source.xPos, source.yPos, true), source, map, visiblePoints);
+                                    ScanOctant(pDepth + 1, pOctant, pStartSlope, GetSlope(x + 0.5, y + 0.5, source.XPos, source.YPos, true), source, map, visiblePoints);
                             }
                             else
                             {
                                 if (y + 1 < map.GetHeight() && map.Tiles[x][y + 1].Transparent())
-                                    pStartSlope = -GetSlope(x - 0.5, y + 0.5, source.xPos, source.yPos, true);
+                                    pStartSlope = -GetSlope(x - 0.5, y + 0.5, source.XPos, source.YPos, true);
 
                                 visiblePoints.Add(new Point(x, y));
                             }
@@ -307,28 +307,28 @@ namespace Demo.Fov
 
                 case 8: //wnw
 
-                    x = source.xPos - pDepth;
+                    x = source.XPos - pDepth;
                     if (x < 0) return;
 
-                    y = source.yPos - Convert.ToInt32((pStartSlope * Convert.ToDouble(pDepth)));
+                    y = source.YPos - Convert.ToInt32((pStartSlope * Convert.ToDouble(pDepth)));
                     if (y < 0) y = 0;
 
-                    while (GetSlope(x, y, source.xPos, source.yPos, true) >= pEndSlope)
+                    while (GetSlope(x, y, source.XPos, source.YPos, true) >= pEndSlope)
                     {
 
-                        if (GetVisDistance(x, y, source.xPos, source.yPos) <= rangeSquared)
+                        if (GetVisDistance(x, y, source.XPos, source.YPos) <= rangeSquared)
                         {
 
                             if (!map.Tiles[x][y].Transparent())
                             {
                                 if (y - 1 >= 0 && map.Tiles[x][y - 1].Transparent())
-                                    ScanOctant(pDepth + 1, pOctant, pStartSlope, GetSlope(x + 0.5, y - 0.5, source.xPos, source.yPos, true), source, map, visiblePoints);
+                                    ScanOctant(pDepth + 1, pOctant, pStartSlope, GetSlope(x + 0.5, y - 0.5, source.XPos, source.YPos, true), source, map, visiblePoints);
 
                             }
                             else
                             {
                                 if (y - 1 >= 0 && map.Tiles[x][y - 1].Transparent())
-                                    pStartSlope = GetSlope(x - 0.5, y - 0.5, source.xPos, source.yPos, true);
+                                    pStartSlope = GetSlope(x - 0.5, y - 0.5, source.XPos, source.YPos, true);
 
                                 visiblePoints.Add(new Point(x, y));
                             }

@@ -14,7 +14,7 @@ namespace Demo.Fov
 
         protected bool PointInRange(int x, int y, Point source, int range)
         {
-            return GetDistance(x, y, source.xPos, source.yPos) <= range;
+            return GetDistance(x, y, source.XPos, source.YPos) <= range;
         }
 
         protected bool Blocked(int x, int y, Map map)
@@ -61,14 +61,14 @@ namespace Demo.Fov
     {
         internal override void GetVisiblePoints(int depth, double startSlope, double endSlope, int range, Point source, Map map, List<Point> visiblePoints, Renderer renderer)
         {
-            int y = source.yPos - depth;
+            int y = source.YPos - depth;
 
             if (y < 0)
             {
                 return;
             }
 
-            int x = Math.Max(source.xPos -  Convert.ToInt32((startSlope * Convert.ToDouble(depth))), 0);
+            int x = Math.Max(source.XPos -  Convert.ToInt32((startSlope * Convert.ToDouble(depth))), 0);
 
             //renderer.DrawLine(source.xPos, source.yPos, x, y);
 
@@ -82,7 +82,7 @@ namespace Demo.Fov
                         {
                             //...incremenet the depth, adjust the endslope and recurse
                             Debug.WriteLine($"Found blocking cell");
-                            GetVisiblePoints(depth + 1, startSlope, GetSlope(x - 0.5, y + 0.5, source.xPos, source.yPos, false), range, source, map, visiblePoints, renderer);
+                            GetVisiblePoints(depth + 1, startSlope, GetSlope(x - 0.5, y + 0.5, source.XPos, source.YPos, false), range, source, map, visiblePoints, renderer);
                         }
                     }
                     else
@@ -90,7 +90,7 @@ namespace Demo.Fov
                         if (PreviousPointAccessible(x, y, map)) //prior cell within range AND open...
                         {
                             //..adjust the startslope
-                            startSlope = GetSlope(x - 0.5, y - 0.5, source.xPos, source.yPos, false);
+                            startSlope = GetSlope(x - 0.5, y - 0.5, source.XPos, source.YPos, false);
                         }
 
                         visiblePoints.Add(new Point(x, y));
@@ -114,7 +114,7 @@ namespace Demo.Fov
 
         protected override bool SlopeInBounds(int x, int y, double endSlope, Point source, Map map)
         {
-            return GetSlope(x, y,  source.xPos, source.yPos, false) >= endSlope;
+            return GetSlope(x, y,  source.XPos, source.YPos, false) >= endSlope;
         }
     }
 

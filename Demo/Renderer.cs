@@ -23,9 +23,9 @@ namespace Core
             var foreColor = graphic.ForeColor;
             var backColor = graphic.BackColor;
             var character = graphic.Character;
-            _console.SetGlyph(point.xPos, point.yPos + 1, character, 
-                new Color(foreColor.R, foreColor.G, foreColor.B), 
-                new Color(backColor.R, backColor.G, backColor.B));
+            _console.SetGlyph(point.XPos, point.YPos + 1, character, 
+                new Color(foreColor.Red, foreColor.Green, foreColor.Blue), 
+                new Color(backColor.Red, backColor.Green, backColor.Blue));
         }
 
         public void LightUp(int x, int y)

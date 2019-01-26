@@ -1,6 +1,7 @@
 ﻿using Core;
 using Goap;
 using Goap.AgentState;
+using Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
@@ -10,6 +11,14 @@ namespace Goap.Tests
     [TestClass]
     public class AgentStateTests
     {
+        private ILogger logger;
+
+        [TestInitialize]
+        public void Init()
+        {
+            logger = new NullLogger();
+        }
+
         [TestMethod]
         public void IdleState_Update_TransitionsToActState()
         {
@@ -22,7 +31,7 @@ namespace Goap.Tests
             mockPlanner.Setup(x => x.Plan(mockAgent.Object)).Returns(plan);
             mockAgent.Setup(x => x.ActState()).Returns(mockActState.Object);
 
-            var sut = new IdleState(mockStateMachine.Object, mockAgent.Object, mockPlanner.Object);
+            var sut = new IdleState(mockStateMachine.Object, mockAgent.Object, mockPlanner.Object, logger);
             sut.Update();
 
             mockAgent.Verify(x => x.SetActionPlan(plan), Times.Once);
@@ -40,7 +49,7 @@ namespace Goap.Tests
             mockAgent.Setup(x => x.HasActionPlan()).Returns(false);
             mockAgent.Setup(x => x.IdleState()).Returns(mockIdleState.Object);
 
-            var sut = new ActState(mockStateMachine.Object, mockAgent.Object);
+            var sut = new ActState(mockStateMachine.Object, mockAgent.Object, logger);
             sut.Update();
 
             mockStateMachine.Verify(x => x.Transition(mockIdleState.Object), Times.Once);
@@ -61,7 +70,7 @@ namespace Goap.Tests
             mockAction.Setup(x => x.NeedsInRange()).Returns(false);
             mockAction.Setup(x => x.Perform()).Returns(true);
 
-            var sut = new ActState(mockStateMachine.Object, mockAgent.Object);
+            var sut = new ActState(mockStateMachine.Object, mockAgent.Object, logger);
             sut.Update();
 
             mockStateMachine.Verify(x => x.Transition(mockIdleState.Object), Times.Once);
@@ -81,7 +90,7 @@ namespace Goap.Tests
             mockAction.Setup(x => x.NeedsInRange()).Returns(true);
             mockAction.Setup(x => x.IsInRange()).Returns(false);
 
-            var sut = new ActState(mockStateMachine.Object, mockAgent.Object);
+            var sut = new ActState(mockStateMachine.Object, mockAgent.Object, logger);
             sut.Update();
 
             mockStateMachine.Verify(x => x.PushState(mockMoveToState.Object), Times.Once);
@@ -98,7 +107,7 @@ namespace Goap.Tests
             mockAgent.Setup(x => x.NextAction()).Returns(mockAction.Object);
             mockAction.Setup(x => x.IsInRange()).Returns(true);
 
-            var sut = new MoveToState(mockStateMachine.Object, mockAgent.Object);
+            var sut = new MoveToState(mockStateMachine.Object, mockAgent.Object, logger);
             sut.Update();
 
             mockStateMachine.Verify(x => x.PopState(), Times.Once);
@@ -115,7 +124,7 @@ namespace Goap.Tests
             mockAgent.Setup(x => x.NextAction()).Returns(mockAction.Object);
             mockAction.Setup(x => x.IsInRange()).Returns(false);
 
-            var sut = new MoveToState(mockStateMachine.Object, mockAgent.Object);
+            var sut = new MoveToState(mockStateMachine.Object, mockAgent.Object, logger);
             sut.Update();
 
             mockAgent.Verify(x => x.MoveToward(mockAction.Object), Times.Once);

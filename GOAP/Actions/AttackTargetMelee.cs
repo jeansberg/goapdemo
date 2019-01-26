@@ -48,7 +48,7 @@ namespace Goap.Actions
 
         public bool IsInRange()
         {
-            return _actor.MapComponent.Position.IsAdjacentTo(_target.MapComponent.Position);
+            return _actor.MapComponent.GetPosition().IsAdjacentTo(_target.MapComponent.GetPosition());
         }
 
         public bool NeedsInRange()

@@ -33,9 +33,6 @@
     <Reference Include="C5, Version=2.5.0.0, Culture=neutral, PublicKeyToken=282361b99ded7e8e, processorArchitecture=MSIL">
       <HintPath>..\packages\C5.2.5.3\lib\net45\C5.dll</HintPath>
     </Reference>
-    <Reference Include="FloodSpill, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FloodSpill.1.0.3\lib\net35\FloodSpill.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,27 +43,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AI\Goals\GoalFactory.cs" />
     <Compile Include="AI\Goals\HealthyCondition.cs" />
-    <Compile Include="AI\Goals\ICondition.cs" />
+    <Compile Include="Interfaces\AI\IAgentStateMachine.cs" />
+    <Compile Include="Interfaces\AI\ICondition.cs" />
     <Compile Include="AI\Goals\TargetEliminatedCondition.cs" />
     <Compile Include="AI\Goals\TargetVisibleCondition.cs" />
     <Compile Include="AI\Goals\WeaponReadyCondition.cs" />
-    <Compile Include="AI\IAgent.cs" />
-    <Compile Include="AI\IAgentState.cs" />
+    <Compile Include="Interfaces\AI\IAgent.cs" />
+    <Compile Include="Interfaces\AI\IAgentState.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="GameObject\CombatComponent.cs" />
     <Compile Include="GameObject\Creature.cs" />
     <Compile Include="GameObject\GameObject.cs" />
     <Compile Include="GameObject\Graphic.cs" />
-    <Compile Include="AI\IPathFinder.cs" />
+    <Compile Include="Interfaces\AI\IGoapPlanner.cs" />
+    <Compile Include="Interfaces\AI\IPathFinder.cs" />
+    <Compile Include="Interfaces\IMapComponent.cs" />
+    <Compile Include="Interfaces\ICombatComponent.cs" />
+    <Compile Include="GameObject\Item.cs" />
     <Compile Include="GameObject\MapComponent.cs" />
-    <Compile Include="AI\PathFinder.cs" />
-    <Compile Include="GameObject\Point.cs" />
-    <Compile Include="GameObject\RgbColor.cs" />
-    <Compile Include="AI\IAction.cs" />
-    <Compile Include="ILogger.cs" />
-    <Compile Include="IRenderer.cs" />
+    <Compile Include="Models\Point.cs" />
+    <Compile Include="Models\RgbColor.cs" />
+    <Compile Include="Interfaces\AI\IAction.cs" />
+    <Compile Include="Interfaces\ILogger.cs" />
+    <Compile Include="Interfaces\IRenderer.cs" />
     <Compile Include="Map\Map.cs" />
     <Compile Include="Map\Tile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

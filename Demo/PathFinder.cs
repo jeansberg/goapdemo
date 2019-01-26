@@ -66,7 +66,7 @@ namespace Core.AI
         {
             var markMatrix = new int[mapRef.GetWidth(), mapRef.GetHeight()];
             Predicate<int, int> positionQualifier = (x, y) => !mapRef.Blocked(new Point(x,y)); 
-            var floodParameters = new FloodParameters(startX: goal.xPos, startY: goal.yPos)
+            var floodParameters = new FloodParameters(startX: goal.XPos, startY: goal.YPos)
             {
                 NeighbourhoodType = NeighbourhoodType.Four,
                 Qualifier = positionQualifier

@@ -41,7 +41,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Agent\GoapAgent.cs" />
-    <Compile Include="Agent\IAgentStateMachine.cs" />
     <Compile Include="GoapPlanner\ActionNode.cs" />
     <Compile Include="Actions\AttackTargetMelee.cs" />
     <Compile Include="Actions\AttackTargetRanged.cs" />
@@ -49,10 +48,9 @@
     <Compile Include="Actions\ReadyWeapon.cs" />
     <Compile Include="Agent\AgentStateMachine.cs" />
     <Compile Include="GoapPlanner\GoapPlanner.cs" />
-    <Compile Include="Agent\ActState.cs" />
-    <Compile Include="Agent\IdleState.cs" />
-    <Compile Include="Agent\MoveToState.cs" />
-    <Compile Include="GoapPlanner\IGoapPlanner.cs" />
+    <Compile Include="Agent\States\ActState.cs" />
+    <Compile Include="Agent\States\IdleState.cs" />
+    <Compile Include="Agent\States\MoveToState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

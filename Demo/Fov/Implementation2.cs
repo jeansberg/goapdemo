@@ -166,8 +166,8 @@ public static class ShadowCast
             {
                 // Translate local coordinates to grid coordinates.  For the various octants
                 // we need to invert one or both values, or swap X for Y.
-                int gridX = gridPosn.xPos + xc * txfrm.xx + yc * txfrm.xy;
-                int gridY = gridPosn.yPos + xc * txfrm.yx + yc * txfrm.yy;
+                int gridX = gridPosn.XPos + xc * txfrm.xx + yc * txfrm.xy;
+                int gridY = gridPosn.YPos + xc * txfrm.yx + yc * txfrm.yy;
 
                 // Range-check the values.  This lets us avoid the slope division for blocks
                 // that are outside the grid.

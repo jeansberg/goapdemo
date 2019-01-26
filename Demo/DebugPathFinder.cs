@@ -40,7 +40,7 @@ namespace Core.AI
         {
             foreach (var point in path)
             {
-                mapRef.Tiles[point.xPos][point.yPos].Type = Map.TileType.Debug;
+                mapRef.Tiles[point.XPos][point.YPos].Type = Map.TileType.Debug;
             }
         }
     }

@@ -2,9 +2,30 @@
 
 namespace Core.GameObject
 {
-    public class MapComponent
+    public class MapComponent : IMapComponent
     {
-        public Point Position { get; set; }
-        public bool Blocking { get; set; }
+        private Point position;
+        private readonly bool blocking;
+
+        public MapComponent(Point position, bool blocking)
+        {
+            this.position = position;
+            this.blocking = blocking;
+        }
+
+        public Point GetPosition()
+        {
+            return position;
+        }
+
+        public void SetPosition(Point value)
+        {
+            position = value;
+        }
+
+        public bool IsBlocking()
+        {
+            return blocking;
+        }
     }
 }

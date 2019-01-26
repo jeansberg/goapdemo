@@ -7,13 +7,14 @@ namespace Core.Map
 {
     public class Map
     {
-        private static GraphicsComponent FloorGraphic = new GraphicsComponent('.', RgbColor.DarkGrey());
-        private static GraphicsComponent WallGraphic = new GraphicsComponent('X', RgbColor.DarkGrey());
-        private static GraphicsComponent DebugGraphic = new GraphicsComponent('.', RgbColor.Red());
+        private static GraphicsComponent FloorGraphic = new GraphicsComponent('.', RgbColor.CreateDarkGrey());
+        private static GraphicsComponent WallGraphic = new GraphicsComponent('X', RgbColor.CreateDarkGrey());
+        private static GraphicsComponent DebugGraphic = new GraphicsComponent('.', RgbColor.CreateRed());
 
 
         public List<List<Tile>> Tiles { get; set; }
         public List<Creature> Creatures { get; set; }
+        public List<Item> Items { get; set; }
 
         public Map(int width, int height)
         {
@@ -26,7 +27,7 @@ namespace Core.Map
 
         public Creature GetCreature(Point location)
         {
-            return Creatures.FirstOrDefault(x => x.MapComponent.Position.Equals(location));
+            return Creatures.FirstOrDefault(x => x.MapComponent.GetPosition().Equals(location));
         }
 
         private void CreateObstacles()
@@ -84,16 +85,11 @@ namespace Core.Map
             }
         }
 
-        internal bool Blocked(Point position)
+        public bool Blocked(Point position)
         {
-            var blockedTile = !Tiles[position.xPos][position.yPos].Walkable();
-            var hasCreature =Creatures.Exists(x => x.MapComponent.Position.Equals(position));
+            var blockedTile = !Tiles[position.XPos][position.YPos].Walkable();
+            var hasCreature =Creatures.Exists(x => x.MapComponent.GetPosition().Equals(position));
             return blockedTile || hasCreature;
-        }
-
-        public void AddCreatures(List<Creature> creatures)
-        {
-            Creatures = creatures;
         }
 
         public int GetWidth()

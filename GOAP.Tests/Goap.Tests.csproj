@@ -79,6 +79,10 @@
       <Project>{0ae1eaba-2801-457c-967b-a1f4688b7701}</Project>
       <Name>Goap</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Logging\Logging.csproj">
+      <Project>{FC256D5A-5DFF-4A6D-8F88-0A9460135A41}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Moq.Analyzers.0.0.4.43043\analyzers\dotnet\cs\Moq.Analyzers.dll" />

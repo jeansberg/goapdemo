@@ -93,7 +93,7 @@ namespace Demo
         {
             _state = ControllerState.Targeting;
 
-            var creaturesInFov = map.Creatures.Where(x => player.Fov.Contains(x.MapComponent.Position) && x != player).ToList();
+            var creaturesInFov = map.Creatures.Where(x => player.Fov.Contains(x.MapComponent.GetPosition()) && x != player).ToList();
 
             foreach (var creature in creaturesInFov)
             {

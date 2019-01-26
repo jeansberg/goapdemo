@@ -7,12 +7,12 @@ namespace Core.GameObject
     {
         public Point(int xPos, int yPos)
         {
-            this.xPos = xPos;
-            this.yPos = yPos;
+            this.XPos = xPos;
+            this.YPos = yPos;
         }
 
-        public int xPos { get; set; }
-        public int yPos { get; set; }
+        public int XPos { get; set; }
+        public int YPos { get; set; }
 
         public bool IsAdjacentTo(Point otherPoint)
         {
@@ -23,25 +23,25 @@ namespace Core.GameObject
         {
             return new List<Point>
             {
-                new Point(xPos+1, yPos),
-                new Point(xPos-1, yPos),
-                new Point(xPos, yPos+1),
-                new Point(xPos, yPos-1),
+                new Point(XPos+1, YPos),
+                new Point(XPos-1, YPos),
+                new Point(XPos, YPos+1),
+                new Point(XPos, YPos-1),
 
             };
         }
 
         public bool IsWithin(int distance, Point otherPoint)
         {
-            var xDistance = Math.Abs(xPos - otherPoint.xPos);
-            var yDistance = Math.Abs(yPos - otherPoint.yPos);
+            var xDistance = Math.Abs(XPos - otherPoint.XPos);
+            var yDistance = Math.Abs(YPos - otherPoint.YPos);
 
             return xDistance + yDistance <= distance;
         }
 
         public override string ToString()
         {
-            return $"{xPos}, {yPos}";
+            return $"{XPos}, {YPos}";
         }
     }
 }

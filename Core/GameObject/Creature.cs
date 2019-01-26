@@ -31,34 +31,34 @@ namespace Core.GameObject
             {
                 case Direction.Left:
                     {
-                        destination = new Point(_mapComponent.Position.xPos - 1, _mapComponent.Position.yPos);
+                        destination = new Point(_mapComponent.GetPosition().XPos - 1, _mapComponent.GetPosition().YPos);
                         break;
                     }
                 case Direction.Right:
                     {
-                        destination = new Point(_mapComponent.Position.xPos + 1, _mapComponent.Position.yPos);
+                        destination = new Point(_mapComponent.GetPosition().XPos + 1, _mapComponent.GetPosition().YPos);
                         break;
                     }
                 case Direction.Up:
                     {
-                        destination = new Point(_mapComponent.Position.xPos, _mapComponent.Position.yPos - 1);
+                        destination = new Point(_mapComponent.GetPosition().XPos, _mapComponent.GetPosition().YPos - 1);
                         break;
                     }
                 case Direction.Down:
                     {
-                        destination = new Point(_mapComponent.Position.xPos, _mapComponent.Position.yPos + 1);
+                        destination = new Point(_mapComponent.GetPosition().XPos, _mapComponent.GetPosition().YPos + 1);
                         break;
                     }
                 default:
                     return;
             }
 
-            if (mapRef.Tiles[destination.xPos][destination.yPos].Walkable())
+            if (mapRef.Tiles[destination.XPos][destination.YPos].Walkable())
             {
                 var creature = mapRef.GetCreature(destination);
                 if (creature == null)
                 {
-                    _mapComponent.Position = destination;
+                    _mapComponent.SetPosition(destination);
                     return;
                 }
 
@@ -68,7 +68,7 @@ namespace Core.GameObject
 
         public bool CanSee(Creature target)
         {
-            return Fov.Contains(target.MapComponent.Position);
+            return Fov.Contains(target.MapComponent.GetPosition());
         }
 
         public void Attack(Creature target)
@@ -76,7 +76,7 @@ namespace Core.GameObject
             target.TakeDamage(1);
         }
 
-        public bool IsAlive() { return _combatComponent.Health > 0; }
+        public bool IsAlive() { return _combatComponent.GetHealth() > 0; }
 
         public void TakeDamage(int points)
         {
@@ -85,22 +85,22 @@ namespace Core.GameObject
 
         public void MoveToward(MapComponent otherMapComponent)
         {
-            if (_mapComponent.Position.IsAdjacentTo(otherMapComponent.Position))
+            if (_mapComponent.GetPosition().IsAdjacentTo(otherMapComponent.GetPosition()))
             {
                 // Cannot get any closer
                 return;
             }
 
-            var path = _pathfinder.PathFind(_mapComponent.Position, otherMapComponent.Position, mapRef);
+            var path = _pathfinder.PathFind(_mapComponent.GetPosition(), otherMapComponent.GetPosition(), mapRef);
 
-            _mapComponent.Position = path[0];
+            _mapComponent.SetPosition(path[0]);
 
-            Console.WriteLine($"Creature moved to {_mapComponent.Position}");
+            Console.WriteLine($"Creature moved to {_mapComponent.GetPosition()}");
         }
 
         public void Draw(IRenderer renderer)
         {
-            renderer.Draw(_graphicsComponent, _mapComponent.Position);
+            renderer.Draw(_graphicsComponent, _mapComponent.GetPosition());
         }
 
         public override string ToString()

@@ -67,10 +67,11 @@
     <Compile Include="Fov\Implementation2.cs" />
     <Compile Include="Fov\Octant.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="ItemFactory.cs" />
+    <Compile Include="PathFinder.cs" />
     <Compile Include="program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer.cs" />
-    <Compile Include="SadConsoleLogger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -109,6 +110,10 @@
     <ProjectReference Include="..\GOAP\Goap.csproj">
       <Project>{0AE1EABA-2801-457C-967B-A1F4688B7701}</Project>
       <Name>Goap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Logging\Logging.csproj">
+      <Project>{fc256d5a-5dff-4a6d-8f88-0a9460135a41}</Project>
+      <Name>Logging</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

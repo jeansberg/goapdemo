@@ -2,7 +2,7 @@
 
 namespace Core.GameObject
 {
-    public class CombatComponent
+    public class CombatComponent : ICombatComponent
     {
         private int _health;
 
@@ -11,9 +11,13 @@ namespace Core.GameObject
             _health = health;
         }
 
-        public int Health { get => _health; set => _health = value; }
+        public int GetHealth()
+        {
+            return _health;
+        }
 
-        internal void TakeDamage(int points)
+
+        public void TakeDamage(int points)
         {
             _health -= points;
             Console.WriteLine($"Health is now {_health}");

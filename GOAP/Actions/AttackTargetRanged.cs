@@ -50,7 +50,7 @@ namespace Goap.Actions
 
         public bool IsInRange()
         {
-            return _actor.MapComponent.Position.IsWithin(5, _target.MapComponent.Position);
+            return _actor.MapComponent.GetPosition().IsWithin(5, _target.MapComponent.GetPosition());
         }
 
         public bool NeedsInRange()

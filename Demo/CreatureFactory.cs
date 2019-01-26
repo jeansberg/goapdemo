@@ -18,10 +18,7 @@ namespace Core.GameObject
 
         public Creature CreatePlayer(Map.Map mapRef, Point position)
         {
-            var mapComponent = new MapComponent
-            {
-                Position = position,
-            };
+            var mapComponent = new MapComponent(position, true);
 
             var graphicsComponent = new GraphicsComponent('P', new RgbColor(100, 255, 100));
 
@@ -34,10 +31,7 @@ namespace Core.GameObject
 
         public Creature CreateMonster(Map.Map mapRef, Point position, IAgent agent, List<Creature> enemies, WorldState worldState, Dictionary<Creature, IAgent> agentMap)
         {
-            var mapComponent = new MapComponent
-            {
-                Position = position,
-            };
+            var mapComponent = new MapComponent(position, true);
 
             var graphicsComponent = new GraphicsComponent('M', new RgbColor(255, 100, 100));
             
@@ -61,10 +55,7 @@ namespace Core.GameObject
 
         public Creature CreateNpc(Map.Map mapRef, Point position)
         {
-            var mapComponent = new MapComponent
-            {
-                Position = position,
-            };
+            var mapComponent = new MapComponent(position, true);
 
             var graphicsComponent = new GraphicsComponent('N', new RgbColor(100, 100, 255));
 
