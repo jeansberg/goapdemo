@@ -78,7 +78,7 @@ namespace Goap.Actions
 
         public override string ToString()
         {
-            return "Melee attack on " + _target;
+            return $"Melee attack {_target}";
         }
     }
 }

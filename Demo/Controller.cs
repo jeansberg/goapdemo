@@ -66,6 +66,8 @@ namespace Demo
                         {
                             player.Inventory.Add(item.InventoryItem);
                         }
+
+                        map.Items.Remove(item);
                     }
                     else if (keysReleased.Contains(t))
                     {

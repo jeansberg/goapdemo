@@ -12,6 +12,7 @@ using Demo.Fov;
 using Core.AI.Goals;
 using Demo.Consoles;
 using SadConsole;
+using System;
 
 namespace Demo
 {
@@ -60,7 +61,7 @@ namespace Demo
             var consoleLogger = new SadConsoleLogger(_logConsole);
 
             _map = new Map(_width, _height);
-            _map.Items = new List<MapItem> { _itemFactory.CreateMeleeWeapon(new Point(12, 12)) };
+            _map.Items = new List<MapItem> { _itemFactory.CreateSword(new Point(12, 12)), _itemFactory.CreateSword(new Point(20, 12)) };
             player = _creatureFactory.CreatePlayer(_map, new Point(25, 16));
 
             var worldState = new WorldState();
@@ -88,6 +89,7 @@ namespace Demo
             DrawFov(player.Fov);
             DrawItems(_mapConsole, _map.Items, player);
             DrawCreatures(_mapConsole, creatures, player);
+            DrawInventory();
 
             if (Global.KeyboardState.KeysReleased.Count > 0)
             {
@@ -101,6 +103,18 @@ namespace Demo
             {
                 SadConsole.Game.Instance.Exit();
             }
+        }
+
+        private void DrawInventory()
+        {
+            foreach(var item in player.Inventory)
+            {
+                _inventoryConsole.Clear(new Rectangle(0, 1, _inventoryConsole.Width, _inventoryConsole.Height - 1));
+                _inventoryConsole.Cursor.Print(item.ToString());
+                _inventoryConsole.Cursor.NewLine();
+            }
+
+            _inventoryConsole.Cursor.Row = 1;
         }
 
         private void DrawItems(Console mapConsole, List<MapItem> items, Creature player)

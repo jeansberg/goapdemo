@@ -5,7 +5,7 @@ namespace Demo
 {
     public class ItemFactory
     {
-        public MapItem CreateMeleeWeapon(Point position)
+        public MapItem CreateSword(Point position)
         {
             var mapComponent = new MapComponent(position, false);
 

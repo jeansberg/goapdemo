@@ -70,5 +70,10 @@ namespace GOAP.Actions
         {
             throw new NotImplementedException();
         }
+
+        public override string ToString()
+        {
+            return $"Pick up {_target}";
+        }
     }
 }

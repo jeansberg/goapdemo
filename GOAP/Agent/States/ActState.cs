@@ -24,7 +24,7 @@ namespace Goap.AgentState
 
                 if (inRange)
                 {
-                    _logger.Log($"Performing {action}");
+                    _logger.Log(action.ToString());
                     var success = action.Perform();
                     if (success)
                     {
