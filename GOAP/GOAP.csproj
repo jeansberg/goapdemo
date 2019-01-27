@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\PickUpLoot.cs" />
     <Compile Include="Actions\PickUpMeleeWeapon.cs" />
     <Compile Include="Agent\GoapAgent.cs" />
     <Compile Include="GoapPlanner\ActionNode.cs" />

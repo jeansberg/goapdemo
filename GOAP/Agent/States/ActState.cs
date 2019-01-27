@@ -32,6 +32,11 @@ namespace Goap.AgentState
                         _agent.UpdateWorldState(action.GetEffects());
                         _agent.CreateGoalStates();
 
+                        if (action.IsDone())
+                        {
+                            _agent.GetOwner().Actions.Remove(action);
+                        }
+
                         _fsm.Transition(_agent.IdleState());
                     }
                 }

@@ -41,13 +41,15 @@ namespace Core.GameObject
             var monster = new Creature(mapComponent, combatCompnent, graphicsComponent, mapRef, _pathFinder, "Monster");
 
             monster.Actions = new List<IAction>();
-            monster.Actions.AddRange(mapRef.Items.Select(i => new PickUpMeleeWeapon(monster, i)));
+            monster.Actions.AddRange(mapRef.Items
+                .Where(x => x.InventoryItem.Type == Interfaces.ItemType.MeleeWeapon)
+                .Select(i => new PickUpMeleeWeapon(monster, i)));
             monster.Actions.AddRange(enemies.Select(e => new AttackTargetMelee(monster, e)));
             //monster.Actions.AddRange(enemies.Select(e => new AttackTargetRanged(monster, e)));
             monster.Actions.Add(new ReadyWeapon(monster));
 
             monster.Goals = new List<WorldState>();
-            monster.Goals.AddRange(enemies.Select(e => new WorldState(new Dictionary<ICondition, bool> { { new TargetEliminatedCondition(e), true } })));
+            monster.Goals.AddRange(enemies.Select(e => new WorldState(new Dictionary<ICondition, bool> { { new EliminatedTarget(e), true } })));
 
             agentMap[monster] = agent;
             agent.Start(monster, worldState);
@@ -55,7 +57,7 @@ namespace Core.GameObject
             return monster;
         }
 
-        public Creature CreateNpc(Map.Map mapRef, Point position)
+        public Creature CreateNpc(Map.Map mapRef, Point position, IAgent agent, Dictionary<Creature, IAgent> agentMap, WorldState worldState)
         {
             var mapComponent = new MapComponent(position, true);
 
@@ -64,6 +66,17 @@ namespace Core.GameObject
             var combatCompnent = new CombatComponent(5);
 
             var npc = new Creature(mapComponent, combatCompnent, graphicsComponent, mapRef, _pathFinder);
+
+            npc.Actions = new List<IAction>();
+            npc.Actions.AddRange(mapRef.Items
+                .Where(x => x.InventoryItem.Type == Interfaces.ItemType.Loot)
+                .Select(i => new PickUpLoot(npc, i)));
+
+            npc.Goals = new List<WorldState>();
+            npc.Goals.Add(new WorldState(new Dictionary<ICondition, bool> { { new IsRich(npc), true } }));
+
+            agentMap[npc] = agent;
+            agent.Start(npc, worldState);
 
             return npc;
         }

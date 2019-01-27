@@ -61,7 +61,16 @@ namespace Demo
             var consoleLogger = new SadConsoleLogger(_logConsole);
 
             _map = new Map(_width, _height);
-            _map.Items = new List<MapItem> { _itemFactory.CreateSword(new Point(12, 12)), _itemFactory.CreateSword(new Point(20, 12)) };
+            _map.Items = new List<MapItem> {
+                _itemFactory.CreateSword(new Point(12, 12)),
+                _itemFactory.CreateSword(new Point(20, 12)),
+                _itemFactory.CreateLoot(new Point(20, 14)),
+                _itemFactory.CreateLoot(new Point(18, 16)),
+                _itemFactory.CreateLoot(new Point(20, 16)),
+                _itemFactory.CreateLoot(new Point(22, 17)),
+                _itemFactory.CreateLoot(new Point(18, 18)),
+                _itemFactory.CreateLoot(new Point(22, 20)),};
+
             player = _creatureFactory.CreatePlayer(_map, new Point(25, 16));
 
             var worldState = new WorldState();
@@ -70,7 +79,8 @@ namespace Demo
             creatures = new List<Creature>
             {
                 _creatureFactory.CreateMonster(_map, new Point(10, 10), GetAgent(consoleLogger), new List<Creature>{player }, worldState, agentMaps),
-                _creatureFactory.CreateNpc(_map, new Point(15, 10))
+                _creatureFactory.CreateNpc(_map, new Point(15, 10), GetAgent(consoleLogger), agentMaps, worldState),
+                _creatureFactory.CreateNpc(_map, new Point(25, 10), GetAgent(consoleLogger), agentMaps, worldState)
             };
 
             _map.Creatures = creatures;
@@ -164,12 +174,12 @@ namespace Demo
 
                 if (objectsInFov.Count > 0)
                 {
-                    var visibleConditionsRemoved = agent.GetWorldState().Conditions.Where(x => x.Key.GetType() != typeof(TargetVisibleCondition)).ToDictionary(x => x.Key, x => x.Value);
+                    var visibleConditionsRemoved = agent.GetWorldState().Conditions.Where(x => x.Key.GetType() != typeof(CanSeeTarget)).ToDictionary(x => x.Key, x => x.Value);
                     var newState = new WorldState(visibleConditionsRemoved);
 
                     foreach (var c in objectsInFov)
                     {
-                        newState.Conditions.Add(new TargetVisibleCondition(c), true);
+                        newState.Conditions.Add(new CanSeeTarget(c), true);
                     }
 
                     agent.UpdateWorldState(newState);

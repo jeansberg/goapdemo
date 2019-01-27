@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Core.AI.Goals
 {
-    public struct WeaponReadyCondition : ICondition
+    public struct HasReadiedWeapon : ICondition
     {
         private readonly Creature _creature;
 
-        public WeaponReadyCondition(Creature creature)
+        public HasReadiedWeapon(Creature creature)
         {
             _creature = creature;
         }

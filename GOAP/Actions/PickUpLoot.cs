@@ -6,12 +6,12 @@ using System.Collections.Generic;
 
 namespace GOAP.Actions
 {
-    public class PickUpMeleeWeapon : IAction
+    public class PickUpLoot : IAction
     {
         private Creature _actor;
         private MapItem _target;
 
-        public PickUpMeleeWeapon(Creature actor, MapItem target)
+        public PickUpLoot(Creature actor, MapItem target)
         {
             _actor = actor;
             _target = target;
@@ -26,7 +26,7 @@ namespace GOAP.Actions
 
         public WorldState GetEffects()
         {
-            return new WorldState(new Dictionary<ICondition, bool> { { new HasMeleeWeapon(_actor), true } });
+            return new WorldState(new Dictionary<ICondition, bool> { { new IsRich(_actor), true } });
         }
 
         public WorldState GetPreconditions()
@@ -73,7 +73,7 @@ namespace GOAP.Actions
 
         public override string ToString()
         {
-            return $"Pick up {_target}";
+            return $"Pick up {_target.InventoryItem}";
         }
     }
 }

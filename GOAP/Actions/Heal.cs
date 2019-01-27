@@ -24,7 +24,7 @@ namespace Goap.Actions
 
         public WorldState GetEffects()
         {
-            return new WorldState(new Dictionary<ICondition, bool> { { new HealthyCondition(_target), true } });
+            return new WorldState(new Dictionary<ICondition, bool> { { new IsHealthy(_target), true } });
         }
 
         public WorldState GetPreconditions()

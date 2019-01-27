@@ -35,7 +35,7 @@ namespace Goap.Tests
             var action = new AttackTargetMelee(creature, target);
             var goal = new WorldState()
             {
-                Conditions = new Dictionary<ICondition, bool> { { new TargetEliminatedCondition(target), true } }
+                Conditions = new Dictionary<ICondition, bool> { { new EliminatedTarget(target), true } }
             };
 
             creature.Actions.Add(action);
@@ -58,7 +58,7 @@ namespace Goap.Tests
             {
                 Conditions = new Dictionary<ICondition, bool>
                 {
-                    { new TargetEliminatedCondition(target), true }
+                    { new EliminatedTarget(target), true }
                 }
             };
 
@@ -94,7 +94,7 @@ namespace Goap.Tests
 
             var state = new WorldState(new Dictionary<ICondition, bool>
                 {
-                    { new TargetVisibleCondition(target), true }
+                    { new CanSeeTarget(target), true }
                 });
 
             var creature = GetMeleeCreature(target);
@@ -115,7 +115,7 @@ namespace Goap.Tests
 
             var state = new WorldState(new Dictionary<ICondition, bool>
                 {
-                    { new TargetVisibleCondition(target), true }
+                    { new CanSeeTarget(target), true }
                 });
 
             var creature = GetRangedCreature(target);

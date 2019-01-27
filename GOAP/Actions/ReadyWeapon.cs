@@ -23,7 +23,7 @@ namespace Goap.Actions
 
         public WorldState GetEffects()
         {
-            return new WorldState(new Dictionary<ICondition, bool> { { new WeaponReadyCondition(_actor), true } });
+            return new WorldState(new Dictionary<ICondition, bool> { { new HasReadiedWeapon(_actor), true } });
         }
 
         public WorldState GetPreconditions()

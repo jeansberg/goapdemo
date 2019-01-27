@@ -2,7 +2,8 @@
 {
     public enum ItemType
     {
-        MeleeWeapon
+        MeleeWeapon,
+        Loot
     }
 
     public struct InventoryItem

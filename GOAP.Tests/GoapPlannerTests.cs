@@ -13,7 +13,7 @@ namespace Goap.Tests
     {
         private ICondition GetPlayerDeadCondition(Creature creature)
         {
-            return new TargetEliminatedCondition(creature);
+            return new EliminatedTarget(creature);
         }
 
         [TestMethod]
@@ -25,7 +25,7 @@ namespace Goap.Tests
 
             // Create an empty world state and get some actions
             var emptyState = new WorldState();
-            emptyState.Conditions.Add(new TargetVisibleCondition(dummyTarget), true);
+            emptyState.Conditions.Add(new CanSeeTarget(dummyTarget), true);
             var readyWeapon = new ReadyWeapon(dummyCreature);
             var attackTarget = new AttackTargetRanged(dummyCreature, dummyTarget);
 
@@ -68,7 +68,7 @@ namespace Goap.Tests
 
             // Create a world state and get some actions
             var targetInFovState = new WorldState();
-            targetInFovState.Conditions.Add(new TargetVisibleCondition(dummyTarget), true);
+            targetInFovState.Conditions.Add(new CanSeeTarget(dummyTarget), true);
             var readyWeapon = new ReadyWeapon(dummyCreature);
             var attackTargetRanged = new AttackTargetRanged(dummyCreature, dummyTarget);
             var attackTargetMelee = new AttackTargetMelee(dummyCreature, dummyTarget);
@@ -97,7 +97,7 @@ namespace Goap.Tests
             var heal = new Heal(dummyCreature);
 
             mockAgent.Setup(x => x.GetWorldState()).Returns(emptyState);
-            mockAgent.Setup(x => x.CreateGoalStates()).Returns(new List<WorldState> { new WorldState(new Dictionary<ICondition, bool> { { new HealthyCondition(dummyCreature), true } }), new WorldState(new Dictionary<ICondition, bool> { { new TargetEliminatedCondition(null), true } }) });
+            mockAgent.Setup(x => x.CreateGoalStates()).Returns(new List<WorldState> { new WorldState(new Dictionary<ICondition, bool> { { new IsHealthy(dummyCreature), true } }), new WorldState(new Dictionary<ICondition, bool> { { new EliminatedTarget(null), true } }) });
             mockAgent.Setup(x => x.AvailableActions()).Returns(new List<IAction>() { attackTargetRanged, attackTargetMelee, readyWeapon, heal });
 
             var sut = new GoapPlanner();

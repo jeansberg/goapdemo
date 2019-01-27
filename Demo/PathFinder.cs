@@ -51,7 +51,13 @@ namespace Core.AI
         private void BuildPath(PathNode currentNode, Point goal, List<PathNode> allNodes, List<PathNode> path)
         {
             var adjacentNodes = allNodes.Where(x => !x.Blocked && x.Position.IsAdjacentTo(currentNode.Position)).ToList();
-            var nextNode = adjacentNodes.Where(x => !x.Visited).OrderBy(x => x.Cost).First();
+            var nextNode = adjacentNodes.Where(x => !x.Visited).OrderBy(x => x.Cost).FirstOrDefault();
+
+            if(nextNode == null)
+            {
+                return; 
+            }
+
             adjacentNodes.ForEach(x => x.Visited = true);
             path.Add(nextNode);
 

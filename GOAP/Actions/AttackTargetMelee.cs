@@ -28,14 +28,14 @@ namespace Goap.Actions
 
         public WorldState GetEffects()
         {
-            return new WorldState(new Dictionary<ICondition, bool> { { new TargetEliminatedCondition(_target), true } });
+            return new WorldState(new Dictionary<ICondition, bool> { { new EliminatedTarget(_target), true } });
         }
 
         public WorldState GetPreconditions()
         {
             return new WorldState(new Dictionary<ICondition, bool> {
-                { new TargetVisibleCondition(_target), true },
-                { new HasMeleeWeaponCondition (_actor), true }});
+                { new CanSeeTarget(_target), true },
+                { new HasMeleeWeapon (_actor), true }});
         }
 
         public GameObject GetTarget()

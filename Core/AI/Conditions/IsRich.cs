@@ -2,10 +2,10 @@
 
 namespace Core.AI.Goals
 {
-    public struct HealthyCondition : ICondition
+    public struct IsRich : ICondition
     {
         private Creature _target;
-        public HealthyCondition(Creature target)
+        public IsRich(Creature target)
         {
             _target = target;
         }

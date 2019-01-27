@@ -43,13 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AI\Goals\HasMeleeWeaponCondition.cs" />
-    <Compile Include="AI\Goals\HealthyCondition.cs" />
+    <Compile Include="AI\Conditions\HasMeleeWeapon.cs" />
+    <Compile Include="AI\Conditions\IsRich.cs" />
+    <Compile Include="AI\Conditions\IsHealthy.cs" />
     <Compile Include="Interfaces\AI\IAgentStateMachine.cs" />
     <Compile Include="Interfaces\AI\ICondition.cs" />
-    <Compile Include="AI\Goals\TargetEliminatedCondition.cs" />
-    <Compile Include="AI\Goals\TargetVisibleCondition.cs" />
-    <Compile Include="AI\Goals\WeaponReadyCondition.cs" />
+    <Compile Include="AI\Conditions\EliminatedTarget.cs" />
+    <Compile Include="AI\Conditions\CanSeeTarget.cs" />
+    <Compile Include="AI\Conditions\HasReadiedWeapon.cs" />
     <Compile Include="Interfaces\AI\IAgent.cs" />
     <Compile Include="Interfaces\AI\IAgentState.cs" />
     <Compile Include="Direction.cs" />
@@ -73,7 +74,7 @@
     <Compile Include="Map\Map.cs" />
     <Compile Include="Map\Tile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AI\Goals\WorldState.cs" />
+    <Compile Include="AI\Conditions\WorldState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

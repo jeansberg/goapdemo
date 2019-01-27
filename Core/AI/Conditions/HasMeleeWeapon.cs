@@ -2,10 +2,10 @@
 
 namespace Core.AI.Goals
 {
-    public struct HasMeleeWeaponCondition : ICondition
+    public struct HasMeleeWeapon : ICondition
     {
         private Creature _actor;
-        public HasMeleeWeaponCondition(Creature actor)
+        public HasMeleeWeapon(Creature actor)
         {
             _actor = actor;
         }
