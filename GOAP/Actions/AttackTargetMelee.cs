@@ -33,10 +33,12 @@ namespace Goap.Actions
 
         public WorldState GetPreconditions()
         {
-            return new WorldState(new Dictionary<ICondition, bool> { { new TargetVisibleCondition(_target), true } });
+            return new WorldState(new Dictionary<ICondition, bool> {
+                { new TargetVisibleCondition(_target), true },
+                { new HasMeleeWeaponCondition (_actor), true }});
         }
 
-        public Creature GetTarget()
+        public GameObject GetTarget()
         {
             return _target;
         }

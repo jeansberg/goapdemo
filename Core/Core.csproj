@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\Goals\HasMeleeWeaponCondition.cs" />
     <Compile Include="AI\Goals\HealthyCondition.cs" />
     <Compile Include="Interfaces\AI\IAgentStateMachine.cs" />
     <Compile Include="Interfaces\AI\ICondition.cs" />
@@ -58,10 +59,12 @@
     <Compile Include="GameObject\Graphic.cs" />
     <Compile Include="Interfaces\AI\IGoapPlanner.cs" />
     <Compile Include="Interfaces\AI\IPathFinder.cs" />
+    <Compile Include="Interfaces\IFovCalculator.cs" />
     <Compile Include="Interfaces\IMapComponent.cs" />
     <Compile Include="Interfaces\ICombatComponent.cs" />
     <Compile Include="GameObject\Item.cs" />
     <Compile Include="GameObject\MapComponent.cs" />
+    <Compile Include="Models\InventoryItem.cs" />
     <Compile Include="Models\Point.cs" />
     <Compile Include="Models\RgbColor.cs" />
     <Compile Include="Interfaces\AI\IAction.cs" />

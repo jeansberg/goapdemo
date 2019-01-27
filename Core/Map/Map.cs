@@ -14,7 +14,7 @@ namespace Core.Map
 
         public List<List<Tile>> Tiles { get; set; }
         public List<Creature> Creatures { get; set; }
-        public List<Item> Items { get; set; }
+        public List<MapItem> Items { get; set; }
 
         public Map(int width, int height)
         {

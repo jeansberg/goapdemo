@@ -57,15 +57,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Consoles\InventoryConsole.cs" />
     <Compile Include="Consoles\TitleConsole.cs" />
     <Compile Include="Consoles\LogConsole.cs" />
     <Compile Include="Consoles\WorldConsole.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="CreatureFactory.cs" />
     <Compile Include="DebugPathFinder.cs" />
-    <Compile Include="Fov\FovCalculator.cs" />
-    <Compile Include="Fov\Implementation2.cs" />
-    <Compile Include="Fov\Octant.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="ItemFactory.cs" />
     <Compile Include="PathFinder.cs" />
@@ -107,6 +105,10 @@
       <Project>{E5D4BF5D-1CCB-4C74-B064-F6347944D13F}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FieldOfView\FieldOfView.csproj">
+      <Project>{86bb2ea7-763a-4ff9-9aa8-bf3bbdfbff8f}</Project>
+      <Name>FieldOfView</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GOAP\Goap.csproj">
       <Project>{0AE1EABA-2801-457C-967B-A1F4688B7701}</Project>
       <Name>Goap</Name>
@@ -115,6 +117,9 @@
       <Project>{fc256d5a-5dff-4a6d-8f88-0a9460135a41}</Project>
       <Name>Logging</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Fov\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MonoGame.Framework.DesktopGL.3.7.1.189\build\MonoGame.Framework.DesktopGL.targets" Condition="Exists('..\packages\MonoGame.Framework.DesktopGL.3.7.1.189\build\MonoGame.Framework.DesktopGL.targets')" />

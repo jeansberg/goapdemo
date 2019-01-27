@@ -1,16 +1,17 @@
 ﻿using Core.GameObject;
+using Core.Interfaces;
 
 namespace Demo
 {
     public class ItemFactory
     {
-        public Item CreateMeleeWeapon(Point position)
+        public MapItem CreateMeleeWeapon(Point position)
         {
             var mapComponent = new MapComponent(position, false);
 
             var graphicsComponent = new GraphicsComponent('/', new RgbColor(200, 100, 100));
 
-            return new Item(mapComponent, graphicsComponent, ItemType.MeleeWeapon);
+            return new MapItem(mapComponent, graphicsComponent, new InventoryItem(ItemType.MeleeWeapon, "Sword"));
         }
     }
 }

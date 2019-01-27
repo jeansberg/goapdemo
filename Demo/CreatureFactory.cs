@@ -4,6 +4,7 @@ using Core.AI;
 using Core.AI.Goals;
 using Goap;
 using Goap.Actions;
+using GOAP.Actions;
 
 namespace Core.GameObject
 {
@@ -40,8 +41,9 @@ namespace Core.GameObject
             var monster = new Creature(mapComponent, combatCompnent, graphicsComponent, mapRef, _pathFinder, "Monster");
 
             monster.Actions = new List<IAction>();
+            monster.Actions.AddRange(mapRef.Items.Select(i => new PickUpMeleeWeapon(monster, i)));
             monster.Actions.AddRange(enemies.Select(e => new AttackTargetMelee(monster, e)));
-            monster.Actions.AddRange(enemies.Select(e => new AttackTargetRanged(monster, e)));
+            //monster.Actions.AddRange(enemies.Select(e => new AttackTargetRanged(monster, e)));
             monster.Actions.Add(new ReadyWeapon(monster));
 
             monster.Goals = new List<WorldState>();

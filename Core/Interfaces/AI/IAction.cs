@@ -11,7 +11,7 @@ namespace Core
         bool IsDone();
         WorldState GetPreconditions();
         WorldState GetEffects();
-        Creature GetTarget();
+        GameObject.GameObject GetTarget();
         Creature GetActor();
         bool Perform();
         bool NeedsInRange();

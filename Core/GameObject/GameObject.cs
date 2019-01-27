@@ -5,12 +5,14 @@
         protected MapComponent _mapComponent;
         protected CombatComponent _combatComponent;
         protected GraphicsComponent _graphicsComponent;
+        public Map.Map _mapRef;
 
-        protected GameObject(MapComponent mapComponent, CombatComponent combatComponent, GraphicsComponent graphicsComponent)
+        protected GameObject(MapComponent mapComponent, CombatComponent combatComponent, GraphicsComponent graphicsComponent, Map.Map mapRef)
         {
             _mapComponent = mapComponent;
             _combatComponent = combatComponent;
             _graphicsComponent = graphicsComponent;
+            _mapRef = mapRef;
         }
 
         public MapComponent MapComponent { get => _mapComponent; set => _mapComponent = value; }

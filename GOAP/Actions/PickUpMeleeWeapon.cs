@@ -4,57 +4,60 @@ using Core.GameObject;
 using System;
 using System.Collections.Generic;
 
-namespace Goap.Actions
+namespace GOAP.Actions
 {
-    public class ReadyWeapon : IAction
+    public class PickUpMeleeWeapon : IAction
     {
         private Creature _actor;
+        private MapItem _target;
 
-        public ReadyWeapon(Creature actor)
+        public PickUpMeleeWeapon(Creature actor, MapItem target)
         {
             _actor = actor;
-        }
-        public Creature GetActor()
-        {
-            throw new NotImplementedException();
+            _target = target;
         }
 
         public int Cost => 1;
 
+        public Creature GetActor()
+        {
+            return _actor;
+        }
+
         public WorldState GetEffects()
         {
-            return new WorldState(new Dictionary<ICondition, bool> { { new WeaponReadyCondition(_actor), true } });
+            return new WorldState(new Dictionary<ICondition, bool> { { new HasMeleeWeaponCondition(_actor), true } });
         }
 
         public WorldState GetPreconditions()
         {
-            return new WorldState();
+            return new WorldState(new Dictionary<ICondition, bool> { { new TargetVisibleCondition(_target), true } });
         }
 
         public GameObject GetTarget()
         {
-            throw new NotImplementedException();
+            return _target;
         }
 
         public bool IsDone()
         {
-            throw new NotImplementedException();
+            return _actor.Inventory.Contains(_target.InventoryItem);
         }
 
         public bool IsInRange()
         {
-            throw new NotImplementedException();
+            return _actor.MapComponent.GetPosition().Equals(_target.MapComponent.GetPosition());
         }
 
         public bool NeedsInRange()
         {
-            return false;
+            return true;
         }
 
         public bool Perform()
         {
-            Console.WriteLine("Performed load weapon");
-
+            _actor.Inventory.Add(_target.InventoryItem);
+            _actor._mapRef.Items.Remove(_target);
             return true;
         }
 

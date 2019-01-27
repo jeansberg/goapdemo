@@ -38,7 +38,7 @@ namespace Goap.Actions
                 { new TargetVisibleCondition(_target), true }});
         }
 
-        public Creature GetTarget()
+        public GameObject GetTarget()
         {
             return _target;
         }

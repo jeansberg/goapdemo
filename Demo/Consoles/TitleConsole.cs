@@ -13,7 +13,7 @@ namespace Demo.Consoles
         {
             Print(0, 0, title.Align(HorizontalAlignment.Center, Width), Color.Black, Color.Yellow);
 
-            borderSurface = new Console(width + 2, height + 2, base.Font);
+            borderSurface = new Console(width + 2, height + 2, Font);
             borderSurface.DrawBox(new Rectangle(0, 0, borderSurface.Width, borderSurface.Height),
                 new Cell(Color.White, Color.Black), null, ConnectedLineThin);
 

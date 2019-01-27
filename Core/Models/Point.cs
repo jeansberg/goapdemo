@@ -5,6 +5,8 @@ namespace Core.GameObject
 {
     public struct Point
     {
+        public static Point Zero = new Point(0, 0);
+
         public Point(int xPos, int yPos)
         {
             this.XPos = xPos;

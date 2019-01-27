@@ -46,7 +46,7 @@ External dependencies:
   If you lack something similar, just convert it to a pair of ints.
 */
 
-public static class ShadowCast
+public class Implementation
 {
     /// <summary>
     /// Immutable class for holding coordinate transform constants.  Bulkier than a 2D

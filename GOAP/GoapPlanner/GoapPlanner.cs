@@ -40,6 +40,7 @@ namespace Goap
                 cheapest = cheapest.Parent;
             }
 
+            actionPlan.Reverse();
             return actionPlan;
         }
 

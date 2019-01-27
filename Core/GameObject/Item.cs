@@ -1,16 +1,15 @@
-﻿namespace Core.GameObject
-{
-    public enum ItemType
-    {
-        MeleeWeapon
-    }
+﻿using Core.Interfaces;
 
-    public class Item : GameObject
+namespace Core.GameObject
+{
+    public class MapItem : GameObject
     {
-        private ItemType _type;
-        public Item(MapComponent mapComponent, GraphicsComponent graphicsComponent, ItemType type) : base(mapComponent, null, graphicsComponent)
+        private InventoryItem _item;
+        public MapItem(MapComponent mapComponent, GraphicsComponent graphicsComponent, InventoryItem item) : base(mapComponent, null, graphicsComponent, null)
         {
-            _type = type;
+            InventoryItem = item;
         }
+
+        public InventoryItem InventoryItem { get => _item; set => _item = value; }
     }
 }

@@ -32,7 +32,7 @@ namespace Goap.Actions
             return new WorldState();
         }
 
-        public Creature GetTarget()
+        public GameObject GetTarget()
         {
             throw new NotImplementedException();
         }

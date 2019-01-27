@@ -4,7 +4,7 @@ namespace Demo.Consoles
 {
     public class LogConsole : TitleConsole
     {
-        public LogConsole() : base("Log", 40, 10)
+        public LogConsole() : base("Log", 38, 10)
         {
         }
     }

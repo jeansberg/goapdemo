@@ -1,5 +1,6 @@
 ﻿using Core.AI;
 using Core.AI.Goals;
+using Core.Interfaces;
 using System;
 using System.Collections.Generic;
 
@@ -10,18 +11,18 @@ namespace Core.GameObject
         public List<IAction> Actions { get; set; }
         public List<WorldState> Goals { get; set; }
         public List<Point> Fov { get; set; }
+        public List<InventoryItem> Inventory {get;set;}
 
-        private Map.Map mapRef;
         private readonly IPathFinder _pathfinder;
         private readonly string _name;
 
-        public Creature(MapComponent mapComponent, CombatComponent combatComponent, GraphicsComponent graphicsComponent, Map.Map map, IPathFinder pathfinder, string name = "creature") : base(mapComponent, combatComponent, graphicsComponent)
+        public Creature(MapComponent mapComponent, CombatComponent combatComponent, GraphicsComponent graphicsComponent, Map.Map map, IPathFinder pathfinder, string name = "creature") : base(mapComponent, combatComponent, graphicsComponent, map)
         {
             Actions = new List<IAction>();
             Goals = new List<WorldState>();
-            mapRef = map;
             _pathfinder = pathfinder;
             _name = name;
+            Inventory = new List<InventoryItem>();
         }
 
         public void MoveAttack(Direction direction)
@@ -53,9 +54,9 @@ namespace Core.GameObject
                     return;
             }
 
-            if (mapRef.Tiles[destination.XPos][destination.YPos].Walkable())
+            if (_mapRef.Tiles[destination.XPos][destination.YPos].Walkable())
             {
-                var creature = mapRef.GetCreature(destination);
+                var creature = _mapRef.GetCreature(destination);
                 if (creature == null)
                 {
                     _mapComponent.SetPosition(destination);
@@ -66,7 +67,7 @@ namespace Core.GameObject
             }
         }
 
-        public bool CanSee(Creature target)
+        public bool CanSee(GameObject target)
         {
             return Fov.Contains(target.MapComponent.GetPosition());
         }
@@ -85,13 +86,7 @@ namespace Core.GameObject
 
         public void MoveToward(MapComponent otherMapComponent)
         {
-            if (_mapComponent.GetPosition().IsAdjacentTo(otherMapComponent.GetPosition()))
-            {
-                // Cannot get any closer
-                return;
-            }
-
-            var path = _pathfinder.PathFind(_mapComponent.GetPosition(), otherMapComponent.GetPosition(), mapRef);
+            var path = _pathfinder.PathFind(_mapComponent.GetPosition(), otherMapComponent.GetPosition(), _mapRef);
 
             _mapComponent.SetPosition(path[0]);
 

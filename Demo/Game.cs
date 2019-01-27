@@ -8,10 +8,7 @@ using Microsoft.Xna.Framework;
 using Goap.AgentState;
 using Core;
 using System.Linq;
-using Core.AI;
 using Demo.Fov;
-using System;
-using Goap.Actions;
 using Core.AI.Goals;
 using Demo.Consoles;
 using SadConsole;
@@ -24,6 +21,7 @@ namespace Demo
         private readonly int _height;
         private Console _mapConsole;
         private Console _logConsole;
+        private Console _inventoryConsole;
         private List<Creature> creatures;
         private Creature player;
         private Dictionary<Creature, IAgent> agentMaps;
@@ -31,10 +29,10 @@ namespace Demo
         private Controller controller;
         private CreatureFactory _creatureFactory;
         private ItemFactory _itemFactory;
-        private Renderer _renderer;
-        FovCalculator _fov;
+        private IRenderer _renderer;
+        IFovCalculator _fov;
 
-        public Game(int width, int height, CreatureFactory creatureFactory, ItemFactory itemFactory, FovCalculator fov, Renderer renderer)
+        public Game(int width, int height, CreatureFactory creatureFactory, ItemFactory itemFactory, IFovCalculator fov, IRenderer renderer)
         {
             _width = 80;
             _height = 25;
@@ -58,9 +56,11 @@ namespace Demo
         {
             _mapConsole = new WorldConsole { Position = new Microsoft.Xna.Framework.Point(1, 1) };
             _logConsole = new LogConsole() { Position = new Microsoft.Xna.Framework.Point(1, 29) };
+            _inventoryConsole = new InventoryConsole() { Position = new Microsoft.Xna.Framework.Point(41, 29) };
             var consoleLogger = new SadConsoleLogger(_logConsole);
 
             _map = new Map(_width, _height);
+            _map.Items = new List<MapItem> { _itemFactory.CreateMeleeWeapon(new Point(12, 12)) };
             player = _creatureFactory.CreatePlayer(_map, new Point(25, 16));
 
             var worldState = new WorldState();
@@ -73,11 +73,11 @@ namespace Demo
             };
 
             _map.Creatures = creatures;
-            _map.Items = new List<Item> { _itemFactory.CreateMeleeWeapon(new Point(12, 12)) };
 
-            SadConsole.Global.CurrentScreen.Children.Add(_mapConsole);
-            SadConsole.Global.CurrentScreen.Children.Add(_logConsole);
-            _renderer.Init(_mapConsole);
+            Global.CurrentScreen.Children.Add(_mapConsole);
+            Global.CurrentScreen.Children.Add(_logConsole);
+            Global.CurrentScreen.Children.Add(_inventoryConsole);
+            ((Renderer)_renderer).Init(_mapConsole);
             controller = new Controller();
         }
 
@@ -89,9 +89,9 @@ namespace Demo
             DrawItems(_mapConsole, _map.Items, player);
             DrawCreatures(_mapConsole, creatures, player);
 
-            if (SadConsole.Global.KeyboardState.KeysReleased.Count > 0)
+            if (Global.KeyboardState.KeysReleased.Count > 0)
             {
-                controller.HandleInput(SadConsole.Global.KeyboardState.KeysReleased, player, _map, _renderer, 
+                controller.HandleInput(Global.KeyboardState.KeysReleased, player, _map, 
                     () => { UpdateAI(); creatures.RemoveAll(x => !x.IsAlive()); });
             }
 
@@ -103,7 +103,7 @@ namespace Demo
             }
         }
 
-        private void DrawItems(Console mapConsole, List<Item> items, Creature player)
+        private void DrawItems(Console mapConsole, List<MapItem> items, Creature player)
         {
             foreach (var item in items)
             {
@@ -144,14 +144,16 @@ namespace Demo
 
                 var fov = _fov.GetVisibleCells(creature.MapComponent.GetPosition(), _map, _renderer);
                 creature.Fov = fov;
-                var creaturesInFov = GetAllCreatures().Where(x => fov.Contains(x.MapComponent.GetPosition()) && x != creature).ToList();
+                var objectsInFov = new List<GameObject>();
+                objectsInFov.AddRange(GetAllCreatures().Where(x => fov.Contains(x.MapComponent.GetPosition()) && x != creature));
+                objectsInFov.AddRange(_map.Items.Where(x => fov.Contains(x.MapComponent.GetPosition())));
 
-                if(creaturesInFov.Count > 0)
+                if (objectsInFov.Count > 0)
                 {
                     var visibleConditionsRemoved = agent.GetWorldState().Conditions.Where(x => x.Key.GetType() != typeof(TargetVisibleCondition)).ToDictionary(x => x.Key, x => x.Value);
                     var newState = new WorldState(visibleConditionsRemoved);
 
-                    foreach (var c in creaturesInFov)
+                    foreach (var c in objectsInFov)
                     {
                         newState.Conditions.Add(new TargetVisibleCondition(c), true);
                     }
