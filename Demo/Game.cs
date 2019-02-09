@@ -1,6 +1,6 @@
 ﻿using Console = SadConsole.Console;
-using Point = Core.GameObject.Point;
-using Core.GameObject;
+using Point = Core.GameObjects.Point;
+using Core.GameObjects;
 using Core.Map;
 using Goap;
 using System.Collections.Generic;

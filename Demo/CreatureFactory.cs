@@ -6,7 +6,7 @@ using Goap;
 using Goap.Actions;
 using GOAP.Actions;
 
-namespace Core.GameObject
+namespace Core.GameObjects
 {
     public class CreatureFactory
     {
@@ -45,8 +45,6 @@ namespace Core.GameObject
                 .Where(x => x.InventoryItem.Type == Interfaces.ItemType.MeleeWeapon)
                 .Select(i => new PickUpMeleeWeapon(monster, i)));
             monster.Actions.AddRange(enemies.Select(e => new AttackTargetMelee(monster, e)));
-            //monster.Actions.AddRange(enemies.Select(e => new AttackTargetRanged(monster, e)));
-            monster.Actions.Add(new ReadyWeapon(monster));
 
             monster.Goals = new List<WorldState>();
             monster.Goals.AddRange(enemies.Select(e => new WorldState(new Dictionary<ICondition, bool> { { new EliminatedTarget(e), true } })));

@@ -2,9 +2,9 @@
 {
     public struct CanSeeTarget : ICondition
     {
-        private GameObject.GameObject _target;
+        private GameObjects.GameObject _target;
 
-        public CanSeeTarget(GameObject.GameObject target)
+        public CanSeeTarget(GameObjects.GameObject target)
         {
             _target = target;
         }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-using Core.GameObject;
+using Core.GameObjects;
 using Core.Map;
 using System;
 using System.Collections.Generic;
@@ -240,7 +240,6 @@ public class Implementation
                     }
                 }
                 else
-                {
                     if (curBlocked)
                     {
                         // Found a wall.  Split the view area, recursively pursuing the
@@ -261,7 +260,6 @@ public class Implementation
                         prevWasBlocked = true;
                         savedRightSlope = rightBlockSlope;
                     }
-                }
             }
 
             // Open areas are handled recursively, with the function continuing to search to

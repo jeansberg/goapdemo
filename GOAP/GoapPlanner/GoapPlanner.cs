@@ -10,7 +10,6 @@ namespace Goap
         public List<IAction> Plan(IAgent agent)
         {
             var usableActions = agent.AvailableActions();
-            usableActions.ForEach(a => a.Reset());
 
             var nodes = new List<ActionNode>();
             var worldState = agent.GetWorldState();

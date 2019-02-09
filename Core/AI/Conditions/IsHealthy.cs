@@ -1,11 +1,11 @@
-﻿using Core.GameObject;
+﻿using Core.GameObjects;
 
 namespace Core.AI.Goals
 {
     public struct IsHealthy : ICondition
     {
-        private Creature _target;
-        public IsHealthy(Creature target)
+        private readonly GameObject _target;
+        public IsHealthy(GameObject target)
         {
             _target = target;
         }

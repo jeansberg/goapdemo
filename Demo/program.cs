@@ -1,6 +1,6 @@
 using Core;
 using Core.AI;
-using Core.GameObject;
+using Core.GameObjects;
 using Demo.Fov;
 using FloodSpill;
 

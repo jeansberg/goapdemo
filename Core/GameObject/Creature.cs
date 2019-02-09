@@ -4,7 +4,7 @@ using Core.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace Core.GameObject
+namespace Core.GameObjects
 {
     public class Creature : GameObject
     {
@@ -72,16 +72,9 @@ namespace Core.GameObject
             return Fov.Contains(target.MapComponent.GetPosition());
         }
 
-        public void Attack(Creature target)
+        public void Attack(GameObject target)
         {
             target.TakeDamage(1);
-        }
-
-        public bool IsAlive() { return _combatComponent.GetHealth() > 0; }
-
-        public void TakeDamage(int points)
-        {
-            _combatComponent.TakeDamage(points);
         }
 
         public void MoveToward(MapComponent otherMapComponent)

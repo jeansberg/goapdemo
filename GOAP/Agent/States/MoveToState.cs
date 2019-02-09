@@ -19,7 +19,7 @@ namespace Goap.AgentState
         {
             var action = _agent.NextAction();
 
-            if (action.IsInRange())
+            if (!action.OutOfRange())
             {
                 _logger.Log("In range!");
                 _fsm.PopState();

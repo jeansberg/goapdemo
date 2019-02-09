@@ -1,4 +1,4 @@
-﻿namespace Core.GameObject
+﻿namespace Core.GameObjects
 {
     public abstract class GameObject
     {
@@ -18,5 +18,11 @@
         public MapComponent MapComponent { get => _mapComponent; set => _mapComponent = value; }
         public CombatComponent CombatComponent { get => _combatComponent; set => _combatComponent = value; }
         public GraphicsComponent GraphicsComponent { get => _graphicsComponent; set => _graphicsComponent = value; }
+
+        public void TakeDamage(int points)
+        {
+            _combatComponent.TakeDamage(points);
+        }
+        public bool IsAlive() { return _combatComponent.GetHealth() > 0; }
     }
 }

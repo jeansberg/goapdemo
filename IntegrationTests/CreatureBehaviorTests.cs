@@ -1,7 +1,7 @@
 ﻿using Core;
 using Core.AI;
 using Core.AI.Goals;
-using Core.GameObject;
+using Core.GameObjects;
 using FloodSpill;
 using Goap.Actions;
 using Goap.AgentState;

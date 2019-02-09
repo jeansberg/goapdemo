@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Core.GameObject
+namespace Core.GameObjects
 {
     public class CombatComponent : ICombatComponent
     {

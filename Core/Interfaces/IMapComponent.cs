@@ -1,4 +1,4 @@
-﻿namespace Core.GameObject
+﻿namespace Core.GameObjects
 {
     public interface IMapComponent
     {

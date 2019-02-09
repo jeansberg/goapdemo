@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FloodSpill, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FloodSpill.1.0.4\lib\net35\FloodSpill.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\ActionBase.cs" />
     <Compile Include="Actions\PickUpLoot.cs" />
     <Compile Include="Actions\PickUpMeleeWeapon.cs" />
     <Compile Include="Agent\GoapAgent.cs" />
@@ -47,7 +51,6 @@
     <Compile Include="Actions\AttackTargetMelee.cs" />
     <Compile Include="Actions\AttackTargetRanged.cs" />
     <Compile Include="Actions\Heal.cs" />
-    <Compile Include="Actions\ReadyWeapon.cs" />
     <Compile Include="Agent\AgentStateMachine.cs" />
     <Compile Include="GoapPlanner\GoapPlanner.cs" />
     <Compile Include="Agent\States\ActState.cs" />

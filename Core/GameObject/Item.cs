@@ -1,6 +1,6 @@
 ﻿using Core.Interfaces;
 
-namespace Core.GameObject
+namespace Core.GameObjects
 {
     public class MapItem : GameObject
     {

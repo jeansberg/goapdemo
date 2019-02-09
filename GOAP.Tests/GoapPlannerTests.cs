@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Core;
 using Core.AI.Goals;
-using Core.GameObject;
+using Core.GameObjects;
 using Goap.Actions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

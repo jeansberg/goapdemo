@@ -1,58 +1,39 @@
 ﻿using Core;
 using Core.AI.Goals;
-using Core.GameObject;
+using Core.GameObjects;
 using System;
 using System.Collections.Generic;
 
 namespace Goap.Actions
 {
-    public class Heal : IAction
+    public class Heal : ActionBase
     {
-        private readonly Creature _target;
-
-        public Heal(Creature target)
+        public Heal(Creature actor, GameObject target, int cost = 0) : base(actor, target, cost)
         {
             _target = target;
         }
 
-        public Creature GetActor()
-        {
-            throw new NotImplementedException();
-        }
-
-        public int Cost => 1;
-
-        public WorldState GetEffects()
+        public override WorldState GetEffects()
         {
             return new WorldState(new Dictionary<ICondition, bool> { { new IsHealthy(_target), true } });
         }
 
-        public WorldState GetPreconditions()
+        public override WorldState GetPreconditions()
         {
             return new WorldState();
         }
 
-        public GameObject GetTarget()
+        public override bool IsDone()
         {
             throw new NotImplementedException();
         }
 
-        public bool IsDone()
+        public override bool OutOfRange()
         {
             throw new NotImplementedException();
         }
 
-        public bool IsInRange()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool NeedsInRange()
-        {
-            return false;
-        }
-
-        public bool Perform()
+        public override bool Perform()
         {
             throw new NotImplementedException();
         }
@@ -60,11 +41,6 @@ namespace Goap.Actions
         public void Reset()
         {
             return;
-        }
-
-        public void SetInRange()
-        {
-            throw new NotImplementedException();
         }
     }
 }

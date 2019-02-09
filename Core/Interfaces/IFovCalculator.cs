@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core;
-using Core.GameObject;
+using Core.GameObjects;
 using Core.Map;
 
 namespace Demo.Fov

@@ -1,79 +1,49 @@
-﻿using Core;
-using Core.AI.Goals;
-using Core.GameObject;
+﻿using Core.AI.Goals;
+using Core.GameObjects;
+using Goap.Actions;
 using System;
 using System.Collections.Generic;
 
 namespace GOAP.Actions
 {
-    public class PickUpLoot : IAction
+    public class PickUpLoot : ActionBase
     {
-        private Creature _actor;
-        private MapItem _target;
-
-        public PickUpLoot(Creature actor, MapItem target)
+        public PickUpLoot(Creature actor, MapItem target, int cost = 1) : base(actor, target, cost)
         {
-            _actor = actor;
-            _target = target;
         }
 
-        public int Cost => 1;
-
-        public Creature GetActor()
-        {
-            return _actor;
-        }
-
-        public WorldState GetEffects()
+        public override WorldState GetEffects()
         {
             return new WorldState(new Dictionary<ICondition, bool> { { new IsRich(_actor), true } });
         }
 
-        public WorldState GetPreconditions()
+        public override WorldState GetPreconditions()
         {
             return new WorldState(new Dictionary<ICondition, bool> { { new CanSeeTarget(_target), true } });
         }
 
-        public GameObject GetTarget()
+        public override bool IsDone()
         {
-            return _target;
+            return _actor.Inventory.Contains(((MapItem)_target).InventoryItem);
         }
 
-        public bool IsDone()
+        public override bool OutOfRange()
         {
-            return _actor.Inventory.Contains(_target.InventoryItem);
+            return !_actor.MapComponent
+                .GetPosition()
+                .Equals(_target.MapComponent.GetPosition());
         }
 
-        public bool IsInRange()
+        public override bool Perform()
         {
-            return _actor.MapComponent.GetPosition().Equals(_target.MapComponent.GetPosition());
-        }
-
-        public bool NeedsInRange()
-        {
+            _actor.Inventory.Add(((MapItem)_target).InventoryItem);
+            _actor._mapRef.Items.Remove((MapItem)_target);
             return true;
-        }
-
-        public bool Perform()
-        {
-            _actor.Inventory.Add(_target.InventoryItem);
-            _actor._mapRef.Items.Remove(_target);
-            return true;
-        }
-
-        public void Reset()
-        {
-            return;
-        }
-
-        public void SetInRange()
-        {
-            throw new NotImplementedException();
         }
 
         public override string ToString()
         {
-            return $"Pick up {_target.InventoryItem}";
+            return $"Pick up {_target}";
         }
     }
 }

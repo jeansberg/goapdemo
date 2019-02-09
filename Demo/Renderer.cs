@@ -1,7 +1,7 @@
-﻿using Core.GameObject;
+﻿using Core.GameObjects;
 using Microsoft.Xna.Framework;
 using Console = SadConsole.Console;
-using Point = Core.GameObject.Point;
+using Point = Core.GameObjects.Point;
 
 namespace Core
 {

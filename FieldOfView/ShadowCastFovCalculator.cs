@@ -1,5 +1,5 @@
 ﻿using Core;
-using Core.GameObject;
+using Core.GameObjects;
 using Core.Map;
 using System;
 using System.Collections.Generic;

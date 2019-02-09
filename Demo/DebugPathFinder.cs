@@ -1,4 +1,4 @@
-﻿using Core.GameObject;
+﻿using Core.GameObjects;
 using FloodSpill;
 using System.Collections.Generic;
 using System.Linq;

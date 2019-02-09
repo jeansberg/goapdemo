@@ -1,6 +1,6 @@
 ﻿using Core;
 using Core.AI.Goals;
-using Core.GameObject;
+using Core.GameObjects;
 using Goap.AgentState;
 using System.Collections.Generic;
 
@@ -89,11 +89,11 @@ namespace Goap
 
         public bool MoveToward(IAction action)
         {
-            var actor = action.GetActor();
-            var target = action.GetTarget();
+            var actor = action.Actor;
+            var target = action.Target;
 
             if (actor.CanSee(target)){
-                actor.MoveToward(action.GetTarget().MapComponent);
+                actor.MoveToward(action.Target.MapComponent);
                 return true;
             }
 

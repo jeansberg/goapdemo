@@ -1,5 +1,5 @@
 ﻿using System;
-using Core.GameObject;
+using Core.GameObjects;
 using Core.Interfaces;
 
 namespace Demo

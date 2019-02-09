@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core;
-using Core.GameObject;
+using Core.GameObjects;
 using Core.Map;
 using Microsoft.Xna.Framework;
 using SadConsole.Input;
-using Point = Core.GameObject.Point;
+using Point = Core.GameObjects.Point;
 
 namespace Demo
 {
@@ -37,7 +37,7 @@ namespace Demo
 
         public Dictionary<int, Creature> Targets { get; private set; }
 
-        internal void HandleInput(List<AsciiKey> keysReleased, Creature player, Map map, Action endTurn)
+        internal void HandleInput(ICollection<AsciiKey> keysReleased, Creature player, Map map, Action endTurn)
         {
             switch (_state)
             {

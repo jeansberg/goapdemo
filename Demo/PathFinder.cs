@@ -3,25 +3,10 @@ using FloodSpill.Utilities;
 using Core.Map;
 using System.Collections.Generic;
 using System.Linq;
-using Core.GameObject;
+using Core.GameObjects;
 
 namespace Core.AI
 {
-    public class PathNode
-    {
-        public Point Position;
-        public bool Visited;
-        public bool Blocked;
-        public int Cost;
-
-        public PathNode(Point position, int cost, bool blocked)
-        {
-            Position = position;
-            Cost = cost;
-            Blocked = blocked;
-        }
-    }
-
     public class PathFinder : IPathFinder
     {
         private static PathFinder _instance;
@@ -43,7 +28,7 @@ namespace Core.AI
 
             var startNode = new PathNode(start, 0, false);
 
-            List<PathNode> path = new List<PathNode>();
+            var path = new List<PathNode>();
             BuildPath(startNode, goal, nodes, path);
             return path.Select(x => x.Position).ToList();
         }
@@ -71,11 +56,11 @@ namespace Core.AI
         private List<PathNode> GetNodes(Point goal, Map.Map mapRef)
         {
             var markMatrix = new int[mapRef.GetWidth(), mapRef.GetHeight()];
-            Predicate<int, int> positionQualifier = (x, y) => !mapRef.Blocked(new Point(x,y)); 
+            bool isNotBlocked(int xPos, int yPos) => !mapRef.Blocked(new Point(xPos, yPos));
             var floodParameters = new FloodParameters(startX: goal.XPos, startY: goal.YPos)
             {
                 NeighbourhoodType = NeighbourhoodType.Four,
-                Qualifier = positionQualifier
+                Qualifier = isNotBlocked
             };
 
             _floodSpiller.SpillFlood(floodParameters, markMatrix);

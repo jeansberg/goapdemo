@@ -20,9 +20,8 @@ namespace Goap.AgentState
             if (_agent.HasActionPlan())
             {
                 var action = _agent.NextAction();
-                bool inRange = action.NeedsInRange() ? action.IsInRange() : true;
 
-                if (inRange)
+                if (!action.OutOfRange())
                 {
                     _logger.Log(action.ToString());
                     var success = action.Perform();

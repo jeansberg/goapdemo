@@ -1,4 +1,4 @@
-﻿using Core.GameObject;
+﻿using Core.GameObjects;
 using System.Collections.Generic;
 
 namespace Core.AI
