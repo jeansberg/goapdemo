@@ -62,7 +62,7 @@ namespace Demo
 
             _map = new Map(_width, _height);
             _map.Items = new List<MapItem> {
-                _itemFactory.CreateSword(new Point(12, 12)),
+                _itemFactory.CreateBow(new Point(12, 12)),
                 _itemFactory.CreateSword(new Point(20, 12)),
                 _itemFactory.CreateLoot(new Point(20, 14)),
                 _itemFactory.CreateLoot(new Point(18, 16)),
@@ -79,8 +79,8 @@ namespace Demo
             creatures = new List<Creature>
             {
                 _creatureFactory.CreateMonster(_map, new Point(10, 10), GetAgent(consoleLogger), new List<Creature>{player }, worldState, agentMaps),
-                _creatureFactory.CreateNpc(_map, new Point(15, 10), GetAgent(consoleLogger), agentMaps, worldState),
-                _creatureFactory.CreateNpc(_map, new Point(25, 10), GetAgent(consoleLogger), agentMaps, worldState)
+                //_creatureFactory.CreateNpc(_map, new Point(15, 10), GetAgent(consoleLogger), agentMaps, worldState),
+                //_creatureFactory.CreateNpc(_map, new Point(25, 10), GetAgent(consoleLogger), agentMaps, worldState)
             };
 
             _map.Creatures = creatures;

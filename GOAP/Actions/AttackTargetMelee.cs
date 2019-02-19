@@ -1,7 +1,5 @@
-﻿using Core;
-using Core.AI.Goals;
+﻿using Core.AI.Goals;
 using Core.GameObjects;
-using System;
 using System.Collections.Generic;
 
 namespace Goap.Actions

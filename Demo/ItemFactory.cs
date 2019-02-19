@@ -15,6 +15,15 @@ namespace Demo
             return new MapItem(mapComponent, graphicsComponent, new InventoryItem(ItemType.MeleeWeapon, "Sword"));
         }
 
+        public MapItem CreateBow(Point position)
+        {
+            var mapComponent = new MapComponent(position, false);
+
+            var graphicsComponent = new GraphicsComponent('B', new RgbColor(200, 100, 100));
+
+            return new MapItem(mapComponent, graphicsComponent, new InventoryItem(ItemType.RangedWeapon, "Bow"));
+        }
+
         internal MapItem CreateLoot(Point position)
         {
             var mapComponent = new MapComponent(position, false);

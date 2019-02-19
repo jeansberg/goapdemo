@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\Conditions\HasRangedWeapon.cs" />
     <Compile Include="AI\Conditions\HasMeleeWeapon.cs" />
     <Compile Include="AI\Conditions\IsRich.cs" />
     <Compile Include="AI\Conditions\IsHealthy.cs" />
@@ -53,7 +54,6 @@
     <Compile Include="Interfaces\AI\ICondition.cs" />
     <Compile Include="AI\Conditions\EliminatedTarget.cs" />
     <Compile Include="AI\Conditions\CanSeeTarget.cs" />
-    <Compile Include="AI\Conditions\HasReadiedWeapon.cs" />
     <Compile Include="Interfaces\AI\IAgent.cs" />
     <Compile Include="Interfaces\AI\IAgentState.cs" />
     <Compile Include="Direction.cs" />

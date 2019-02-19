@@ -25,7 +25,6 @@ namespace Core.GameObjects
 
             var combatComponent = new CombatComponent(10);
 
-            // The player does not need actions or goals, should be moved somewhere...
             var player = new Creature(mapComponent, combatComponent, graphicsComponent, mapRef, null, "Player");
             return player;
         }
@@ -42,9 +41,9 @@ namespace Core.GameObjects
 
             monster.Actions = new List<IAction>();
             monster.Actions.AddRange(mapRef.Items
-                .Where(x => x.InventoryItem.Type == Interfaces.ItemType.MeleeWeapon)
-                .Select(i => new PickUpMeleeWeapon(monster, i)));
-            monster.Actions.AddRange(enemies.Select(e => new AttackTargetMelee(monster, e)));
+                .Where(x => x.InventoryItem.Type == Interfaces.ItemType.RangedWeapon)
+                .Select(i => new PickUpRangedWeapon(monster, i)));
+            monster.Actions.AddRange(enemies.Select(e => new AttackTargetRanged(monster, e)));
 
             monster.Goals = new List<WorldState>();
             monster.Goals.AddRange(enemies.Select(e => new WorldState(new Dictionary<ICondition, bool> { { new EliminatedTarget(e), true } })));
