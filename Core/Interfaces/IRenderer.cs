@@ -8,6 +8,7 @@ namespace Core
         void DrawLine(int x1, int y1, int x2, int y2);
         void LightUp(int x, int y);
         void Highlight(int x, int y);
+        void Highlight(int x, int y, RgbColor color);
         void ResetBackGround();
         void ShowTarget(int x, int y, int index);
     }

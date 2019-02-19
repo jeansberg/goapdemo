@@ -1,5 +1,7 @@
 ﻿using Core.GameObjects;
+using Core.Map;
 using FloodSpill;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,11 +20,23 @@ namespace Core.AI
         {
             ClearPath(mapRef);
 
-            var path = PathFindInternal(start, goal, mapRef);
+            (var path, var allNodes) = PathFindInternal(start, goal, mapRef);
 
-            PaintPath(path, mapRef);
+            PaintSafetyMap(allNodes, mapRef);
 
-            return path;
+            PaintPath(path.Select(x => x.Position).ToList(), mapRef);
+
+            return path.Select(x => x.Position).ToList();
+        }
+
+        private void PaintSafetyMap(List<PathNode> allNodes, Map.Map mapRef)
+        {
+            foreach (var node in allNodes)
+            {
+                var point = node.Position;
+                var color = new RgbColor(0, Math.Min((node.Cost * 2), 255), 0);
+                _renderer.Highlight(point.XPos, point.YPos, color);
+            }
         }
 
         private void ClearPath(Map.Map mapRef)

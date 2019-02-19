@@ -39,6 +39,11 @@ namespace Core
             _console.SetForeground(x, y, Color.Red);
         }
 
+        public void Highlight(int x, int y, RgbColor color)
+        {
+            _console.SetBackground(x, y, new Color(color.Red, color.Green, color.Blue));
+        }
+
         public void ShowTarget(int x, int y, int index)
         {
             _console.SetBackground(x, y, Color.DarkRed);

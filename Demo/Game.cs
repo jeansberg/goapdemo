@@ -13,6 +13,7 @@ using Core.AI.Goals;
 using Demo.Consoles;
 using SadConsole;
 using System;
+using Core.AI;
 
 namespace Demo
 {
@@ -32,6 +33,7 @@ namespace Demo
         private ItemFactory _itemFactory;
         private IRenderer _renderer;
         IFovCalculator _fov;
+        IPathFinder sharedPathFinder;
 
         public Game(int width, int height, CreatureFactory creatureFactory, ItemFactory itemFactory, IFovCalculator fov, IRenderer renderer)
         {
@@ -90,13 +92,15 @@ namespace Demo
             Global.CurrentScreen.Children.Add(_inventoryConsole);
             ((Renderer)_renderer).Init(_mapConsole);
             controller = new Controller();
+
+            sharedPathFinder = new DebugPathFinder(new FloodSpill.FloodSpiller(), _renderer);
         }
 
         private void Update(GameTime time)
         {
             player.Fov = _fov.GetVisibleCells(player.MapComponent.GetPosition(), _map, _renderer);
-            _map.Draw(_renderer);
-            DrawFov(player.Fov);
+            //_map.Draw(_renderer);
+            //DrawFov(player.Fov);
             DrawItems(_mapConsole, _map.Items, player);
             DrawCreatures(_mapConsole, creatures, player);
             DrawInventory();
@@ -104,7 +108,7 @@ namespace Demo
             if (Global.KeyboardState.KeysReleased.Count > 0)
             {
                 controller.HandleInput(Global.KeyboardState.KeysReleased, player, _map, 
-                    () => { UpdateAI(); creatures.RemoveAll(x => !x.IsAlive()); });
+                    () => { sharedPathFinder.PathFind(new Point(1, 1), player.MapComponent.GetPosition(), _map); UpdateAI(); creatures.RemoveAll(x => !x.IsAlive()); });
             }
 
             DrawTargets();

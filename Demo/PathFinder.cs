@@ -9,7 +9,6 @@ namespace Core.AI
 {
     public class PathFinder : IPathFinder
     {
-        private static PathFinder _instance;
         FloodSpiller _floodSpiller;
 
         public PathFinder(FloodSpiller floodSpiller)
@@ -17,12 +16,17 @@ namespace Core.AI
             _floodSpiller = floodSpiller;
         }
 
-        public virtual List<Point> PathFind(Point start, Point goal, Map.Map mapRef)
+        public void CreateSafetyMap()
         {
-            return PathFindInternal(start, goal, mapRef);
+            throw new System.NotImplementedException();
         }
 
-        protected List<Point> PathFindInternal(Point start, Point goal, Map.Map mapRef)
+        public virtual List<Point> PathFind(Point start, Point goal, Map.Map mapRef)
+        {
+            return PathFindInternal(start, goal, mapRef).pathNodes.Select(x => x.Position).ToList();
+        }
+
+        protected (List<PathNode> pathNodes, List<PathNode> allNodes) PathFindInternal(Point start, Point goal, Map.Map mapRef)
         {
             var nodes = GetNodes(goal, mapRef);
 
@@ -30,7 +34,7 @@ namespace Core.AI
 
             var path = new List<PathNode>();
             BuildPath(startNode, goal, nodes, path);
-            return path.Select(x => x.Position).ToList();
+            return (path, nodes);
         }
 
         private void BuildPath(PathNode currentNode, Point goal, List<PathNode> allNodes, List<PathNode> path)
